@@ -3,1975 +3,548 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>COS 211 — Scientific Programming & MATLAB Study Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<title>COS 211 — Scientific Programming & MATLAB</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg: #07090f;
-  --surface: #0f1520;
-  --card: #131c2e;
-  --card2: #0e1828;
-  --border: #1a2740;
-  --accent: #3b82f6;
-  --accent-glow: rgba(59,130,246,0.15);
-  --green: #22c55e;
-  --green-glow: rgba(34,197,94,0.12);
-  --amber: #f59e0b;
-  --amber-glow: rgba(245,158,11,0.12);
-  --rose: #f43f5e;
-  --rose-glow: rgba(244,63,94,0.12);
-  --purple: #a855f7;
-  --purple-glow: rgba(168,85,247,0.12);
-  --cyan: #06b6d4;
-  --cyan-glow: rgba(6,182,212,0.12);
-  --orange: #f97316;
-  --orange-glow: rgba(249,115,22,0.12);
-  --text: #e2e8f0;
-  --text2: #94a3b8;
-  --muted: #475569;
-  --code-bg: #060a12;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background:
-    radial-gradient(ellipse 70% 50% at 15% 10%, rgba(59,130,246,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 60% at 85% 85%, rgba(168,85,247,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(6,182,212,0.02) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
-
-/* Grid texture */
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none; z-index: 0;
-}
-
-.wrapper { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 5rem; }
-
-/* ── HEADER ── */
-header {
-  padding: 3.5rem 0 3rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 2rem;
-  text-align: center;
-  position: relative;
-}
-
-.course-tag {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  background: var(--accent-glow);
-  border: 1px solid rgba(59,130,246,0.3);
-  color: var(--accent);
-  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
-  text-transform: uppercase; padding: 0.3rem 0.9rem;
-  border-radius: 100px; margin-bottom: 1.4rem;
-}
-
-header h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
-  font-weight: 400; line-height: 1.05;
-  letter-spacing: -0.01em; margin-bottom: 0.9rem;
-  color: #f1f5f9;
-}
-
-header h1 em { font-style: italic; color: var(--accent); }
-
-header p { color: var(--text2); font-size: 0.95rem; font-weight: 300; max-width: 480px; margin: 0 auto; line-height: 1.6; }
-
-.header-meta {
-  display: flex; justify-content: center; gap: 1.5rem;
-  margin-top: 1.5rem; flex-wrap: wrap;
-}
-
-.meta-pill {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; padding: 0.4rem 0.8rem;
-  font-size: 0.75rem; color: var(--text2); font-weight: 500;
-}
-
-/* ── PROGRESS ── */
-.progress-wrap {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 1rem 1.4rem;
-  margin-bottom: 1.8rem;
-  display: flex; align-items: center; gap: 1rem;
-}
-
-.progress-label { font-size: 0.75rem; color: var(--text2); white-space: nowrap; font-weight: 600; }
-
-.progress-bar-bg {
-  flex: 1; height: 5px; background: var(--border);
-  border-radius: 100px; overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--cyan));
-  border-radius: 100px; transition: width 0.5s ease; width: 0%;
-}
-
-.progress-count { font-size: 0.75rem; color: var(--accent); font-weight: 700; white-space: nowrap; }
-
-/* ── NAV ── */
-.nav-tabs {
-  display: flex; gap: 0.35rem;
-  overflow-x: auto; padding-bottom: 0.5rem;
-  margin-bottom: 2rem; scrollbar-width: none;
-}
-.nav-tabs::-webkit-scrollbar { display: none; }
-
-.tab-btn {
-  flex-shrink: 0;
-  background: var(--surface); border: 1px solid var(--border);
-  color: var(--text2); font-family: 'DM Sans', sans-serif;
-  font-size: 0.75rem; font-weight: 600;
-  padding: 0.55rem 1rem; border-radius: 8px;
-  cursor: pointer; transition: all 0.18s;
-  white-space: nowrap;
-}
-
-.tab-btn:hover { border-color: var(--accent); color: var(--text); }
-.tab-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-.tab-btn.done { border-color: var(--green); color: var(--green); }
-.tab-btn.done.active { background: var(--green); border-color: var(--green); color: #000; }
-
-/* ── LESSON PANEL ── */
-.lesson-panel { display: none; animation: fadeUp 0.28s ease; }
-.lesson-panel.active { display: block; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.lesson-header {
-  display: flex; align-items: flex-start; gap: 1rem;
-  margin-bottom: 1.8rem;
-}
-
-.lesson-icon {
-  width: 50px; height: 50px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; flex-shrink: 0;
-}
-
-.lesson-header h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 1.6rem; font-weight: 400;
-  letter-spacing: -0.01em; margin-bottom: 0.25rem;
-  line-height: 1.2;
-}
-
-.lesson-header p { color: var(--text2); font-size: 0.82rem; line-height: 1.5; }
-
-/* ── STEPS ── */
-.steps-container { display: flex; flex-direction: column; gap: 0.75rem; }
-
-.step {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 12px; overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.step.revealed { border-color: rgba(59,130,246,0.2); }
-.step.revealed:hover { box-shadow: 0 0 0 1px rgba(59,130,246,0.15); }
-.step.locked { opacity: 0.35; pointer-events: none; }
-
-.step-header {
-  padding: 0.9rem 1.1rem;
-  display: flex; align-items: center; gap: 0.75rem;
-  cursor: pointer; user-select: none;
-}
-
-.step-num {
-  width: 26px; height: 26px; border-radius: 7px;
-  background: var(--border); color: var(--muted);
-  font-size: 0.68rem; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: all 0.2s;
-}
-
-.step.revealed .step-num { background: var(--accent); color: #fff; }
-.step.open .step-num { box-shadow: 0 0 8px rgba(59,130,246,0.5); }
-
-.step-title { font-size: 0.87rem; font-weight: 600; flex: 1; line-height: 1.3; }
-.step-toggle { color: var(--muted); font-size: 0.65rem; transition: transform 0.2s; }
-.step.open .step-toggle { transform: rotate(180deg); }
-
-.step-body {
-  display: none;
-  padding: 0 1.1rem 1.1rem;
-  border-top: 1px solid var(--border);
-}
-
-.step.open .step-body { display: block; }
-
-.step-text {
-  font-size: 0.86rem; line-height: 1.85;
-  color: #cbd5e1; padding-top: 0.9rem;
-  white-space: pre-wrap;
-}
-
-/* ── CODE ── */
-pre {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px; padding: 1rem 1.1rem;
-  margin: 0.8rem 0; overflow-x: auto;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem; line-height: 1.75;
-  color: #93c5fd;
-}
-
-pre.pseudo {
-  border-left-color: var(--amber);
-  color: #fde68a;
-}
-
-pre .kw { color: #c084fc; font-weight: 700; }
-pre .fn { color: #34d399; }
-pre .str { color: #fbbf24; }
-pre .cm { color: #374151; font-style: italic; }
-pre .num { color: #fb923c; }
-pre .op { color: #f472b6; }
-
-/* ── CALLOUTS ── */
-.tip, .note, .warn, .exam {
-  border-radius: 8px; padding: 0.8rem 1rem;
-  font-size: 0.81rem; margin-top: 0.8rem; line-height: 1.65;
-}
-
-.tip { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
-.tip::before { content: '💡 '; }
-
-.note { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); color: #86efac; }
-.note::before { content: '✅ '; }
-
-.warn { background: rgba(244,63,94,0.07); border: 1px solid rgba(244,63,94,0.2); color: #fda4af; }
-.warn::before { content: '⚠️ '; }
-
-.exam { background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.2); color: #d8b4fe; }
-.exam::before { content: '📝 Exam Tip: '; font-weight: 700; }
-
-/* ── TABLE ── */
-.info-table {
-  width: 100%; border-collapse: collapse;
-  margin-top: 0.8rem; font-size: 0.8rem;
-}
-
-.info-table th {
-  background: rgba(59,130,246,0.1);
-  color: var(--accent); text-align: left;
-  padding: 0.6rem 0.8rem; font-weight: 700;
-  font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-}
-
-.info-table td {
-  padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border);
-  color: #cbd5e1; line-height: 1.5; vertical-align: top;
-}
-
-.info-table tr:last-child td { border-bottom: none; }
-.info-table tr:hover td { background: rgba(59,130,246,0.04); }
-
-/* ── REVEAL BTN ── */
-.reveal-btn {
-  display: block; width: 100%; margin-top: 1.3rem;
-  padding: 0.8rem;
-  background: linear-gradient(135deg, var(--accent), #1d4ed8);
-  border: none; border-radius: 10px;
-  color: #fff; font-family: 'DM Sans', sans-serif;
-  font-size: 0.83rem; font-weight: 700;
-  cursor: pointer; transition: all 0.18s; letter-spacing: 0.02em;
-}
-
-.reveal-btn:hover { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
-.reveal-btn:disabled { opacity: 0.25; cursor: not-allowed; transform: none; box-shadow: none; }
-
-/* ── QUIZ ── */
-.quiz-section {
-  background: var(--card2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 1.3rem; margin-top: 1.8rem;
-}
-
-.quiz-section h3 {
-  font-size: 0.85rem; font-weight: 700;
-  margin-bottom: 1rem; color: var(--amber);
-  letter-spacing: 0.05em; text-transform: uppercase;
-}
-
-.quiz-q { font-size: 0.87rem; color: var(--text); margin-bottom: 0.9rem; line-height: 1.6; font-weight: 500; }
-
-.quiz-options { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 0.8rem; }
-
-.quiz-opt {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 8px; padding: 0.65rem 1rem;
-  font-size: 0.82rem; cursor: pointer; transition: all 0.15s;
-  font-family: 'DM Sans', sans-serif; color: var(--text); text-align: left;
-}
-
-.quiz-opt:hover { border-color: var(--accent); background: var(--accent-glow); }
-.quiz-opt.correct { border-color: var(--green); background: var(--green-glow); color: #86efac; }
-.quiz-opt.wrong { border-color: var(--rose); background: var(--rose-glow); color: #fda4af; }
-
-.quiz-feedback { font-size: 0.81rem; margin-top: 0.4rem; min-height: 1.2rem; line-height: 1.5; }
-
-/* ── SUMMARY ── */
-.summary-box {
-  background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(168,85,247,0.05));
-  border: 1px solid rgba(59,130,246,0.2);
-  border-radius: 12px; padding: 1.3rem; margin-top: 1.5rem;
-}
-
-.summary-box h3 {
-  color: var(--accent); font-size: 0.72rem; font-weight: 700;
-  margin-bottom: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
-}
-
-.summary-list { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
-
-.summary-list li {
-  font-size: 0.83rem; color: #cbd5e1;
-  padding-left: 1.1rem; position: relative; line-height: 1.6;
-}
-.summary-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
-
-/* ── NEXT BTN ── */
-.next-lesson-btn {
-  display: none; width: 100%; margin-top: 0.8rem;
-  padding: 0.9rem;
-  background: linear-gradient(135deg, var(--purple), #7c3aed);
-  border: none; border-radius: 10px; color: #fff;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.87rem; font-weight: 700;
-  cursor: pointer; transition: all 0.18s;
-}
-
-.next-lesson-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-
-/* ── FLOWCHART ── */
-.flowchart {
-  margin: 0.8rem 0; display: flex; flex-direction: column; align-items: center; gap: 0;
-}
-
-.fc-node {
-  border-radius: 8px; padding: 0.6rem 1.4rem;
-  font-size: 0.78rem; font-weight: 600; text-align: center;
-  font-family: 'JetBrains Mono', monospace;
-  min-width: 160px;
-}
-
-.fc-terminal { background: rgba(244,63,94,0.15); border: 2px solid var(--rose); color: #fda4af; border-radius: 100px; }
-.fc-process { background: rgba(59,130,246,0.12); border: 2px solid var(--accent); color: #93c5fd; }
-.fc-io { background: rgba(245,158,11,0.1); border: 2px solid var(--amber); color: #fcd34d; transform: skewX(-8deg); }
-.fc-io span { display: inline-block; transform: skewX(8deg); }
-.fc-decision { background: rgba(168,85,247,0.1); border: 2px solid var(--purple); color: #d8b4fe; transform: rotate(0deg); border-radius: 4px; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); padding: 1rem 1.8rem; }
-
-.fc-arrow {
-  width: 2px; height: 22px; background: var(--border);
-  position: relative;
-}
-.fc-arrow::after {
-  content: '▼'; position: absolute; bottom: -6px; left: 50%;
-  transform: translateX(-50%); color: var(--muted); font-size: 0.6rem;
-}
-
-.fc-branches {
-  display: flex; gap: 2rem; align-items: flex-start;
-}
-
-.fc-branch { display: flex; flex-direction: column; align-items: center; gap: 0; }
-.fc-branch-label { font-size: 0.68rem; color: var(--muted); margin-bottom: 4px; font-weight: 700; }
-
-/* ── STEPS TIMELINE (for algo steps) ── */
-.algo-steps { display: flex; flex-direction: column; gap: 0; margin: 0.8rem 0; }
-.algo-step {
-  display: flex; gap: 0.8rem; align-items: flex-start; padding: 0.7rem 0;
-  border-left: 2px solid var(--border); padding-left: 1rem;
-  position: relative;
-}
-.algo-step::before {
-  content: attr(data-n);
-  position: absolute; left: -10px; top: 0.7rem;
-  width: 18px; height: 18px; border-radius: 50%;
-  background: var(--accent); color: #fff;
-  font-size: 0.6rem; font-weight: 800;
-  display: flex; align-items: center; justify-content: center;
-}
-.algo-step-text { font-size: 0.83rem; color: #cbd5e1; line-height: 1.6; padding-top: 0.05rem; }
-
-/* ─────────── RESPONSIVE DESIGN ─────────── */
-/* Large screens (1024px and up) */
-@media (min-width: 1024px) {
-  .wrapper { max-width: 1000px; }
-}
-
-/* Tablets (768px to 1023px) */
-@media (max-width: 1023px) {
-  .wrapper { padding: 0 1.2rem 4rem; max-width: 100%; }
-  header h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
-  .lesson-header h2 { font-size: 1.4rem; }
-  .nav-tabs { gap: 0.25rem; }
-  .tab-btn { padding: 0.5rem 0.8rem; font-size: 0.7rem; }
-  pre { padding: 0.9rem; font-size: 0.75rem; }
-  .info-table { font-size: 0.75rem; }
-  .info-table th, .info-table td { padding: 0.5rem 0.6rem; }
-  .fc-node { min-width: 120px; padding: 0.5rem 1rem; font-size: 0.72rem; }
-  .step-header { padding: 0.75rem 0.9rem; }
-  .step-body { padding: 0 0.9rem 0.9rem; }
-  .quiz-opt { font-size: 0.78rem; padding: 0.6rem 0.9rem; }
-}
-
-/* Mobile (max 767px) */
-@media (max-width: 767px) {
-  :root { --text: #e2e8f0; }
-  
-  .wrapper { 
-    padding: 0 1rem 3.5rem; 
-    max-width: 100%; 
-  }
-  
-  /* Header optimisation */
-  header { 
-    padding: 2.2rem 0 1.8rem; 
-    margin-bottom: 1.5rem; 
-  }
-  header h1 { 
-    font-size: clamp(1.6rem, 7vw, 2.4rem); 
-    margin-bottom: 0.7rem; 
-  }
-  header p { 
-    font-size: 0.88rem; 
-    line-height: 1.5; 
-  }
-  
-  .course-tag { 
-    font-size: 0.62rem; 
-    padding: 0.25rem 0.75rem; 
-    margin-bottom: 1rem; 
-  }
-  
-  .header-meta { 
-    gap: 0.4rem; 
-    flex-direction: column; 
-    align-items: center; 
-  }
-  .meta-pill { 
-    display: block; 
-    width: 100%; 
-    text-align: center; 
-    padding: 0.35rem 0.6rem; 
-    font-size: 0.7rem; 
-    border-radius: 6px; 
-  }
-  
-  /* Progress bar */
-  .progress-wrap { 
-    padding: 0.9rem 1rem; 
-    margin-bottom: 1.5rem; 
-    gap: 0.7rem; 
-    flex-wrap: wrap; 
-  }
-  .progress-label { 
-    font-size: 0.7rem; 
-  }
-  .progress-count { 
-    font-size: 0.7rem; 
-  }
-  .progress-bar-bg { 
-    height: 4px; 
-  }
-  
-  /* Navigation tabs */
-  .nav-tabs { 
-    gap: 0.2rem; 
-    padding-bottom: 0.4rem; 
-    margin-bottom: 1.5rem; 
-    -webkit-overflow-scrolling: touch; 
-  }
-  .tab-btn { 
-    flex-shrink: 0; 
-    padding: 0.5rem 0.7rem; 
-    font-size: 0.68rem; 
-    border-radius: 6px; 
-    min-height: 32px; 
-    display: flex; 
-    align-items: center; 
-  }
-  
-  /* Lesson panel */
-  .lesson-header { 
-    gap: 0.8rem; 
-    margin-bottom: 1.4rem; 
-  }
-  .lesson-icon { 
-    width: 44px; 
-    height: 44px; 
-    font-size: 1.2rem; 
-    border-radius: 10px; 
-  }
-  .lesson-header h2 { 
-    font-size: clamp(1.3rem, 5vw, 1.5rem); 
-    margin-bottom: 0.2rem; 
-  }
-  .lesson-header p { 
-    font-size: 0.78rem; 
-  }
-  
-  /* Steps */
-  .steps-container { 
-    gap: 0.6rem; 
-  }
-  .step { 
-    border-radius: 10px; 
-  }
-  .step-header { 
-    padding: 0.75rem; 
-    gap: 0.6rem; 
-  }
-  .step-num { 
-    width: 24px; 
-    height: 24px; 
-    font-size: 0.62rem; 
-    border-radius: 6px; 
-  }
-  .step-title { 
-    font-size: 0.82rem; 
-    line-height: 1.4; 
-  }
-  .step-toggle { 
-    font-size: 0.6rem; 
-  }
-  .step-body { 
-    padding: 0 0.75rem 0.75rem; 
-  }
-  .step-text { 
-    font-size: 0.8rem; 
-    line-height: 1.75; 
-  }
-  
-  /* Code blocks */
-  pre { 
-    padding: 0.8rem; 
-    font-size: 0.73rem; 
-    line-height: 1.6; 
-    border-left-width: 2px; 
-    margin: 0.6rem 0; 
-    border-radius: 6px; 
-    overflow-x: auto; 
-    -webkit-overflow-scrolling: touch; 
-    word-break: break-word; 
-    white-space: pre-wrap; 
-  }
-  
-  /* Tables */
-  .info-table { 
-    font-size: 0.73rem; 
-    margin-top: 0.7rem; 
-  }
-  .info-table th { 
-    padding: 0.5rem; 
-    font-size: 0.65rem; 
-  }
-  .info-table td { 
-    padding: 0.45rem; 
-    font-size: 0.73rem; 
-  }
-  .info-table tr:hover td { 
-    background: transparent; 
-  }
-  
-  /* Callouts */
-  .tip, .note, .warn, .exam { 
-    padding: 0.7rem 0.9rem; 
-    font-size: 0.76rem; 
-    margin-top: 0.7rem; 
-  }
-  
-  /* Flowchart */
-  .flowchart { 
-    gap: 0; 
-  }
-  .fc-node { 
-    min-width: 100px; 
-    padding: 0.5rem 1rem; 
-    font-size: 0.7rem; 
-  }
-  .fc-branches { 
-    gap: 1rem; 
-  }
-  .fc-branch-label { 
-    font-size: 0.6rem; 
-  }
-  
-  /* Algorithm steps */
-  .algo-steps { 
-    margin: 0.7rem 0; 
-  }
-  .algo-step { 
-    padding: 0.6rem 0 0.6rem 0.8rem; 
-    padding-left: 0.8rem; 
-  }
-  .algo-step::before { 
-    width: 16px; 
-    height: 16px; 
-    font-size: 0.55rem; 
-    left: -8px; 
-  }
-  .algo-step-text { 
-    font-size: 0.78rem; 
-    line-height: 1.5; 
-  }
-  
-  /* Quiz */
-  .quiz-section { 
-    padding: 1.1rem; 
-    margin-top: 1.4rem; 
-  }
-  .quiz-section h3 { 
-    font-size: 0.8rem; 
-    margin-bottom: 0.8rem; 
-  }
-  .quiz-q { 
-    font-size: 0.8rem; 
-    margin-bottom: 0.8rem; 
-    line-height: 1.6; 
-  }
-  .quiz-options { 
-    gap: 0.4rem; 
-    margin-bottom: 0.7rem; 
-  }
-  .quiz-opt { 
-    padding: 0.6rem 0.9rem; 
-    font-size: 0.76rem; 
-    min-height: 36px; 
-    display: flex; 
-    align-items: center; 
-  }
-  .quiz-feedback { 
-    font-size: 0.76rem; 
-  }
-  
-  /* Buttons */
-  .reveal-btn, .next-lesson-btn { 
-    padding: 0.75rem; 
-    font-size: 0.78rem; 
-    margin-top: 1.2rem; 
-    border-radius: 8px; 
-  }
-  
-  /* Summary */
-  .summary-box { 
-    padding: 1.1rem; 
-    margin-top: 1.3rem; 
-  }
-  .summary-box h3 { 
-    font-size: 0.68rem; 
-    margin-bottom: 0.8rem; 
-  }
-  .summary-list li { 
-    font-size: 0.78rem; 
-    padding-left: 1rem; 
-    line-height: 1.6; 
-  }
-  
-  /* Two-column layouts */
-  div[style*="display:grid;grid-template-columns:1fr 1fr"] { 
-    grid-template-columns: 1fr !important; 
-    gap: 0.6rem !important; 
-  }
-}
-
-/* Extra small (max 480px) */
-@media (max-width: 480px) {
-  .wrapper { 
-    padding: 0 0.8rem 3rem; 
-  }
-  
-  header { 
-    padding: 1.8rem 0 1.5rem; 
-    margin-bottom: 1.2rem; 
-  }
-  
-  header h1 { 
-    font-size: clamp(1.4rem, 6vw, 2rem); 
-    margin-bottom: 0.5rem; 
-    line-height: 1;
-  }
-  
-  header p { 
-    font-size: 0.82rem; 
-  }
-  
-  .progress-wrap { 
-    flex-direction: column; 
-    gap: 0.5rem; 
-  }
-  
-  .nav-tabs { 
-    gap: 0.15rem; 
-    margin-bottom: 1.2rem; 
-  }
-  
-  .tab-btn { 
-    padding: 0.45rem 0.6rem; 
-    font-size: 0.62rem; 
-    white-space: pre-wrap; 
-  }
-  
-  .step { 
-    border-radius: 8px; 
-  }
-  
-  .step-header { 
-    padding: 0.65rem; 
-    flex-wrap: wrap; 
-  }
-  
-  .step-num { 
-    width: 22px; 
-    height: 22px; 
-    font-size: 0.58rem; 
-  }
-  
-  .step-title { 
-    font-size: 0.76rem; 
-  }
-  
-  .lesson-icon { 
-    width: 38px; 
-    height: 38px; 
-    font-size: 1.1rem; 
-  }
-  
-  pre { 
-    padding: 0.7rem; 
-    font-size: 0.68rem; 
-    line-height: 1.5; 
-  }
-  
-  .info-table { 
-    font-size: 0.68rem; 
-  }
-  
-  .info-table th { 
-    padding: 0.4rem; 
-    font-size: 0.6rem; 
-  }
-  
-  .info-table td { 
-    padding: 0.35rem; 
-    font-size: 0.68rem; 
-  }
-  
-  .quiz-opt { 
-    padding: 0.55rem 0.8rem; 
-    font-size: 0.72rem; 
-  }
-  
-  .reveal-btn, .next-lesson-btn { 
-    padding: 0.7rem; 
-    font-size: 0.74rem; 
-  }
-}
+:root{--bg:#07090f;--surface:#0f1520;--card:#131c2e;--card2:#0e1828;--border:#1a2740;--accent:#3b82f6;--green:#22c55e;--amber:#f59e0b;--rose:#f43f5e;--purple:#a855f7;--cyan:#06b6d4;--text:#e2e8f0;--text2:#94a3b8;--muted:#475569;--code-bg:#060a12;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(59,130,246,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 85% 85%,rgba(168,85,247,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(59,130,246,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.wrapper{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem;}
+header{padding:3.5rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem;text-align:center;}
+.course-tag{display:inline-block;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--accent);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1.4rem;}
+header h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,6vw,3.6rem);font-weight:400;line-height:1.05;margin-bottom:.9rem;color:#f1f5f9;}
+header h1 em{font-style:italic;color:var(--accent);}
+header p{color:var(--text2);font-size:.95rem;font-weight:300;max-width:480px;margin:0 auto;line-height:1.6;}
+.header-meta{display:flex;justify-content:center;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;}
+.meta-pill{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .8rem;font-size:.74rem;color:var(--text2);font-weight:500;}
+.progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem;margin-bottom:1.8rem;display:flex;align-items:center;gap:1rem;}
+.progress-label{font-size:.74rem;color:var(--text2);white-space:nowrap;font-weight:600;}
+.progress-bar-bg{flex:1;height:5px;background:var(--border);border-radius:100px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:100px;transition:width .5s ease;width:0%;}
+.progress-count{font-size:.74rem;color:var(--accent);font-weight:700;white-space:nowrap;}
+.nav-tabs{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:2rem;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;padding:.5rem .9rem;border-radius:8px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn:hover{border-color:var(--accent);color:var(--text);}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.tab-btn.done{border-color:var(--green);color:var(--green);}
+.tab-btn.done.active{background:var(--green);border-color:var(--green);color:#000;}
+.tab-btn.pq-tab.active{background:var(--amber);border-color:var(--amber);color:#000;}
+.lesson-panel{display:none;animation:fadeUp .28s ease;}
+.lesson-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.lesson-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.8rem;}
+.lesson-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.lesson-header h2{font-family:'DM Serif Display',serif;font-size:1.55rem;font-weight:400;margin-bottom:.25rem;line-height:1.2;}
+.lesson-header p{color:var(--text2);font-size:.82rem;line-height:1.5;}
+.steps-container{display:flex;flex-direction:column;gap:.75rem;}
+.step{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.step.revealed{border-color:rgba(59,130,246,.2);}
+.step.locked{opacity:.35;pointer-events:none;}
+.step-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;}
+.step-num{width:26px;height:26px;border-radius:7px;background:var(--border);color:var(--muted);font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.step.revealed .step-num{background:var(--accent);color:#fff;}
+.step-title{font-size:.87rem;font-weight:600;flex:1;line-height:1.3;}
+.step-toggle{color:var(--muted);font-size:.65rem;transition:transform .2s;}
+.step.open .step-toggle{transform:rotate(180deg);}
+.step-body{display:none;padding:0 1.1rem 1.1rem;border-top:1px solid var(--border);}
+.step.open .step-body{display:block;}
+.step-text{font-size:.86rem;line-height:1.85;color:#cbd5e1;padding-top:.9rem;white-space:pre-wrap;}
+pre{background:var(--code-bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:1rem 1.1rem;margin:.8rem 0;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.79rem;line-height:1.75;color:#93c5fd;}
+pre.pseudo{border-left-color:var(--amber);color:#fde68a;}
+pre.bad{border-left-color:var(--rose);color:#fca5a5;}
+.kw{color:#c084fc;font-weight:700;}.fn{color:#34d399;}.str{color:#fbbf24;}.cm{color:#374151;font-style:italic;}.num{color:#fb923c;}
+.tip,.note,.warn,.exam{border-radius:8px;padding:.75rem 1rem;font-size:.81rem;margin-top:.8rem;line-height:1.65;}
+.tip{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);color:#fcd34d;}.tip::before{content:'💡 ';}
+.note{background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);color:#86efac;}.note::before{content:'✅ ';}
+.warn{background:rgba(244,63,94,.07);border:1px solid rgba(244,63,94,.2);color:#fda4af;}.warn::before{content:'⚠️ ';}
+.exam{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.2);color:#d8b4fe;}.exam::before{content:'📝 Exam Tip: ';font-weight:700;}
+.info-table{width:100%;border-collapse:collapse;margin-top:.8rem;font-size:.79rem;}
+.info-table th{background:rgba(59,130,246,.1);color:var(--accent);text-align:left;padding:.55rem .75rem;font-weight:700;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.info-table td{padding:.5rem .75rem;border-bottom:1px solid var(--border);color:#cbd5e1;line-height:1.5;vertical-align:top;}
+.info-table tr:last-child td{border-bottom:none;}
+.info-table tr:hover td{background:rgba(59,130,246,.03);}
+.reveal-btn{display:block;width:100%;margin-top:1.3rem;padding:.8rem;background:linear-gradient(135deg,var(--accent),#1d4ed8);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:.02em;}
+.reveal-btn:hover{opacity:.88;transform:translateY(-1px);}
+.quiz-section{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:1.3rem;margin-top:1.8rem;}
+.quiz-section h3{font-size:.8rem;font-weight:700;margin-bottom:1rem;color:var(--amber);letter-spacing:.05em;text-transform:uppercase;}
+.quiz-q{font-size:.87rem;color:var(--text);margin-bottom:.9rem;line-height:1.6;font-weight:500;}
+.quiz-options{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.8rem;}
+.quiz-opt{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;font-size:.82rem;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;color:var(--text);text-align:left;}
+.quiz-opt:hover{border-color:var(--accent);background:rgba(59,130,246,.1);}
+.quiz-opt.correct{border-color:var(--green);background:rgba(34,197,94,.1);color:#86efac;}
+.quiz-opt.wrong{border-color:var(--rose);background:rgba(244,63,94,.1);color:#fda4af;}
+.quiz-feedback{font-size:.81rem;margin-top:.4rem;min-height:1.2rem;line-height:1.5;}
+.summary-box{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(168,85,247,.05));border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:1.3rem;margin-top:1.5rem;}
+.summary-box h3{color:var(--accent);font-size:.7rem;font-weight:700;margin-bottom:.9rem;letter-spacing:.1em;text-transform:uppercase;}
+.summary-list{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
+.summary-list li{font-size:.83rem;color:#cbd5e1;padding-left:1.1rem;position:relative;line-height:1.6;}
+.summary-list li::before{content:'▸';position:absolute;left:0;color:var(--accent);}
+.next-lesson-btn{display:none;width:100%;margin-top:.8rem;padding:.9rem;background:linear-gradient(135deg,var(--purple),#7c3aed);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.87rem;font-weight:700;cursor:pointer;transition:all .18s;}
+.next-lesson-btn:hover{opacity:.9;transform:translateY(-1px);}
+.algo-steps{display:flex;flex-direction:column;gap:0;margin:.8rem 0;}
+.algo-step{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0 .7rem 1rem;border-left:2px solid var(--border);position:relative;}
+.algo-step::before{content:attr(data-n);position:absolute;left:-10px;top:.7rem;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:.6rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.algo-step-text{font-size:.83rem;color:#cbd5e1;line-height:1.6;}
+/* Past questions specific */
+.pq-section-label{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.65rem 1rem;margin-bottom:1.2rem;font-size:.76rem;color:#fcd34d;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.pq-section-label.v2{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.25);color:#d8b4fe;}
+.pq-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:.75rem;}
+.pq-card-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;}
+.pq-card-header:hover{background:rgba(59,130,246,.04);}
+.pq-badge{padding:.25rem .7rem;border-radius:6px;font-size:.68rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.pq-card-title{font-size:.86rem;font-weight:600;flex:1;line-height:1.3;}
+.pq-toggle{color:var(--muted);font-size:.65rem;transition:transform .2s;}
+.pq-card.open .pq-toggle{transform:rotate(180deg);}
+.pq-card-body{display:none;padding:0 1.1rem 1.1rem;border-top:1px solid var(--border);}
+.pq-card.open .pq-card-body{display:block;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.7rem;}
+.col-box{border-radius:8px;padding:.8rem;}
+.col-box-title{font-size:.7rem;font-weight:700;margin-bottom:.5rem;letter-spacing:.04em;}
+.col-box ul{list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+.col-box ul li{font-size:.79rem;color:#cbd5e1;line-height:1.5;}
+.col-box ul li::before{content:'▪ ';}
+.exam-pattern{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(168,85,247,.06));border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:1.3rem;margin-top:1.5rem;}
+.exam-pattern h3{color:var(--amber);font-size:.72rem;font-weight:700;margin-bottom:.9rem;letter-spacing:.08em;text-transform:uppercase;}
+@media(max-width:1024px){.wrapper{max-width:100%;padding:0 1.25rem 4rem;}pre{font-size:.75rem;}
+.info-table{font-size:.76rem;}.quiz-section{padding:1rem;}}
+@media(max-width:768px){.wrapper{padding:0 1rem 3.5rem;}header{padding:2rem 0 1.5rem;}header h1{font-size:clamp(1.5rem,5vw,2.5rem);margin-bottom:.6rem;}header p{font-size:.9rem;}
+.header-meta{gap:.5rem;}.meta-pill{font-size:.7rem;padding:.3rem .6rem;}.progress-wrap{padding:.8rem 1rem;flex-direction:column;gap:.8rem;align-items:flex-start;}.progress-label{width:100%;}.progress-bar-bg{height:6px;}
+.nav-tabs{gap:.25rem;margin-bottom:1.5rem;}.tab-btn{font-size:.7rem;padding:.4rem .75rem;}
+.lesson-header{gap:.75rem;margin-bottom:1.4rem;}.lesson-icon{width:40px;height:40px;font-size:1.2rem;}
+.lesson-header h2{font-size:1.3rem;}.lesson-header p{font-size:.78rem;}.steps-container{gap:.6rem;}
+.step-header{padding:.7rem .9rem;}.step-num{width:24px;height:24px;font-size:.65rem;}.step-title{font-size:.82rem;}
+.step-body{padding:0 .9rem .9rem;}.step-text{font-size:.81rem;padding-top:.7rem;}
+pre{padding:.8rem;font-size:.72rem;margin:.6rem 0;}.info-table th{padding:.4rem .6rem;font-size:.65rem;}.info-table td{padding:.4rem .6rem;font-size:.76rem;}
+.quiz-section{padding:1rem;}quiz-o{padding:.55rem .85rem;font-size:.78rem;}.quiz-q{font-size:.82rem;margin-bottom:.7rem;}
+.reveal-btn{padding:.7rem;font-size:.79rem;}.summary-box{padding:1rem;margin-top:1.2rem;}.summary-box h3{font-size:.68rem;margin-bottom:.7rem;}
+.summary-list li{font-size:.79rem;padding-left:1rem;}.algo-steps{margin:.6rem 0;}.algo-step{padding:.6rem 0 .6rem .8rem;}.algo-step-text{font-size:.79rem;}
+.two-col{grid-template-columns:1fr;gap:.6rem;margin-top:.5rem;}.col-box{padding:.6rem;}.col-box-title{font-size:.68rem;margin-bottom:.4rem;}
+.col-box ul li{font-size:.76rem;}.pq-card-header{padding:.75rem 1rem;}.pq-badge{font-size:.65rem;padding:.2rem .6rem;}
+.pq-card-title{font-size:.82rem;}.pq-section-label{padding:.55rem .9rem;font-size:.72rem;margin-bottom:1rem;}.next-lesson-btn{padding:.8rem;font-size:.83rem;}
+.tip,.note,.warn,.exam{padding:.6rem .85rem;font-size:.78rem;margin-top:.6rem;}}
+@media(max-width:600px){.wrapper{padding:0 .9rem 3rem;}header{padding:1.5rem 0 1rem;margin-bottom:1.5rem;}header h1{font-size:clamp(1.3rem,4vw,2rem);margin-bottom:.4rem;}header p{font-size:.85rem;}
+.course-tag{font-size:.65rem;padding:.25rem .75rem;margin-bottom:1rem;}
+.header-meta{flex-direction:column;gap:.4rem;width:100%;}.meta-pill{width:100%;text-align:center;font-size:.68rem;padding:.35rem;}
+.progress-wrap{flex-direction:column;padding:.7rem;margin-bottom:1.2rem;border-radius:10px;}.progress-label{width:100%;font-size:.7rem;white-space:normal;}
+.progress-bar-bg{height:5px;}.progress-count{font-size:.7rem;}
+.nav-tabs{gap:.2rem;margin-bottom:1.2rem;}.tab-btn{flex-shrink:0;font-size:.65rem;padding:.35rem .6rem;border-radius:6px;}
+.lesson-header{gap:.6rem;merge-bottom:1rem;}.lesson-icon{width:36px;height:36px;font-size:1rem;}
+.lesson-header h2{font-size:1.1rem;margin-bottom:.2rem;}.lesson-header p{font-size:.75rem;}
+.steps-container{gap:.5rem;}.step-header{padding:.6rem .8rem;}.step-num{width:22px;height:22px;font-size:.6rem;}
+.step-title{font-size:.78rem;line-height:1.2;}.step-toggle{font-size:.6rem;}.step-body{padding:0 .8rem .8rem;border-top:1px solid var(--border);}
+.step-text{font-size:.76rem;padding-top:.6rem;line-height:1.7;}
+pre{padding:.7rem;font-size:.68rem;margin:.5rem 0;border-radius:6px;overflow-x:auto;}.info-table{font-size:.72rem;margin-top:.6rem;}
+.info-table th{padding:.35rem .5rem;font-size:.6rem;}.info-table td{padding:.35rem .5rem;font-size:.72rem;}
+.quiz-section{padding:.8rem;margin-top:1.4rem;border-radius:10px;}.quiz-q{font-size:.78rem;margin-bottom:.6rem;line-height:1.5;}
+.quiz-opt{padding:.55rem .8rem;font-size:.78rem;border-radius:6px;}.quiz-options{gap:.35rem;}
+.quiz-feedback{font-size:.75rem;}.reveal-btn{padding:.6rem;font-size:.75rem;border-radius:8px;margin-top:1rem;}
+.summary-box{padding:.9rem;margin-top:1rem;border-radius:10px;}.summary-box h3{font-size:.65rem;margin-bottom:.6rem;}
+.summary-list{gap:.35rem;}.summary-list li{font-size:.75rem;padding-left:.8rem;}
+.next-lesson-btn{padding:.75rem;font-size:.79rem;margin-top:.6rem;}
+.algo-step{padding:.5rem 0 .5rem .7rem;}.algo-step::before{width:16px;height:16px;font-size:.55rem;top:.5rem;left:-8px;}
+.algo-step-text{font-size:.75rem;}.two-col{grid-template-columns:1fr;gap:.5rem;margin-top:.4rem;}
+.col-box{padding:.5rem;}.col-box-title{font-size:.65rem;margin-bottom:.3rem;}.col-box ul li{font-size:.72rem;}
+.pq-card{margin-bottom:.6rem;}.pq-card-header{padding:.7rem .9rem;}.pq-badge{font-size:.62rem;padding:.18rem .5rem;}
+.pq-card-title{font-size:.78rem;}.pq-toggle{font-size:.6rem;}.pq-card-body{padding:0 .9rem .9rem;}
+.pq-section-label{padding:.5rem .85rem;font-size:.68rem;margin-bottom:.9rem;border-radius:8px;}
+.exam-pattern{padding:1rem;margin-top:1.2rem;}.exam-pattern h3{font-size:.68rem;margin-bottom:.7rem;}
+.tip,.note,.warn,.exam{padding:.5rem .75rem;font-size:.74rem;margin-top:.5rem;}}
 </style>
 </head>
 <body>
 <div class="wrapper">
-
 <header>
-  <div class="course-tag">📚 COS 211 · University of Uyo · 2025</div>
+  <div class="course-tag">📚 COS 211 · University of Uyo · 2025/2026</div>
   <h1>Scientific Programming<br/><em>&amp; MATLAB</em></h1>
-  <p>A complete interactive study guide built from your lecture notes. Unlock steps, test yourself, and master the exam.</p>
+  <p>Complete interactive study guide — lessons, past questions, and full solutions.</p>
   <div class="header-meta">
-    <span class="meta-pill">8 Classes</span>
-    <span class="meta-pill">Algorithms · MATLAB · AI in Coding</span>
-    <span class="meta-pill">Exam-Ready</span>
+    <span class="meta-pill">8 Lessons</span>
+    <span class="meta-pill">Past Questions 2021–2023</span>
+    <span class="meta-pill">Step-by-Step Solutions</span>
   </div>
 </header>
 
 <div class="progress-wrap">
-  <span class="progress-label">Progress</span>
+  <span class="progress-label">Lesson Progress</span>
   <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
   <span class="progress-count" id="progressCount">0 / 0</span>
 </div>
 
 <div class="nav-tabs" id="navTabs"></div>
 <div id="lessonContainer"></div>
-
 </div>
 
 <script>
+// ════════════════════════════════════════════════
+// LESSONS DATA
+// ════════════════════════════════════════════════
 const lessons = [
-
-// ══ CLASS 0: INTRO ══════════════════════════════════════════════════
 {
-  id: 'intro',
-  icon: '🔬',
-  color: '#3b82f6',
-  title: 'Intro to Scientific Programming',
-  subtitle: 'COS 211 — what the course is about and how to solve problems scientifically',
-  steps: [
-    {
-      title: 'What is Scientific Programming?',
-      content: 'Scientific programming is the use of programming languages to solve scientific and mathematical problems.\n\nCOS 211 teaches you how to think like a programmer — not just write code, but structure your thinking before you touch a keyboard.',
-    },
-    {
-      title: 'The 5 Steps to Solving Scientific Problems',
-      content: 'Every time you face a scientific problem, follow these 5 steps:',
-      html: `<div class="algo-steps">
-        <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Problem Identification</strong> — Identify and analyse the problem clearly. What exactly is being asked?</div></div>
-        <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Algorithm Design</strong> — Create a flowchart to design the solution visually before coding.</div></div>
-        <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Mathematical Model</strong> — Express the solution using natural language or pseudocode.</div></div>
-        <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Implementation</strong> — Code and program the actual solution in MATLAB (or another language).</div></div>
-        <div class="algo-step" data-n="5"><div class="algo-step-text"><strong>Testing & Validation</strong> — Run your program with known inputs to verify it gives the correct output.</div></div>
-      </div>`,
-      exam: 'Exams often ask you to list the steps of solving a scientific problem. Know all 5 in order.',
-    },
-    {
-      title: 'Data & Data Types',
-      content: 'Data is any value used in programming for computation. It can exist as:',
-      html: `<table class="info-table">
-        <tr><th>Data Type</th><th>Description</th><th>Example</th></tr>
-        <tr><td>Integer</td><td>Whole numbers</td><td>5, -3, 100</td></tr>
-        <tr><td>Float / Double</td><td>Decimal numbers</td><td>3.14, -0.5</td></tr>
-        <tr><td>String</td><td>Text in quotes</td><td>'Hello', 'Ada'</td></tr>
-        <tr><td>Boolean</td><td>True or False only</td><td>true, false</td></tr>
-        <tr><td>Char</td><td>Single character</td><td>'A', 'z'</td></tr>
-      </table>`,
-      tip: 'MATLAB uses implicit data typing — it figures out the type automatically based on the value you assign.',
-    },
-    {
-      title: 'Variables, Keywords & Errors',
-      content: 'Variable: An identifier/placeholder whose value can change during program execution.\n\nKeyword: A reserved word with a pre-defined meaning in the language. You CANNOT use keywords as variable names (e.g. for, while, if, end in MATLAB).',
-      html: `<table class="info-table">
-        <tr><th>Error Type</th><th>When it Happens</th><th>Example</th></tr>
-        <tr><td>Syntax / Compilation</td><td>Code breaks language rules</td><td>Wrong spelling, missing end</td></tr>
-        <tr><td>Logical / Semantic</td><td>Code runs but gives wrong answer</td><td>Using + instead of *</td></tr>
-        <tr><td>Run-time</td><td>Wrong input or illegal operation</td><td>Division by zero, out-of-bounds index</td></tr>
-      </table>`,
-      exam: 'Know all 3 error types and be able to give an example of each — this is a common short-answer question.',
-    },
+  id:'intro',icon:'🔬',color:'#3b82f6',
+  title:'Intro to Scientific Programming',
+  subtitle:'COS 211 — problem-solving steps, data types, and programming errors',
+  steps:[
+    {title:'What is Scientific Programming?',
+     content:'Scientific programming is the use of programming languages to solve scientific and mathematical problems.\n\nCOS 211 teaches you to think like a programmer — structure your thinking BEFORE touching a keyboard.'},
+    {title:'The 5 Steps to Solving Scientific Problems',
+     content:'Every time you face a scientific problem, follow these 5 steps in order:',
+     html:`<div class="algo-steps">
+       <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Problem Identification</strong> — Identify and analyse the problem. What exactly is being asked?</div></div>
+       <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Algorithm Design</strong> — Create a flowchart to design the solution visually before coding.</div></div>
+       <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Mathematical Model</strong> — Express the solution using natural language or pseudocode.</div></div>
+       <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Implementation</strong> — Code the solution in MATLAB (or another language).</div></div>
+       <div class="algo-step" data-n="5"><div class="algo-step-text"><strong>Testing &amp; Validation</strong> — Run with known inputs, verify correct output.</div></div>
+     </div>`,
+     exam:'Exams often ask you to list the steps of solving a scientific problem. Know all 5 in order.'},
+    {title:'Data Types',
+     content:'Data is any value used in programming. Types your course covers:',
+     html:`<table class="info-table">
+       <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+       <tr><td>Integer</td><td>Whole numbers</td><td>5, -3, 100</td></tr>
+       <tr><td>Float / Double</td><td>Decimal numbers</td><td>3.14, -0.5</td></tr>
+       <tr><td>String</td><td>Text in quotes</td><td>'Hello', 'Ada'</td></tr>
+       <tr><td>Boolean</td><td>True or False only</td><td>true, false</td></tr>
+       <tr><td>Char</td><td>Single character</td><td>'A', 'z'</td></tr>
+     </table>`,
+     tip:'MATLAB uses implicit data typing — it figures out the type automatically.'},
+    {title:'Variables, Keywords & Errors',
+     content:'Variable: A placeholder whose value can change during execution.\nKeyword: A reserved word with a pre-defined meaning — cannot be used as a variable name.',
+     html:`<table class="info-table">
+       <tr><th>Error Type</th><th>When it Happens</th><th>MATLAB Example</th></tr>
+       <tr><td><strong>Syntax / Compilation</strong></td><td>Code breaks language rules</td><td>Writing <code>fore i=1:5</code> instead of <code>for</code></td></tr>
+       <tr><td><strong>Logical / Semantic</strong></td><td>Runs but gives wrong answer</td><td>Using + instead of *</td></tr>
+       <tr><td><strong>Run-time</strong></td><td>Illegal operation during execution</td><td>Division by zero: <code>x = 5/0</code></td></tr>
+     </table>`,
+     exam:'Know all 3 error types with definitions AND MATLAB examples. This appeared in the 2021/2022 exam.'},
   ],
-  quiz: {
-    q: 'Which type of error occurs when your code runs but gives the WRONG result?',
-    options: ['Syntax Error', 'Logical / Semantic Error', 'Run-time Error', 'Compilation Error'],
-    answer: 1,
-    feedback: '✅ Correct! A logical error means the program runs but produces incorrect output due to wrong logic.',
-    wrongFeedback: '❌ Not quite. Logical/Semantic errors occur when output is incorrect, even though the code ran.',
-  },
-  summary: [
-    '5 steps: Identify → Design → Model → Implement → Test',
-    'Data types: Integer, Float, String, Boolean, Char',
-    'Variables store values; Keywords are reserved words',
-    '3 error types: Syntax, Logical, Run-time',
-    'MATLAB uses implicit typing — no need to declare types',
-  ],
+  quiz:{q:'Which error type occurs when your code RUNS but gives the WRONG result?',options:['Syntax Error','Logical / Semantic Error','Run-time Error','Compilation Error'],answer:1,feedback:'✅ Correct! Logical errors mean the output is wrong even though the code ran.',wrongFeedback:'❌ Not quite. Logical/Semantic errors produce wrong output despite running.'},
+  summary:['5 steps: Identify → Design → Model → Implement → Test','Data types: Integer, Float, String, Boolean, Char','Variables are placeholders; Keywords are reserved words','3 error types: Syntax (rules broken), Logical (wrong output), Run-time (illegal operation)','MATLAB uses implicit typing — no need to declare types'],
 },
-
-// ══ CLASS 1: ALGORITHMS ═════════════════════════════════════════════
 {
-  id: 'algorithms',
-  icon: '🧠',
-  color: '#a855f7',
-  title: 'Algorithms & Pseudocode',
-  subtitle: 'Design solutions before you write a single line of code',
-  steps: [
-    {
-      title: 'What is an Algorithm?',
-      content: 'An algorithm is a step-by-step procedure or rule set to solve a particular problem.\n\nThink of it as a recipe — it tells you exactly what to do, in what order, to get the desired result.\n\nAlgorithms are used in: Computing, Artificial Intelligence, Cybersecurity, and Mathematics.',
-    },
-    {
-      title: 'Characteristics of a Good Algorithm',
-      html: `<table class="info-table">
-        <tr><th>Property</th><th>What it means</th></tr>
-        <tr><td>Unambiguous</td><td>Every step must be clear — no room for confusion</td></tr>
-        <tr><td>Ordered</td><td>Steps must follow a definite sequence</td></tr>
-        <tr><td>Finite</td><td>Must terminate — it cannot run forever</td></tr>
-        <tr><td>Effective</td><td>Each step must be achievable and practical</td></tr>
-        <tr><td>Has Input/Output</td><td>Takes zero or more inputs, produces at least one output</td></tr>
-        <tr><td>Deterministic</td><td>Same input always gives the same output</td></tr>
-      </table>`,
-      exam: 'A favourite exam question: "List and explain the characteristics of a good algorithm."',
-    },
-    {
-      title: 'Well-Structured vs Poorly-Structured Algorithms',
-      content: 'Your lecturer stressed the difference between these two.\n\nPOORLY STRUCTURED: Just solves the basic case — no constraints, no edge-case checks.\n\nWELL STRUCTURED: Includes constraint checks and handles edge cases.',
-      html: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.6rem">
-        <div style="background:rgba(244,63,94,0.07);border:1px solid rgba(244,63,94,0.2);border-radius:8px;padding:0.8rem">
-          <div style="color:#fda4af;font-size:0.72rem;font-weight:700;margin-bottom:0.5rem">❌ POORLY STRUCTURED</div>
-          <div style="font-size:0.78rem;color:#cbd5e1;line-height:1.6">Add three numbers:<br/>1. Read A, B, C<br/>2. Sum = A + B + C<br/>3. Print Sum</div>
-        </div>
-        <div style="background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:0.8rem">
-          <div style="color:#86efac;font-size:0.72rem;font-weight:700;margin-bottom:0.5rem">✅ WELL STRUCTURED</div>
-          <div style="font-size:0.78rem;color:#cbd5e1;line-height:1.6">Add three numbers:<br/>1. Read A, B, C<br/>2. Ensure A, B, C ≥ 0<br/>3. Sum = A + B + C<br/>4. Print Sum</div>
-        </div>
-      </div>`,
-      tip: 'Always add constraint checks in your algorithms — this is what separates a good answer from a great one in exams.',
-    },
-    {
-      title: 'Pseudocode — Even/Odd Example',
-      content: 'Pseudocode is written in plain English — similar to code but without strict syntax rules. It shows your logic without worrying about exact programming language rules.',
-      code: `START
-  READ NUM
-  IF NUM MOD 2 == 0 THEN
-     PRINT "NUM IS EVEN"
-  ELSE
-     PRINT "NUM IS ODD"
-  END IF
-STOP`,
-      isPseudo: true,
-      tip: 'MOD is the modulus operator — it gives the REMAINDER of division. 10 MOD 2 = 0 (even). 7 MOD 2 = 1 (odd).',
-    },
-    {
-      title: 'Flowcharts',
-      content: 'A flowchart is a graphical/pictorial representation of an algorithm. Rules:\n▪ Must always have arrows showing direction of flow\n▪ Must have exactly ONE entry point\n▪ All paths must eventually lead to an end',
-      html: `<table class="info-table">
-        <tr><th>Symbol</th><th>Shape</th><th>Meaning</th></tr>
-        <tr><td>Terminal</td><td>Rounded rectangle / Oval</td><td>START or STOP</td></tr>
-        <tr><td>Process</td><td>Rectangle</td><td>Calculation or action</td></tr>
-        <tr><td>Input/Output</td><td>Parallelogram</td><td>READ or PRINT</td></tr>
-        <tr><td>Decision</td><td>Diamond</td><td>YES/NO question (if condition)</td></tr>
-        <tr><td>Flow line</td><td>Arrow</td><td>Direction of flow</td></tr>
-      </table>`,
-      exam: 'You may be asked to draw a flowchart in your exam. Always start with an oval (START), end with an oval (STOP), and use diamonds for conditions.',
-    },
-    {
-      title: 'Three Ways to Express an Algorithm',
-      html: `<div class="algo-steps">
-        <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Flowchart</strong> — graphical/pictorial representation using standard symbols (Terminal, Process, Decision, I/O, Flow lines)</div></div>
-        <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Pseudocode</strong> — written in plain English, similar to code but without strict syntax. Easier and faster to write than code.</div></div>
-        <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Programming Code</strong> — the actual implementation in a language like MATLAB, Python, or C.</div></div>
-      </div>`,
-    },
+  id:'algorithms',icon:'🧠',color:'#a855f7',
+  title:'Algorithms & Pseudocode',
+  subtitle:'Design your solution on paper before writing a single line of code',
+  steps:[
+    {title:'What is an Algorithm?',
+     content:'An algorithm is a step-by-step procedure or rule set to solve a particular problem.\n\nThink of it like a recipe — tells you exactly what to do and in what order.\n\nUsed in: Computing, Artificial Intelligence, Cybersecurity, and Mathematics.'},
+    {title:'Characteristics of a Good Algorithm',
+     html:`<table class="info-table">
+       <tr><th>Property</th><th>What it means</th></tr>
+       <tr><td>Unambiguous</td><td>Every step is clear — no room for confusion</td></tr>
+       <tr><td>Ordered</td><td>Steps must follow a definite sequence</td></tr>
+       <tr><td>Finite</td><td>Must terminate — cannot run forever</td></tr>
+       <tr><td>Effective</td><td>Each step must be achievable and practical</td></tr>
+       <tr><td>Has Input/Output</td><td>Takes zero or more inputs, produces at least one output</td></tr>
+       <tr><td>Deterministic</td><td>Same input always gives the same output</td></tr>
+     </table>`,
+     exam:'A favourite exam question: "List and explain the characteristics of a good algorithm."'},
+    {title:'Well-Structured vs Poorly-Structured',
+     content:'Your lecturer stressed this difference:',
+     html:`<div class="two-col">
+       <div class="col-box" style="background:rgba(244,63,94,.07);border:1px solid rgba(244,63,94,.2)">
+         <div class="col-box-title" style="color:#fda4af">❌ POORLY STRUCTURED</div>
+         <ul><li>Read A, B, C</li><li>Sum = A+B+C</li><li>Print Sum</li></ul>
+         <div style="font-size:.75rem;color:var(--muted);margin-top:.5rem">No constraint checks</div>
+       </div>
+       <div class="col-box" style="background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2)">
+         <div class="col-box-title" style="color:#86efac">✅ WELL STRUCTURED</div>
+         <ul><li>Read A, B, C</li><li>Ensure A,B,C ≥ 0</li><li>Sum = A+B+C</li><li>Print Sum</li></ul>
+         <div style="font-size:.75rem;color:var(--muted);margin-top:.5rem">Includes constraint check</div>
+       </div>
+     </div>`,
+     tip:'Always add constraint checks in your algorithms — this separates a good answer from a great one.'},
+    {title:'Pseudocode — Even/Odd Example',
+     content:'Pseudocode is written in plain English — shows logic without strict syntax.',
+     code:`START\n  READ NUM\n  IF NUM MOD 2 == 0 THEN\n     PRINT "NUM IS EVEN"\n  ELSE\n     PRINT "NUM IS ODD"\n  END IF\nSTOP`,
+     isPseudo:true,
+     tip:'MOD is the modulus operator — gives the remainder after division. 10 MOD 2 = 0 (even). 7 MOD 2 = 1 (odd).'},
+    {title:'Flowchart Symbols',
+     html:`<table class="info-table">
+       <tr><th>Symbol</th><th>Shape</th><th>Meaning</th></tr>
+       <tr><td>Terminal</td><td>Oval / Rounded rect</td><td>START or STOP</td></tr>
+       <tr><td>Process</td><td>Rectangle</td><td>Calculation or action</td></tr>
+       <tr><td>Input / Output</td><td>Parallelogram</td><td>READ or PRINT</td></tr>
+       <tr><td>Decision</td><td>Diamond</td><td>YES/NO condition</td></tr>
+       <tr><td>Flow line</td><td>Arrow</td><td>Direction of flow</td></tr>
+     </table>`,
+     exam:'Every decision diamond needs TWO exit arrows labelled YES and NO. Missing labels = lost marks.'},
   ],
-  quiz: {
-    q: 'Which flowchart symbol is used for a YES/NO decision (like an if condition)?',
-    options: ['Rectangle', 'Oval / Rounded rectangle', 'Diamond', 'Parallelogram'],
-    answer: 2,
-    feedback: '✅ Correct! A diamond represents a decision — it always has two exit paths: YES and NO.',
-    wrongFeedback: '❌ Not quite. The Diamond shape is used for decisions/conditions in flowcharts.',
-  },
-  summary: [
-    'Algorithm = step-by-step procedure to solve a problem',
-    'Must be: unambiguous, ordered, finite, effective, deterministic',
-    'Well-structured algorithms include constraint checks',
-    'Pseudocode uses plain English — no strict syntax needed',
-    'Flowchart symbols: Oval=Terminal, Rectangle=Process, Diamond=Decision, Parallelogram=I/O',
-  ],
+  quiz:{q:'Which flowchart symbol is used for a YES/NO decision (like an if condition)?',options:['Rectangle','Oval','Diamond','Parallelogram'],answer:2,feedback:'✅ Correct! The Diamond shape represents a decision with YES and NO exits.',wrongFeedback:'❌ Not quite. The Diamond is used for decisions/conditions.'},
+  summary:['Algorithm = step-by-step procedure to solve a problem','Must be: unambiguous, ordered, finite, effective, deterministic','Well-structured algorithms include constraint checks','Pseudocode uses plain English — no strict syntax','5 flowchart symbols: Oval, Rectangle, Parallelogram, Diamond, Arrow'],
 },
-
-// ══ CLASS 2: MATLAB BASICS ══════════════════════════════════════════
 {
-  id: 'syntax',
-  icon: '📘',
-  color: '#06b6d4',
-  title: 'MATLAB Basics — Syntax & Variables',
-  subtitle: 'Variables, data types, operators and the semicolon rule',
-  steps: [
-    {
-      title: 'What is MATLAB?',
-      content: 'MATLAB is a programming environment used for calculations, data analysis, and solving mathematical and scientific problems.\n\nThink of it as a very powerful calculator that also follows instructions you write.\n\nMATLAB uses implicit data typing — you do not need to declare the type. It figures it out automatically.',
-    },
-    {
-      title: 'MATLAB Variable Rules',
-      content: 'Variables in MATLAB are the basic building blocks for storing data. Rules to know:',
-      html: `<table class="info-table">
-        <tr><th>Rule</th><th>Example</th></tr>
-        <tr><td>Must start with a letter</td><td>x, myVar — NOT 2fast</td></tr>
-        <tr><td>No spaces or special characters</td><td>my_var — NOT my var</td></tr>
-        <tr><td>Cannot use MATLAB keywords</td><td>NOT: for, while, if, end</td></tr>
-        <tr><td>Case-sensitive</td><td>Score ≠ score ≠ SCORE</td></tr>
-        <tr><td>Max 31 characters long</td><td>Keep names short and clear</td></tr>
-      </table>`,
-      exam: 'The case-sensitivity rule and the 31-character limit are often tested in MCQ questions.',
-    },
-    {
-      title: 'Creating Variables',
-      content: 'Assign a value using the = sign.',
-      code: `x = <span class="num">5</span>          <span class="cm">% store the number 5</span>
-y = <span class="num">3.14</span>       <span class="cm">% decimal number</span>
-name = <span class="str">'Ada'</span>  <span class="cm">% text uses single quotes</span>
-flag = <span class="kw">true</span>    <span class="cm">% logical/boolean value</span>`,
-      tip: 'Text (strings) must be in single quotes in MATLAB — not double quotes like in Python.',
-    },
-    {
-      title: 'The Semicolon Rule',
-      content: 'The semicolon controls whether MATLAB prints output or stays silent.',
-      code: `x = <span class="num">10</span>        <span class="cm">← prints: x = 10 (no semicolon)</span>
-x = <span class="num">10</span>;       <span class="cm">← silent, no output (semicolon)</span>`,
-      tip: 'Think of the semicolon as "do it quietly." Use it on most lines in exams — only remove it when asked to display output.',
-    },
-    {
-      title: 'Displaying Output',
-      code: `<span class="fn">disp</span>(x)           <span class="cm">% prints the value of x</span>
-<span class="fn">disp</span>(<span class="str">'Hello!'</span>)    <span class="cm">% prints: Hello!</span>`,
-      content: 'Use disp() whenever a question says "display", "print", or "show" the output.',
-    },
-    {
-      title: 'Comments & The Workspace',
-      content: 'Use % to write comments — MATLAB ignores everything after %.',
-      code: `x = <span class="num">5</span>;   <span class="cm">% this stores the number 5</span>
-<span class="cm">% MATLAB ignores this whole line</span>`,
-      note: 'The Workspace in MATLAB keeps a history of all variables and programs run in the current session.',
-    },
-    {
-      title: 'Mathematical Operations',
-      code: `x = <span class="num">10</span>; y = <span class="num">3</span>;
-x + y     <span class="cm">% addition → 13</span>
-x - y     <span class="cm">% subtraction → 7</span>
-x * y     <span class="cm">% multiplication → 30</span>
-x / y     <span class="cm">% division → 3.3333</span>
-x ^ y     <span class="cm">% power → 1000 (10³)</span>
-<span class="fn">mod</span>(x, y) <span class="cm">% remainder → 1</span>
-<span class="fn">rats</span>(x/y) <span class="cm">% fraction form → 10/3</span>`,
-      tip: 'rats() converts a decimal to its fraction form — useful for showing exact results.',
-    },
+  id:'syntax',icon:'📘',color:'#06b6d4',
+  title:'MATLAB Syntax & Variables',
+  subtitle:'Variables, data types, the semicolon rule, and output display',
+  steps:[
+    {title:'MATLAB Variable Rules',
+     content:'Variables are the basic building blocks for storing data. Rules from your notes:',
+     html:`<table class="info-table">
+       <tr><th>Rule</th><th>Valid Example</th><th>Invalid Example</th></tr>
+       <tr><td>Must start with a letter</td><td>x, myVar</td><td>2fast</td></tr>
+       <tr><td>No spaces or special chars</td><td>my_var</td><td>my var, AtM2.com</td></tr>
+       <tr><td>Cannot be a keyword</td><td>myFor</td><td>for, while, if, end</td></tr>
+       <tr><td>Case-sensitive</td><td>Score ≠ score</td><td>—</td></tr>
+       <tr><td>Max 31 characters</td><td>shortName</td><td>aVeryVeryVeryLongVariableName123</td></tr>
+     </table>`,
+     exam:'The 31-character limit and case-sensitivity are tested in MCQ questions.'},
+    {title:'Creating Variables',
+     code:`x = <span class="num">5</span>;          <span class="cm">% store number</span>\ny = <span class="num">3.14</span>;       <span class="cm">% decimal</span>\nname = <span class="str">'Ada'</span>;  <span class="cm">% text in single quotes</span>`,
+     tip:"Text must use SINGLE quotes in MATLAB — not double quotes like Python."},
+    {title:'The Semicolon Rule',
+     code:`x = <span class="num">10</span>        <span class="cm">% prints: x = 10</span>\nx = <span class="num">10</span>;       <span class="cm">% silent — nothing printed</span>`,
+     tip:'Semicolon = "do it quietly." Use it on most lines in exams unless asked to display output.'},
+    {title:'Displaying Output & Comments',
+     code:`<span class="fn">disp</span>(x)           <span class="cm">% prints the value of x</span>\n<span class="fn">disp</span>(<span class="str">'Hello!'</span>)    <span class="cm">% prints: Hello!</span>\n\nx = <span class="num">5</span>;   <span class="cm">% everything after % is a comment</span>`,
+     note:'The Workspace keeps a history of all variables from the current session.'},
+    {title:'Mathematical Operations',
+     code:`x + y     <span class="cm">% addition</span>\nx - y     <span class="cm">% subtraction</span>\nx * y     <span class="cm">% multiplication (MUST be explicit)</span>\nx / y     <span class="cm">% division</span>\nx ^ y     <span class="cm">% power / exponent</span>\n<span class="fn">mod</span>(x, y) <span class="cm">% remainder</span>\n<span class="fn">rats</span>(x)   <span class="cm">% convert decimal to fraction</span>`,
+     tip:'Multiplication must ALWAYS be written with *. Writing 2x instead of 2*x is a syntax error.'},
   ],
-  quiz: {
-    q: 'Which of these is a VALID MATLAB variable name?',
-    options: ['2result', 'my result', 'for', 'myResult_2'],
-    answer: 3,
-    feedback: '✅ Correct! myResult_2 starts with a letter, has no spaces, and is not a keyword.',
-    wrongFeedback: '❌ Not quite. myResult_2 is the only valid one — starts with a letter, no spaces, not a keyword.',
-  },
-  summary: [
-    'Variable names: start with letter, no spaces, not keywords, case-sensitive, max 31 chars',
-    'Semicolon ( ; ) suppresses output',
-    'disp() prints to screen',
-    '% is for comments',
-    'Workspace stores all variables from the session',
-    'rats() converts decimals to fractions',
-  ],
+  quiz:{q:'Which of these is a VALID MATLAB variable name?',options:['2result','my result','for','myResult_2'],answer:3,feedback:'✅ Correct! myResult_2 starts with a letter, no spaces, and is not a keyword.',wrongFeedback:'❌ Not quite. myResult_2 is the only valid one — starts with a letter, no spaces, not a keyword.'},
+  summary:['Names: start with letter, no spaces, not keywords, case-sensitive, max 31 chars','Semicolon ( ; ) suppresses output','disp() prints to screen','% is for comments — MATLAB ignores everything after it','Workspace stores all variables from the current session'],
 },
-
-// ══ CLASS 3: MATRICES ═══════════════════════════════════════════════
 {
-  id: 'matrices',
-  icon: '📐',
-  color: '#f97316',
-  title: 'Arrays & Matrices',
-  subtitle: "MATLAB's superpower — everything is stored as a matrix",
-  steps: [
-    {
-      title: 'Arrays in MATLAB',
-      content: 'Arrays can be one-dimensional (a list) or two-dimensional (a grid).\n\nMATLAB example from your notes:\nx = [3, 2, 9, 11];\n\nYou access elements using an index value — and MATLAB counts from 1, not 0.',
-      code: `x = [<span class="num">3</span>, <span class="num">2</span>, <span class="num">9</span>, <span class="num">11</span>];
-x(<span class="num">1</span>)   <span class="cm">% → 3  (first element)</span>
-x(<span class="num">3</span>)   <span class="cm">% → 9  (third element)</span>`,
-      warn: 'MATLAB starts counting at 1, NOT 0. This is one of the most common exam mistakes.',
-    },
-    {
-      title: 'Creating Vectors',
-      code: `<span class="cm">% Row vector (comma = same row)</span>
-a = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
-
-<span class="cm">% Column vector (semicolon = new row)</span>
-b = [<span class="num">1</span>; <span class="num">2</span>; <span class="num">3</span>; <span class="num">4</span>]`,
-      tip: 'Comma = same row. Semicolon = new row. This rule is used in ALL matrix creation.',
-    },
-    {
-      title: 'Creating a Matrix',
-      content: 'From your lecture notes — Matrix A:',
-      code: `A = [<span class="num">2</span>, <span class="num">4</span>, <span class="num">1</span>; -<span class="num">3</span>, <span class="num">3</span>, <span class="num">2</span>; <span class="num">2</span>, <span class="num">8</span>, <span class="num">1</span>]
-<span class="cm">% Result:</span>
-<span class="cm">%  2   4   1</span>
-<span class="cm">% -3   3   2</span>
-<span class="cm">%  2   8   1</span>
-
-B = [<span class="num">3</span>, <span class="num">4</span>, <span class="num">3</span>; -<span class="num">7</span>, <span class="num">1</span>, -<span class="num">2</span>]
-<span class="cm">% This is a 2×3 matrix (2 rows, 3 columns)</span>`,
-    },
-    {
-      title: 'Accessing Matrix Elements',
-      code: `A(<span class="num">1</span>,<span class="num">1</span>)   <span class="cm">% row 1, col 1 → 2</span>
-A(<span class="num">2</span>,<span class="num">3</span>)   <span class="cm">% row 2, col 3 → 2</span>
-
-<span class="cm">% Slicing — from your notes: A(:,:)</span>
-A(:, :)  <span class="cm">% all rows and all columns (entire matrix)</span>
-A(:, <span class="num">1</span>)  <span class="cm">% all rows, column 1 only</span>
-A(<span class="num">1</span>, :)  <span class="cm">% row 1 only, all columns</span>`,
-    },
-    {
-      title: 'Matrix Operations from Your Notes',
-      content: 'These are the exact matrix operations covered in COS 211:',
-      code: `<span class="fn">size</span>(A)        <span class="cm">% dimensions → [3, 3]</span>
-<span class="fn">det</span>(A)         <span class="cm">% determinant of A</span>
-<span class="fn">inv</span>(A)         <span class="cm">% inverse of A</span>
-<span class="fn">transpose</span>(B)   <span class="cm">% transpose of B (same as B')</span>
-B<span class="str">'</span>             <span class="cm">% shorthand for transpose</span>
-A .* A         <span class="cm">% element-wise multiply</span>
-A * A          <span class="cm">% matrix multiplication</span>`,
-    },
-    {
-      title: 'Helpful Matrix Functions',
-      code: `<span class="fn">mean</span>(A)    <span class="cm">% average of elements</span>
-<span class="fn">max</span>(A)     <span class="cm">% maximum value</span>
-<span class="fn">min</span>(A)     <span class="cm">% minimum value</span>
-<span class="fn">zeros</span>(<span class="num">3</span>)  <span class="cm">% 3×3 matrix filled with zeros</span>
-<span class="fn">sum</span>(A)     <span class="cm">% sum of elements</span>
-<span class="fn">length</span>(A)  <span class="cm">% number of elements</span>`,
-      note: 'zeros() is useful for initialising a matrix before filling it in a loop.',
-    },
+  id:'matrices',icon:'📐',color:'#f97316',
+  title:'Arrays & Matrices',
+  subtitle:"MATLAB's core feature — everything is stored as a matrix",
+  steps:[
+    {title:'Arrays in MATLAB',
+     content:'Arrays can be 1D (a list) or 2D (a grid). MATLAB counts from 1, not 0.',
+     code:`x = [<span class="num">3</span>, <span class="num">2</span>, <span class="num">9</span>, <span class="num">11</span>];  <span class="cm">% from your lecture notes</span>\nx(<span class="num">1</span>)   <span class="cm">% → 3  (first element)</span>\nx(<span class="num">3</span>)   <span class="cm">% → 9  (third element)</span>`,
+     warn:'MATLAB starts counting at 1, NOT 0. This is one of the most common exam mistakes.'},
+    {title:'Creating Vectors & Matrices',
+     code:`<span class="cm">% Row vector (comma = same row)</span>\na = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]\n\n<span class="cm">% Column vector (semicolon = new row)</span>\nb = [<span class="num">1</span>; <span class="num">2</span>; <span class="num">3</span>; <span class="num">4</span>]\n\n<span class="cm">% Matrix from lecture notes</span>\nA = [<span class="num">2</span>,<span class="num">4</span>,<span class="num">1</span>; -<span class="num">3</span>,<span class="num">3</span>,<span class="num">2</span>; <span class="num">2</span>,<span class="num">8</span>,<span class="num">1</span>]`,
+     tip:'Comma = same row. Semicolon = new row. This rule applies everywhere in MATLAB.'},
+    {title:'Accessing & Slicing',
+     code:`A(<span class="num">1</span>,<span class="num">1</span>)   <span class="cm">% row 1, col 1 → 2</span>\nA(<span class="num">2</span>,<span class="num">3</span>)   <span class="cm">% row 2, col 3 → 2</span>\nA(:, :)  <span class="cm">% all rows, all columns</span>\nA(:, <span class="num">1</span>)  <span class="cm">% all rows, column 1 only</span>\nA(<span class="num">1</span>, :)  <span class="cm">% row 1 only, all columns</span>`,
+     note:'A(:,:) from your lecture notes means the ENTIRE matrix — all rows and all columns.'},
+    {title:'Matrix Operations from Your Notes',
+     code:`<span class="fn">size</span>(A)        <span class="cm">% dimensions</span>\n<span class="fn">det</span>(A)         <span class="cm">% determinant</span>\n<span class="fn">inv</span>(A)         <span class="cm">% inverse</span>\n<span class="fn">transpose</span>(B)   <span class="cm">% transpose (same as B')</span>\nA .* A         <span class="cm">% element-wise multiply</span>\nA * A          <span class="cm">% full matrix multiply</span>\n<span class="fn">mean</span>(A)        <span class="cm">% average</span>\n<span class="fn">max</span>(A)         <span class="cm">% maximum value</span>\n<span class="fn">zeros</span>(<span class="num">3</span>)       <span class="cm">% 3×3 matrix of zeros</span>`,
+     tip:'.* means element-wise (each element × corresponding element). * is full matrix multiplication. They give very different results.'},
   ],
-  quiz: {
-    q: 'In the matrix A = [2,4,1; -3,3,2; 2,8,1], what does A(2,3) return?',
-    options: ['3', '2', '8', '-3'],
-    answer: 1,
-    feedback: '✅ Correct! Row 2 is [-3, 3, 2]. Column 3 of that row is 2.',
-    wrongFeedback: '❌ Not quite. A(row, col) — row 2 is [-3,3,2] and column 3 = 2.',
-  },
-  summary: [
-    'Arrays: 1D (vector) or 2D (matrix)',
-    'Comma = same row, Semicolon = new row',
-    'MATLAB counts from 1, not 0',
-    'Access: A(row, col) — Slice: A(:,1) means all rows col 1',
-    'Operations: det(), inv(), transpose(), size()',
-    'Helpful: mean(), max(), min(), zeros()',
-  ],
+  quiz:{q:'In matrix A = [2,4,1; -3,3,2; 2,8,1], what does A(2,3) return?',options:['3','2','8','-3'],answer:1,feedback:'✅ Correct! Row 2 is [-3,3,2]. Column 3 of that row is 2.',wrongFeedback:'❌ Not quite. A(row, col) — row 2 is [-3,3,2], column 3 = 2.'},
+  summary:['Arrays: 1D (vector) or 2D (matrix)','Comma = same row, Semicolon = new row in [ ]','MATLAB counts from 1, not 0','Access: A(row,col) — Slice: A(:,1) = all rows col 1','Operations: det(), inv(), transpose(), size(), zeros()','Use .* for element-wise, * for full matrix multiply'],
 },
-
-// ══ CLASS 4: LOOPS ══════════════════════════════════════════════════
 {
-  id: 'loops',
-  icon: '🔁',
-  color: '#22c55e',
-  title: 'Loops & Conditions',
-  subtitle: 'Repeat actions and make decisions — with real examples from your notes',
-  steps: [
-    {
-      title: 'FOR Loop — Basics',
-      content: 'Syntax from your notes: for i = start:end\n\nDisplaying numbers 1 to 10:',
-      code: `<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>
-   <span class="fn">disp</span>(i)
-<span class="kw">end</span>`,
-    },
-    {
-      title: 'FOR Loop with Step Size',
-      content: 'From your notes — displaying even numbers up to 20. Add a step size between start and end:',
-      code: `<span class="kw">for</span> evenNum = <span class="num">2</span>:<span class="num">2</span>:<span class="num">20</span>
-   <span class="fn">disp</span>(evenNum)
-<span class="kw">end</span>
-<span class="cm">% prints: 2  4  6  8  10  12  14  16  18  20</span>`,
-      tip: 'Format: for var = start : step : end\nStep of 2 means it counts in twos → even numbers only.',
-    },
-    {
-      title: 'Summing a Series — From Your Notes',
-      content: 'Your lecture notes show how to calculate: 1/1² + 1/2² + 1/3² + 1/4² + 1/5²',
-      code: `sumSeries = <span class="num">0</span>;
-<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">5</span>
-   sumSeries = sumSeries + (<span class="num">1</span> / i^<span class="num">2</span>);
-<span class="kw">end</span>
-<span class="fn">disp</span>(sumSeries)`,
-      tip: 'Always initialise your accumulator variable (sumSeries = 0) BEFORE the loop. This is a very common exam question.',
-    },
-    {
-      title: 'The Fibonacci Sequence — From Your Notes',
-      content: 'The Fibonacci sequence: 1, 1, 2, 3, 5, 8, 13...\nEach number = sum of the two before it.\n\nYour lecturer\'s exact code:',
-      code: `fib1 = <span class="num">1</span>;
-fib2 = <span class="num">1</span>;
-<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>
-   fib3 = fib1 + fib2;
-   fib1 = fib2;
-   fib2 = fib3;
-<span class="kw">end</span>`,
-      exam: 'The Fibonacci loop is likely to appear in your exam. Understand that fib1 and fib2 shift forward each iteration. Trace it: 1,1 → 1,2 → 2,3 → 3,5...',
-    },
-    {
-      title: 'WHILE Loop',
-      content: 'Syntax: while (condition) ... end\nUse when you do not know how many repetitions ahead of time.',
-      code: `x = <span class="num">1</span>;
-<span class="kw">while</span> x <= <span class="num">3</span>
-    <span class="fn">disp</span>(x)
-    x = x + <span class="num">1</span>;
-<span class="kw">end</span>
-<span class="cm">% prints: 1  2  3</span>`,
-      warn: 'Always update your variable inside the loop. If x never changes, the condition stays true forever — infinite loop!',
-    },
-    {
-      title: 'Break & Continue Statements',
-      content: 'Two special control statements from your notes:',
-      html: `<table class="info-table">
-        <tr><th>Statement</th><th>What it does</th><th>Example use</th></tr>
-        <tr><td><code>break</code></td><td>Immediately terminates the ENTIRE loop</td><td>Stop searching once you find a match</td></tr>
-        <tr><td><code>continue</code></td><td>Skips the REST of this iteration, jumps to the next one</td><td>Skip even numbers in a loop</td></tr>
-      </table>`,
-      code: `<span class="cm">% break example — stop at 5</span>
-<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>
-    <span class="kw">if</span> i == <span class="num">5</span>
-        <span class="kw">break</span>
-    <span class="kw">end</span>
-    <span class="fn">disp</span>(i)
-<span class="kw">end</span>
-<span class="cm">% prints: 1  2  3  4</span>`,
-    },
-    {
-      title: 'IF / ELSEIF / ELSE',
-      code: `score = <span class="num">75</span>;
-<span class="kw">if</span> score >= <span class="num">70</span>
-    <span class="fn">disp</span>(<span class="str">'Pass'</span>)
-<span class="kw">elseif</span> score >= <span class="num">50</span>
-    <span class="fn">disp</span>(<span class="str">'Borderline'</span>)
-<span class="kw">else</span>
-    <span class="fn">disp</span>(<span class="str">'Fail'</span>)
-<span class="kw">end</span>`,
-      content: 'Three forms from your notes: if-end, if-else-end, if-elseif-else-end\n\nComparison operators: == (equal), ~= (not equal), >, <, >=, <=',
-      tip: 'Use == for comparison, NOT =. Single = assigns a value. Double == checks equality.',
-    },
+  id:'loops',icon:'🔁',color:'#22c55e',
+  title:'Loops & Conditions',
+  subtitle:'For loops, while loops, break/continue — with Fibonacci from your notes',
+  steps:[
+    {title:'FOR Loop — Basic & With Step',
+     code:`<span class="cm">% Basic: numbers 1 to 10</span>\n<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>\n   <span class="fn">disp</span>(i)\n<span class="kw">end</span>\n\n<span class="cm">% With step: even numbers (from lecture notes)</span>\n<span class="kw">for</span> evenNum = <span class="num">2</span>:<span class="num">2</span>:<span class="num">20</span>\n   <span class="fn">disp</span>(evenNum)\n<span class="kw">end</span>`,
+     tip:'Format: for var = start:step:end\nStep of 2 → counts in twos → even numbers only.'},
+    {title:'Summing a Series — From Your Notes',
+     content:'Your notes show: 1/1² + 1/2² + 1/3² + ... — this appeared in the 2021/2022 exam.',
+     code:`sumSeries = <span class="num">0</span>;           <span class="cm">% initialise accumulator</span>\n<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">5</span>\n   sumSeries = sumSeries + (<span class="num">1</span> / i^<span class="num">2</span>);\n<span class="kw">end</span>\n<span class="fn">disp</span>(sumSeries)`,
+     warn:'Always initialise SUM = 0 and PRODUCT = 1 BEFORE the loop. This is a very common exam mistake.'},
+    {title:'Fibonacci Sequence — From Your Notes',
+     content:'Sequence: 1, 1, 2, 3, 5, 8, 13... Each number = sum of the previous two.',
+     code:`fib1 = <span class="num">1</span>;\nfib2 = <span class="num">1</span>;\n<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>\n   fib3 = fib1 + fib2;\n   fib1 = fib2;\n   fib2 = fib3;\n<span class="kw">end</span>`,
+     exam:'Trace this: 1,1 → 1,2 → 2,3 → 3,5 → 5,8. The key is fib1 and fib2 shift forward each step.'},
+    {title:'WHILE Loop',
+     code:`x = <span class="num">1</span>;\n<span class="kw">while</span> x <= <span class="num">3</span>\n    <span class="fn">disp</span>(x)\n    x = x + <span class="num">1</span>;\n<span class="kw">end</span>`,
+     warn:'Always update the variable inside the loop. If x never changes, condition stays true forever — infinite loop!'},
+    {title:'Break, Continue & IF Conditions',
+     code:`<span class="cm">% break exits the ENTIRE loop</span>\n<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">10</span>\n    <span class="kw">if</span> i == <span class="num">5</span>; <span class="kw">break</span>; <span class="kw">end</span>\n    <span class="fn">disp</span>(i)\n<span class="kw">end</span>  <span class="cm">% prints 1 2 3 4</span>\n\n<span class="cm">% IF / ELSEIF / ELSE</span>\n<span class="kw">if</span> score >= <span class="num">70</span>\n    <span class="fn">disp</span>(<span class="str">'Pass'</span>)\n<span class="kw">elseif</span> score >= <span class="num">50</span>\n    <span class="fn">disp</span>(<span class="str">'Borderline'</span>)\n<span class="kw">else</span>\n    <span class="fn">disp</span>(<span class="str">'Fail'</span>)\n<span class="kw">end</span>`,
+     tip:'break = exit whole loop. continue = skip this iteration only.\nAlways order if conditions from HIGHEST to LOWEST (>= 80 before >= 70).'},
   ],
-  quiz: {
-    q: 'What does the "break" statement do inside a loop?',
-    options: ['Skips the current iteration only', 'Terminates the entire loop immediately', 'Pauses execution for 1 second', 'Restarts the loop from the beginning'],
-    answer: 1,
-    feedback: '✅ Correct! break immediately exits the entire loop. continue skips only the current iteration.',
-    wrongFeedback: '❌ Not quite. break terminates the entire loop. continue is what skips one iteration.',
-  },
-  summary: [
-    'for i = start:end — fixed repetitions',
-    'for i = start:step:end — with custom step size',
-    'while (condition) — repeats until condition is false',
-    'break → exits entire loop; continue → skips current iteration',
-    'Always initialise accumulators BEFORE loops',
-    'Fibonacci: fib3 = fib1 + fib2; then shift fib1=fib2, fib2=fib3',
-  ],
+  quiz:{q:'What does the break statement do inside a loop?',options:['Skips the current iteration only','Terminates the entire loop immediately','Pauses for 1 second','Restarts the loop'],answer:1,feedback:'✅ Correct! break exits the entire loop. continue only skips one iteration.',wrongFeedback:'❌ Not quite. break terminates the ENTIRE loop. continue skips only the current iteration.'},
+  summary:['for i = 1:n — fixed repetitions','for i = start:step:end — custom step size','while (condition) — repeats until false','break → exits entire loop; continue → skips current iteration','Initialise: SUM = 0, PRODUCT = 1 before loops','Fibonacci: fib3=fib1+fib2; then shift fib1=fib2, fib2=fib3'],
 },
-
-// ══ CLASS 5: PLOTTING ═══════════════════════════════════════════════
 {
-  id: 'plotting',
-  icon: '📊',
-  color: '#f59e0b',
-  title: 'Visualisation & Plots',
-  subtitle: 'Line plots, histograms, and bar charts — with proper labels',
-  steps: [
-    {
-      title: 'Types of Plots in MATLAB',
-      content: 'Your notes cover three main plot types:',
-      html: `<table class="info-table">
-        <tr><th>Plot Type</th><th>Command</th><th>Used For</th></tr>
-        <tr><td>Line Plot</td><td>plot(x, y)</td><td>Relationship between time and frequency</td></tr>
-        <tr><td>Histogram</td><td>histogram(data)</td><td>Data shapes and distributions</td></tr>
-        <tr><td>Bar Chart</td><td>bar(data)</td><td>Comparing explicit data values</td></tr>
-      </table>`,
-    },
-    {
-      title: 'Creating a Line Plot',
-      code: `x = <span class="num">0</span>:<span class="num">0.1</span>:<span class="num">10</span>;   <span class="cm">% x range in steps of 0.1</span>
-y = <span class="fn">sin</span>(x);          <span class="cm">% calculate sine values</span>
-
-<span class="fn">plot</span>(x, y)           <span class="cm">% draw the line</span>
-<span class="fn">title</span>(<span class="str">'Sine Wave'</span>)    <span class="cm">% from your notes</span>
-<span class="fn">xlabel</span>(<span class="str">'x-axis'</span>)     <span class="cm">% label x axis</span>
-<span class="fn">ylabel</span>(<span class="str">'y-axis'</span>)     <span class="cm">% label y axis</span>
-grid <span class="kw">on</span>               <span class="cm">% show grid lines</span>`,
-      exam: 'Always add title(), xlabel(), ylabel() to every graph in your exam — unlabelled graphs lose marks.',
-    },
-    {
-      title: 'Histogram & Bar Chart',
-      code: `<span class="cm">% Histogram — data distribution</span>
-data = [<span class="num">1</span>,<span class="num">2</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">3</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>];
-<span class="fn">histogram</span>(data)
-<span class="fn">title</span>(<span class="str">'Data Distribution'</span>)
-
-<span class="cm">% Bar chart — explicit values</span>
-<span class="fn">bar</span>(data)
-<span class="fn">title</span>(<span class="str">'Bar Chart'</span>)
-<span class="fn">xlabel</span>(<span class="str">'Index'</span>)
-<span class="fn">ylabel</span>(<span class="str">'Value'</span>)`,
-    },
-    {
-      title: 'Multiple Lines on One Graph',
-      code: `x = <span class="num">0</span>:<span class="num">0.1</span>:<span class="num">10</span>;
-
-<span class="fn">plot</span>(x, <span class="fn">sin</span>(x), <span class="str">'r'</span>)   <span class="cm">% red line</span>
-hold <span class="kw">on</span>                   <span class="cm">% keep this graph open</span>
-<span class="fn">plot</span>(x, <span class="fn">cos</span>(x), <span class="str">'b'</span>)   <span class="cm">% blue line</span>
-<span class="fn">legend</span>(<span class="str">'sin(x)'</span>, <span class="str">'cos(x)'</span>)`,
-      tip: "Colour codes: 'r'=red, 'b'=blue, 'g'=green, 'k'=black",
-    },
+  id:'plotting',icon:'📊',color:'#f59e0b',
+  title:'Visualisation & Plots',
+  subtitle:'Line plots, histograms, bar charts — always label your graphs',
+  steps:[
+    {title:'Three Plot Types from Your Notes',
+     html:`<table class="info-table">
+       <tr><th>Type</th><th>Command</th><th>Used For</th></tr>
+       <tr><td>Line Plot</td><td>plot(x, y)</td><td>Relationship between time and frequency</td></tr>
+       <tr><td>Histogram</td><td>histogram(data)</td><td>Data shapes and distributions</td></tr>
+       <tr><td>Bar Chart</td><td>bar(data)</td><td>Comparing explicit data values</td></tr>
+     </table>`},
+    {title:'Creating a Labelled Line Plot',
+     code:`x = <span class="num">0</span>:<span class="num">0.1</span>:<span class="num">10</span>;\ny = <span class="fn">sin</span>(x);\n\n<span class="fn">plot</span>(x, y)\n<span class="fn">title</span>(<span class="str">'Sine Wave'</span>)\n<span class="fn">xlabel</span>(<span class="str">'x-axis'</span>)\n<span class="fn">ylabel</span>(<span class="str">'y-axis'</span>)\ngrid <span class="kw">on</span>`,
+     exam:'Always add title(), xlabel(), ylabel() to every graph. Unlabelled graphs lose marks.'},
+    {title:'Multiple Lines & Colour Codes',
+     code:`x = <span class="num">0</span>:<span class="num">0.1</span>:<span class="num">10</span>;\n<span class="fn">plot</span>(x, <span class="fn">sin</span>(x), <span class="str">'r'</span>)  <span class="cm">% red</span>\nhold <span class="kw">on</span>\n<span class="fn">plot</span>(x, <span class="fn">cos</span>(x), <span class="str">'b'</span>)  <span class="cm">% blue</span>\n<span class="fn">legend</span>(<span class="str">'sin(x)'</span>, <span class="str">'cos(x)'</span>)`,
+     tip:"Colour codes: 'r'=red, 'b'=blue, 'g'=green, 'k'=black\nhold on keeps the first graph open while you add the second."},
   ],
-  quiz: {
-    q: 'From your notes — which plot type is used to display data shapes and distributions?',
-    options: ['plot()', 'bar()', 'histogram()', 'stem()'],
-    answer: 2,
-    feedback: '✅ Correct! histogram() is used to show data shapes and distributions.',
-    wrongFeedback: '❌ Not quite. Your notes state that histogram() displays data shapes/distributions.',
-  },
-  summary: [
-    'plot(x,y) → line graph (time/frequency relationship)',
-    'histogram(data) → data distribution shapes',
-    'bar(data) → comparing explicit values',
-    'Always add title(), xlabel(), ylabel()',
-    'hold on → add multiple lines to one graph',
-    'legend() → label each line',
-  ],
+  quiz:{q:'Which command displays data shapes and distributions?',options:['plot()','bar()','histogram()','stem()'],answer:2,feedback:'✅ Correct! histogram() shows data distributions.',wrongFeedback:'❌ Not quite. Your notes state histogram() is for data shapes and distributions.'},
+  summary:['plot(x,y) → line graph','histogram(data) → data distributions','bar(data) → comparing values','Always: title(), xlabel(), ylabel()','hold on → add multiple lines to one graph'],
 },
-
-// ══ CLASS 6: FUNCTIONS ══════════════════════════════════════════════
 {
-  id: 'functions',
-  icon: '🔧',
-  color: '#f43f5e',
-  title: 'Functions',
-  subtitle: 'Built-in functions, creating your own, and tracing function logic',
-  steps: [
-    {
-      title: 'What is a Function?',
-      content: 'From your notes: Functions are blocks of code that perform a particular task, requiring input and output.\n\nTwo types:\n▪ Parameterized (argumented) — takes input values\n▪ Non-parameterized — no inputs needed\n\nAll functions must start with the function keyword and end with end.',
-    },
-    {
-      title: 'Built-in Functions from Your Notes',
-      code: `<span class="fn">sin</span>(x)      <span class="cm">% sine</span>
-<span class="fn">cos</span>(x)      <span class="cm">% cosine</span>
-<span class="fn">abs</span>(x)      <span class="cm">% absolute value</span>
-<span class="fn">mod</span>(a, b)   <span class="cm">% remainder of a ÷ b</span>
-<span class="fn">sqrt</span>(x)     <span class="cm">% square root</span>
-<span class="fn">sum</span>(v)      <span class="cm">% total of all elements</span>
-<span class="fn">mean</span>(v)     <span class="cm">% average</span>
-<span class="fn">max</span>(v)      <span class="cm">% largest value</span>
-<span class="fn">min</span>(v)      <span class="cm">% smallest value</span>
-<span class="fn">det</span>(A)      <span class="cm">% matrix determinant</span>
-<span class="fn">inv</span>(A)      <span class="cm">% matrix inverse</span>
-<span class="fn">rats</span>(x)     <span class="cm">% decimal to fraction</span>`,
-      note: 'These are already in MATLAB — you do NOT write them. Just call them directly.',
-    },
-    {
-      title: 'Structure of a Function',
-      code: `<span class="kw">function</span> output = functionName(input)
-    <span class="cm">% your code goes here</span>
-    output = input * <span class="num">2</span>;
-<span class="kw">end</span>`,
-      tip: '▪ function → required keyword to start\n▪ output → variable that holds the return value\n▪ functionName → name you call it by\n▪ input → values passed in\n▪ end → closes the function',
-    },
-    {
-      title: '🛠 How to Create Your Own Function — The 4-Step Process',
-      content: 'Every time you create a function:\n\n1️⃣  DECIDE what the function should do\n2️⃣  CHOOSE a clear name\n3️⃣  IDENTIFY inputs and output\n4️⃣  WRITE the logic inside',
-      tip: 'Ask yourself: "What goes IN? What comes OUT?" Answer those two questions before writing any code.',
-    },
-    {
-      title: '🛠 Build It: Celsius to Fahrenheit',
-      content: 'Let\'s build one from scratch.\n\nTask: Convert Celsius to Fahrenheit\nFormula: F = (C × 9/5) + 32\n\nPlan:\n▪ Name → celsiusToFahr\n▪ Input → temperature in Celsius (c)\n▪ Output → temperature in Fahrenheit (f)',
-      code: `<span class="kw">function</span> f = celsiusToFahr(c)
-    f = (c * <span class="num">9</span>/<span class="num">5</span>) + <span class="num">32</span>;
-<span class="kw">end</span>
-
-<span class="cm">% Testing it:</span>
-celsiusToFahr(<span class="num">0</span>)    <span class="cm">% → 32  (freezing)</span>
-celsiusToFahr(<span class="num">100</span>)  <span class="cm">% → 212 (boiling)</span>`,
-      note: 'Test with values whose answers you know (0°C = 32°F). This catches mistakes.',
-    },
-    {
-      title: '🛠 Function with Multiple Outputs',
-      code: `<span class="kw">function</span> [total, avg] = sumAndAvg(v)
-    total = <span class="fn">sum</span>(v);
-    avg = <span class="fn">mean</span>(v);
-<span class="kw">end</span>
-
-<span class="cm">% Calling it:</span>
-[t, a] = sumAndAvg([<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>]);
-<span class="cm">% t = 60, a = 20</span>`,
-    },
-    {
-      title: '🛠 Function with Condition Inside',
-      code: `<span class="kw">function</span> grade = getGrade(score)
-    <span class="kw">if</span> score >= <span class="num">70</span>
-        grade = <span class="str">'A'</span>;
-    <span class="kw">elseif</span> score >= <span class="num">50</span>
-        grade = <span class="str">'B'</span>;
-    <span class="kw">else</span>
-        grade = <span class="str">'F'</span>;
-    <span class="kw">end</span>
-<span class="kw">end</span>
-
-getGrade(<span class="num">85</span>)  <span class="cm">% → 'A'</span>`,
-    },
-    {
-      title: '🛠 Function Naming Rules',
-      html: `<table class="info-table">
-        <tr><th>Rule</th><th>Good</th><th>Bad</th></tr>
-        <tr><td>Start with a letter</td><td>calcArea</td><td>2fast</td></tr>
-        <tr><td>No spaces</td><td>find_max</td><td>find max</td></tr>
-        <tr><td>Not a MATLAB keyword</td><td>mySum</td><td>sum, for, if</td></tr>
-        <tr><td>Describes what it does</td><td>convertTemp</td><td>func1, x</td></tr>
-      </table>`,
-      warn: 'Never name your function the same as a MATLAB built-in (like sum, mean, plot). It will override it and cause confusing bugs.',
-    },
-    {
-      title: 'How to Trace a Function in Exams',
-      content: 'If the exam gives you a function and asks for the output:\n\n1️⃣  Identify the INPUT value passed in\n2️⃣  Substitute it into the formula\n3️⃣  Follow the logic line by line\n4️⃣  Find what the OUTPUT variable holds at the end',
-      code: `<span class="kw">function</span> y = mystery(x)
-    y = x * <span class="num">2</span> + <span class="num">1</span>;
-<span class="kw">end</span>
-
-<span class="cm">% What does mystery(5) return?</span>
-<span class="cm">% Step: y = 5 × 2 + 1 = 11 ✅</span>`,
-      tip: 'Always substitute the input and work through the maths step by step on paper.',
-    },
+  id:'functions',icon:'🔧',color:'#f43f5e',
+  title:'Functions',
+  subtitle:'Built-ins, creating your own, multiple outputs, and tracing logic',
+  steps:[
+    {title:'What is a Function?',
+     content:'From your notes: Functions are blocks of code that perform a particular task, requiring input and output.\n\nTwo types:\n▪ Parameterized — takes input values\n▪ Non-parameterized — no inputs needed\n\nAll functions must start with the function keyword and end with end.'},
+    {title:'Built-in Functions from Your Notes',
+     code:`<span class="fn">sin</span>(x)    <span class="cm">% sine</span>\n<span class="fn">cos</span>(x)    <span class="cm">% cosine</span>\n<span class="fn">abs</span>(x)    <span class="cm">% absolute value</span>\n<span class="fn">mod</span>(a,b)  <span class="cm">% remainder</span>\n<span class="fn">sqrt</span>(x)   <span class="cm">% square root</span>\n<span class="fn">sum</span>(v)    <span class="cm">% total of all elements</span>\n<span class="fn">mean</span>(v)   <span class="cm">% average</span>\n<span class="fn">max</span>(v)    <span class="cm">% largest value</span>\n<span class="fn">min</span>(v)    <span class="cm">% smallest value</span>\n<span class="fn">det</span>(A)    <span class="cm">% determinant</span>\n<span class="fn">inv</span>(A)    <span class="cm">% inverse</span>\n<span class="fn">rats</span>(x)   <span class="cm">% decimal to fraction</span>`,
+     note:'These are already built into MATLAB. Just call them — no need to write them yourself.'},
+    {title:'Structure of a Function',
+     code:`<span class="kw">function</span> output = funcName(input)\n    <span class="cm">% code goes here</span>\n    output = input * <span class="num">2</span>;\n<span class="kw">end</span>`,
+     tip:'▪ function → required keyword\n▪ output → the variable that gets returned\n▪ funcName → what you call it by\n▪ input → value(s) passed in\n▪ end → closes the function'},
+    {title:'🛠 Create Your Own — 4-Step Process',
+     content:'Every time you write a function:\n\n1️⃣  DECIDE what it should do\n2️⃣  CHOOSE a clear name\n3️⃣  IDENTIFY the inputs and output\n4️⃣  WRITE the logic inside',
+     tip:'Ask yourself: "What goes IN? What comes OUT?" — answer those two questions first.'},
+    {title:'🛠 Build It: Celsius to Fahrenheit',
+     content:'Task: Convert Celsius to Fahrenheit. Formula: F = (C × 9/5) + 32',
+     code:`<span class="kw">function</span> f = celsiusToFahr(c)\n    f = (c * <span class="num">9</span>/<span class="num">5</span>) + <span class="num">32</span>;\n<span class="kw">end</span>\n\n<span class="cm">% Testing:</span>\ncelsiusToFahr(<span class="num">0</span>)    <span class="cm">% → 32  (freezing)</span>\ncelsiusToFahr(<span class="num">100</span>)  <span class="cm">% → 212 (boiling)</span>`,
+     note:'Always test with values whose answers you already know — like 0°C = 32°F.'},
+    {title:'🛠 Multiple Inputs & Multiple Outputs',
+     code:`<span class="cm">% Multiple inputs</span>\n<span class="kw">function</span> result = addTwo(a, b)\n    result = a + b;\n<span class="kw">end</span>\n\n<span class="cm">% Multiple outputs</span>\n<span class="kw">function</span> [total, avg] = sumAndAvg(v)\n    total = <span class="fn">sum</span>(v);\n    avg = <span class="fn">mean</span>(v);\n<span class="kw">end</span>\n[t, a] = sumAndAvg([<span class="num">10</span>,<span class="num">20</span>,<span class="num">30</span>]); <span class="cm">% t=60, a=20</span>`,
+     tip:'Multiple outputs are wrapped in [ ]. The order must match the function definition.'},
+    {title:'🛠 Function with Condition Inside',
+     code:`<span class="kw">function</span> grade = getGrade(score)\n    <span class="kw">if</span> score >= <span class="num">70</span>\n        grade = <span class="str">'A'</span>;\n    <span class="kw">elseif</span> score >= <span class="num">50</span>\n        grade = <span class="str">'B'</span>;\n    <span class="kw">else</span>\n        grade = <span class="str">'F'</span>;\n    <span class="kw">end</span>\n<span class="kw">end</span>\ngetGrade(<span class="num">85</span>)  <span class="cm">% → 'A'</span>`},
+    {title:'Tracing a Function in Exams',
+     content:'When asked "what does this function return?":\n\n1️⃣  Find the INPUT value passed in\n2️⃣  Substitute it into the formula\n3️⃣  Follow the logic line by line\n4️⃣  Read the OUTPUT variable at the end',
+     code:`<span class="kw">function</span> y = mystery(x)\n    y = x * <span class="num">2</span> + <span class="num">1</span>;\n<span class="kw">end</span>\n<span class="cm">% mystery(5) → y = 5×2+1 = 11 ✅</span>`,
+     tip:'Write the substitution on paper during exams — show each step.'},
   ],
-  quiz: {
-    q: 'What will getGrade(65) return from the getGrade function above?',
-    options: ["'A'", "'B'", "'F'", 'Error'],
-    answer: 1,
-    feedback: "✅ Correct! 65 >= 50 but NOT >= 70, so it hits the elseif and returns 'B'.",
-    wrongFeedback: "❌ Not quite. 65 is ≥ 50 but not ≥ 70, so elseif fires and returns 'B'.",
-  },
-  summary: [
-    'function output = name(input) ... end',
-    'Parameterized = takes inputs; Non-parameterized = no inputs',
-    'Built-ins: sin, cos, abs, mod, sqrt, sum, mean, max, min, det, inv',
-    '4-step creation: Decide → Name → Inputs/Output → Write logic',
-    'Multiple outputs: [out1, out2] = funcName(in)',
-    'Trace a function: substitute input → follow logic → find output',
-  ],
+  quiz:{q:'What will getGrade(65) return from the function above?',options:["'A'","'B'","'F'",'Error'],answer:1,feedback:"✅ Correct! 65 ≥ 50 but not ≥ 70 → elseif fires → returns 'B'.",wrongFeedback:"❌ Not quite. 65 is ≥ 50 but not ≥ 70, so the elseif returns 'B'."},
+  summary:['function output = name(input) ... end','All functions start with function keyword, end with end','Built-ins: sin,cos,abs,mod,sqrt,sum,mean,max,min,det,inv','4 steps: Decide → Name → Inputs/Output → Write logic','Multiple outputs: [out1,out2] = funcName(in)','Trace: substitute input → follow logic → find output variable'],
 },
-
-// ══ CLASS 7: PROGRAMMING PARADIGMS ══════════════════════════════════
 {
-  id: 'paradigms',
-  icon: '🏗️',
-  color: '#a855f7',
-  title: 'Programming Paradigms',
-  subtitle: 'Methods of solving problems — from imperative to OOP to functional',
-  steps: [
-    {
-      title: 'What is a Programming Paradigm?',
-      content: 'A programming paradigm is a method or style of solving problems using specific programming languages.\n\nDifferent paradigms represent different ways of thinking about and structuring code.',
-    },
-    {
-      title: 'Types of Paradigms from Your Notes',
-      html: `<table class="info-table">
-        <tr><th>Paradigm</th><th>Key Idea</th><th>Example Languages</th></tr>
-        <tr><td>Imperative</td><td>Give step-by-step instructions. Uses loops and variables.</td><td>C, MATLAB</td></tr>
-        <tr><td>Object-Oriented (OOP)</td><td>Organise code around objects and classes</td><td>Java, Python, C++</td></tr>
-        <tr><td>Procedural</td><td>Break program into reusable procedures/functions</td><td>C, Pascal</td></tr>
-        <tr><td>Declarative</td><td>Express WHAT to do, not HOW. No explicit control flow.</td><td>SQL, PROLOG</td></tr>
-        <tr><td>Functional</td><td>Treat functions as first-class values, avoid state changes</td><td>Haskell, Lisp</td></tr>
-        <tr><td>Parallel Processing (PPA)</td><td>Multiple processes run simultaneously</td><td>CUDA, MPI</td></tr>
-        <tr><td>Database / Data-driven</td><td>Program flow driven by data in a database</td><td>SQL, dBASE</td></tr>
-      </table>`,
-      exam: 'Know at least 5 paradigms and be able to describe each one. Your notes specifically mention PROLOG as an example of the Declarative paradigm.',
-    },
-    {
-      title: 'Imperative Paradigm — Pros & Cons',
-      content: 'Your notes specifically cover the pros and cons of the Imperative paradigm:',
-      html: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-top:0.6rem">
-        <div style="background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:0.8rem">
-          <div style="color:#86efac;font-size:0.72rem;font-weight:700;margin-bottom:0.5rem">✅ PROS</div>
-          <div style="font-size:0.8rem;color:#cbd5e1;line-height:1.7">
-            ▪ Easy to implement<br/>
-            ▪ Contains loops and variables<br/>
-            ▪ Intuitive — mirrors how computers actually work
-          </div>
-        </div>
-        <div style="background:rgba(244,63,94,0.07);border:1px solid rgba(244,63,94,0.2);border-radius:8px;padding:0.8rem">
-          <div style="color:#fda4af;font-size:0.72rem;font-weight:700;margin-bottom:0.5rem">❌ CONS</div>
-          <div style="font-size:0.8rem;color:#cbd5e1;line-height:1.7">
-            ▪ Complex problems cannot be solved easily<br/>
-            ▪ Less efficient for large-scale tasks<br/>
-            ▪ Code can become hard to maintain
-          </div>
-        </div>
-      </div>`,
-    },
+  id:'ai',icon:'🤖',color:'#06b6d4',
+  title:'Generative AI & Coding',
+  subtitle:'What AI does, why it cannot replace you, and prompt engineering',
+  steps:[
+    {title:'What is Generative AI in Coding?',
+     content:'Generative AI refers to AI systems that create new content — text, images, audio, and code.\n\nLarge Language Models (LLMs) like GPT are trained on massive text data. They:\n▪ Understand programming syntax\n▪ Predict the next code token\n▪ Generate programs from plain-English instructions'},
+    {title:'Why AI Cannot Replace Programmers',
+     html:`<table class="info-table">
+       <tr><th>Limitation</th><th>What it means</th></tr>
+       <tr><td>Not a substitute for algorithms</td><td>Cannot replace your understanding of computational thinking</td></tr>
+       <tr><td>No guarantee of correctness</td><td>Predicts LIKELY code, not CORRECT code</td></tr>
+       <tr><td>Hallucinations</td><td>Invents function names or libraries that do not exist</td></tr>
+       <tr><td>Logic errors</td><td>Produces code that runs but gives wrong results</td></tr>
+       <tr><td>Overconfidence</td><td>Presents incorrect answers with full confidence</td></tr>
+     </table>`,
+     warn:'AI predicts LIKELY code — not CORRECT code. This is the critical distinction your lecturer emphasises.'},
+    {title:'The 6 Elements of a Good Prompt',
+     content:'Prompt Engineering = designing clear instructions to guide AI output.',
+     html:`<div class="algo-steps">
+       <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Objective</strong> — What do you want the AI to do?</div></div>
+       <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Constraint</strong> — What limits or rules must the solution follow?</div></div>
+       <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Input Description</strong> — What data is being provided?</div></div>
+       <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Expected Output</strong> — What should the result look like?</div></div>
+       <div class="algo-step" data-n="5"><div class="algo-step-text"><strong>Boundary Cases</strong> — What edge cases should be handled?</div></div>
+       <div class="algo-step" data-n="6"><div class="algo-step-text"><strong>Test Cases</strong> — Specific input/output pairs to verify the result</div></div>
+     </div>`,
+     exam:'You may be asked to list all 6 elements of a good AI prompt. Know them in order.'},
+    {title:'The Student Testing Protocol',
+     content:'Because AI can hallucinate and produce logic errors, your notes define this 4-step protocol:',
+     html:`<div class="algo-steps">
+       <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Run the code</strong> — don't assume it works just by reading it</div></div>
+       <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Test boundary cases</strong> — try zero, negative numbers, extreme values</div></div>
+       <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Compare expected vs actual output</strong> — manually calculate the answer first</div></div>
+       <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Debug and correct</strong> — fix errors yourself. AI is a starting point, not the final answer</div></div>
+     </div>`},
   ],
-  quiz: {
-    q: 'Which paradigm expresses the logic of computation WITHOUT detailing control flow? (Hint: PROLOG is an example)',
-    options: ['Imperative', 'Object-Oriented', 'Declarative', 'Functional'],
-    answer: 2,
-    feedback: '✅ Correct! The Declarative paradigm expresses what to do without specifying how. PROLOG is the example from your notes.',
-    wrongFeedback: '❌ Not quite. Your notes state that the Declarative paradigm (e.g. PROLOG) expresses logic without detailing control flow.',
-  },
-  summary: [
-    '7 paradigms: Imperative, OOP, Procedural, Declarative, Functional, PPA, Data-driven',
-    'Imperative = step-by-step instructions (loops, variables)',
-    'Declarative = expresses WHAT not HOW (PROLOG example)',
-    'OOP = organises code around objects and classes',
-    'Imperative pros: easy to implement. Cons: hard to scale',
-  ],
+  quiz:{q:'Which best describes what AI-generated code produces?',options:['Correct code','Most efficient code','Likely code (not guaranteed correct)','Syntax-free code'],answer:2,feedback:'✅ Correct! Your notes: AI predicts LIKELY code, not necessarily CORRECT code.',wrongFeedback:'❌ Not quite. AI predicts LIKELY code — not guaranteed-correct code.'},
+  summary:['Generative AI creates content — text, images, code','LLMs predict likely code — not guaranteed correct','3 AI limitations: Hallucinations, Logic Errors, Overconfidence','6 prompt elements: Objective, Constraint, Input, Output, Boundary Cases, Test Cases','Student protocol: Run → Test boundaries → Compare → Debug'],
 },
+];
 
-// ══ CLASS 8: AI IN CODING ═══════════════════════════════════════════
-{
-  id: 'ai',
-  icon: '🤖',
-  color: '#06b6d4',
-  title: 'Generative AI & Coding',
-  subtitle: "How AI generates code, why it can't replace programmers, and prompt engineering",
-  steps: [
-    {
-      title: 'What is Generative AI in Coding?',
-      content: 'From your notes: Generative AI refers to AI systems that create new content — text, images, audio, and code.\n\nExamples include Large Language Models (LLMs) like GPT.\n\nThese systems are trained on massive amounts of text data. They learn to:\n▪ Understand programming syntax\n▪ Predict the next code token\n▪ Generate programs from instructions',
-    },
-    {
-      title: 'Why AI CANNOT Replace Programmers',
-      content: 'Your lecturer\'s notes are clear on this — AI has real limitations:',
-      html: `<table class="info-table">
-        <tr><th>Limitation</th><th>What it means</th></tr>
-        <tr><td>Not a substitute for algorithms</td><td>AI cannot replace your understanding of computational thinking</td></tr>
-        <tr><td>No guarantee of correctness</td><td>AI predicts LIKELY code, not CORRECT code</td></tr>
-        <tr><td>Hidden assumptions</td><td>May introduce logic that seems right but is wrong</td></tr>
-        <tr><td>Hallucinations</td><td>Invents function names, libraries, or syntax that don't exist</td></tr>
-        <tr><td>Logic errors</td><td>Produces code that runs but gives wrong results</td></tr>
-        <tr><td>Overconfidence</td><td>Presents incorrect solutions with full confidence</td></tr>
-      </table>`,
-      warn: 'AI predicts LIKELY code — not CORRECT code. This is a critical distinction your lecturer emphasises.',
-    },
-    {
-      title: 'Prompt Engineering',
-      content: 'Prompt Engineering is the process of designing clear instructions to guide AI output.\n\nA poor prompt → poor output\nA clear prompt → structured, useful output\n\nYour notes list the 6 elements of a GOOD prompt:',
-      html: `<div class="algo-steps">
-        <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Objective</strong> — What do you want the AI to do?</div></div>
-        <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Constraint</strong> — What limits or rules must the solution follow?</div></div>
-        <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Input Description</strong> — What data is being provided?</div></div>
-        <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Expected Output</strong> — What should the result look like?</div></div>
-        <div class="algo-step" data-n="5"><div class="algo-step-text"><strong>Boundary Cases</strong> — What edge cases should be handled? (e.g. what if input is 0?)</div></div>
-        <div class="algo-step" data-n="6"><div class="algo-step-text"><strong>Test Cases</strong> — Specific input/output pairs to verify the result</div></div>
-      </div>`,
-      exam: 'You may be asked to list the 6 elements of a good AI prompt. Know them in order.',
-    },
-    {
-      title: 'The Student\'s Responsibility — AI Testing Protocol',
-      content: 'Because AI can produce hallucinations and logic errors, your notes define a student testing protocol:',
-      html: `<div class="algo-steps">
-        <div class="algo-step" data-n="1"><div class="algo-step-text"><strong>Run the code</strong> — don't just read it and assume it works</div></div>
-        <div class="algo-step" data-n="2"><div class="algo-step-text"><strong>Test boundary cases</strong> — try extreme or unusual inputs (zero, negative numbers, very large values)</div></div>
-        <div class="algo-step" data-n="3"><div class="algo-step-text"><strong>Compare expected vs. actual output</strong> — manually calculate what the answer should be, then check</div></div>
-        <div class="algo-step" data-n="4"><div class="algo-step-text"><strong>Debug and correct</strong> — if it's wrong, fix it yourself. AI is a starting point, not the final answer</div></div>
-      </div>`,
-      note: 'This protocol applies to any code — AI-generated or not. Always verify your programs.',
-    },
-    {
-      title: 'AI Limitations Summary',
-      content: 'Three key limitations your notes highlight:',
-      html: `<table class="info-table">
-        <tr><th>Limitation</th><th>Explanation</th></tr>
-        <tr><td>Hallucinations</td><td>Uses incorrect syntax or references fake/non-existent libraries</td></tr>
-        <tr><td>Logic Errors</td><td>Generates code that runs but produces incorrect results</td></tr>
-        <tr><td>Overconfidence</td><td>Presents wrong answers as if they are definitely correct</td></tr>
-      </table>`,
-      exam: 'Know all 3 AI limitations with explanations. These are exact terms from your notes.',
-    },
-  ],
-  quiz: {
-    q: 'According to your notes, what is the most accurate description of what AI-generated code predicts?',
-    options: ['Correct code', 'The most efficient code', 'Likely code (not guaranteed correct)', 'Syntax-free code'],
-    answer: 2,
-    feedback: "✅ Correct! Your notes state: AI predicts LIKELY code, not necessarily CORRECT code.",
-    wrongFeedback: "❌ Not quite. Your lecturer's notes specifically state that AI predicts LIKELY code, not CORRECT code.",
-  },
-  summary: [
-    'Generative AI creates content — text, images, code',
-    'LLMs predict likely code, not guaranteed-correct code',
-    'AI limitations: Hallucinations, Logic Errors, Overconfidence',
-    '6 prompt elements: Objective, Constraint, Input, Output, Boundary Cases, Test Cases',
-    'Student protocol: Run → Test boundaries → Compare → Debug',
-    'AI cannot replace understanding of algorithms and computational thinking',
-  ],
-},
-
-]; // end lessons array
-
-// ─── State & Engine ───────────────────────────────────────────────────
-const revealed = {};
-lessons.forEach(l => { revealed[l.id] = 0; });
-
-let totalSteps = 0;
-lessons.forEach(l => { totalSteps += l.steps.length; });
-
-function countCompleted() {
-  let c = 0;
-  lessons.forEach(l => { c += revealed[l.id]; });
-  return c;
-}
-
-function updateProgress() {
-  const c = countCompleted();
-  const pct = totalSteps ? (c / totalSteps * 100) : 0;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = c + ' / ' + totalSteps + ' steps';
-}
-
-function renderTabs() {
-  const container = document.getElementById('navTabs');
-  container.innerHTML = '';
-  lessons.forEach(l => {
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn';
-    btn.id = 'tab-' + l.id;
-    const words = l.title.split(' ');
-    btn.textContent = l.icon + ' ' + words.slice(0, 3).join(' ');
-    btn.onclick = () => showLesson(l.id);
-    container.appendChild(btn);
-  });
-}
-
-function buildStepBody(s) {
-  let html = '';
-  if (s.content) html += `<div class="step-text">${s.content}</div>`;
-  if (s.code) {
-    const cls = s.isPseudo ? 'pseudo' : '';
-    html += `<pre class="${cls}">${s.code}</pre>`;
-  }
-  if (s.html) html += s.html;
-  if (s.tip) html += `<div class="tip">${s.tip.replace(/\n/g,'<br/>')}</div>`;
-  if (s.note) html += `<div class="note">${s.note}</div>`;
-  if (s.warn) html += `<div class="warn">${s.warn}</div>`;
-  if (s.exam) html += `<div class="exam">${s.exam}</div>`;
-  return html;
-}
-
-function renderLessons() {
-  const container = document.getElementById('lessonContainer');
-  container.innerHTML = '';
-
-  lessons.forEach(l => {
-    const panel = document.createElement('div');
-    panel.className = 'lesson-panel';
-    panel.id = 'panel-' + l.id;
-
-    const stepsHTML = l.steps.map((s, i) => `
-      <div class="step ${i === 0 ? 'revealed open' : 'locked'}" id="step-${l.id}-${i}">
-        <div class="step-header" onclick="toggleStep('${l.id}', ${i})">
-          <div class="step-num">${i+1}</div>
-          <div class="step-title">${s.title}</div>
-          <div class="step-toggle">▼</div>
-        </div>
-        <div class="step-body">${buildStepBody(s)}</div>
-      </div>`).join('');
-
-    const q = l.quiz;
-    const optsHTML = q.options.map((o, i) =>
-      `<button class="quiz-opt" onclick="checkQuiz('${l.id}', ${i})">${o}</button>`
-    ).join('');
-
-    panel.innerHTML = `
-      <div class="lesson-header">
-        <div class="lesson-icon" style="background:${l.color}18;color:${l.color}">${l.icon}</div>
-        <div>
-          <h2>${l.title}</h2>
-          <p>${l.subtitle}</p>
-        </div>
-      </div>
-      <div class="steps-container" id="steps-${l.id}">${stepsHTML}</div>
-      <button class="reveal-btn" id="revealBtn-${l.id}" onclick="revealNext('${l.id}')">Unlock Next Step →</button>
-      <div class="quiz-section" id="quiz-${l.id}" style="display:none">
-        <h3>🧠 Quick Check</h3>
-        <div class="quiz-q">${q.q}</div>
-        <div class="quiz-options" id="quizOpts-${l.id}">${optsHTML}</div>
-        <div class="quiz-feedback" id="quizFeedback-${l.id}"></div>
-      </div>
-      <div class="summary-box" id="summary-${l.id}" style="display:none">
-        <h3>✅ Class Summary</h3>
-        <ul class="summary-list">${l.summary.map(s => `<li>${s}</li>`).join('')}</ul>
-      </div>
-      <button class="next-lesson-btn" id="nextBtn-${l.id}" onclick="goNext('${l.id}')">Next Class →</button>`;
-
-    container.appendChild(panel);
-  });
-
-  // init state
-  lessons.forEach(l => { revealed[l.id] = 1; });
-  lessons.forEach(l => updateRevealBtn(l.id));
-}
-
-function showLesson(id) {
-  document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('tab-' + id).classList.add('active');
-}
-
-function toggleStep(lessonId, stepIdx) {
-  const step = document.getElementById(`step-${lessonId}-${stepIdx}`);
-  if (!step.classList.contains('revealed')) return;
-  step.classList.toggle('open');
-}
-
-function revealNext(lessonId) {
-  const lesson = lessons.find(l => l.id === lessonId);
-  const nextIdx = revealed[lessonId];
-  if (nextIdx >= lesson.steps.length) return;
-
-  const step = document.getElementById(`step-${lessonId}-${nextIdx}`);
-  step.classList.remove('locked');
-  step.classList.add('revealed', 'open');
-
-  // close previous steps
-  for (let i = 0; i < nextIdx; i++) {
-    document.getElementById(`step-${lessonId}-${i}`)?.classList.remove('open');
-  }
-
-  revealed[lessonId] = nextIdx + 1;
-  updateRevealBtn(lessonId);
-  updateProgress();
-}
-
-function updateRevealBtn(lessonId) {
-  const lesson = lessons.find(l => l.id === lessonId);
-  const btn = document.getElementById('revealBtn-' + lessonId);
-  const remaining = lesson.steps.length - revealed[lessonId];
-  if (remaining <= 0) {
-    btn.style.display = 'none';
-    document.getElementById('quiz-' + lessonId).style.display = 'block';
-  } else {
-    btn.textContent = `Unlock Next Step → (${remaining} remaining)`;
-  }
-}
-
-function checkQuiz(lessonId, chosen) {
-  const lesson = lessons.find(l => l.id === lessonId);
-  const opts = document.querySelectorAll(`#quizOpts-${lessonId} .quiz-opt`);
-  const feedback = document.getElementById('quizFeedback-' + lessonId);
-  opts.forEach(o => o.disabled = true);
-
-  if (chosen === lesson.quiz.answer) {
-    opts[chosen].classList.add('correct');
-    feedback.textContent = lesson.quiz.feedback;
-    feedback.style.color = '#86efac';
-    document.getElementById('summary-' + lessonId).style.display = 'block';
-    const idx = lessons.findIndex(l => l.id === lessonId);
-    if (idx < lessons.length - 1) {
-      document.getElementById('nextBtn-' + lessonId).style.display = 'block';
-    }
-    document.getElementById('tab-' + lessonId).classList.add('done');
-  } else {
-    opts[chosen].classList.add('wrong');
-    opts[lesson.quiz.answer].classList.add('correct');
-    feedback.textContent = lesson.quiz.wrongFeedback;
-    feedback.style.color = '#fda4af';
-  }
-}
-
-function goNext(currentId) {
-  const idx = lessons.findIndex(l => l.id === currentId);
-  if (idx < lessons.length - 1) showLesson(lessons[idx + 1].id);
-}
-
-// Boot
-renderTabs();
-renderLessons();
-
-// Inject Past Questions tab
-(function() {
-  const tabsEl = document.getElementById('navTabs');
-  const pqBtn = document.createElement('button');
-  pqBtn.className = 'tab-btn';
-  pqBtn.id = 'tab-pastq';
-  pqBtn.textContent = '📋 Past Questions';
-  pqBtn.onclick = () => {
-    document.querySelectorAll('.lesson-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('panel-pastq').classList.add('active');
-    pqBtn.classList.add('active');
-  };
-  tabsEl.appendChild(pqBtn);
-
-  // Build the panel
-  const lc = document.getElementById('lessonContainer');
-  const panel = document.createElement('div');
-  panel.className = 'lesson-panel';
-  panel.id = 'panel-pastq';
-  panel.innerHTML = PQ_HTML;
-  lc.appendChild(panel);
-})();
-
-showLesson(lessons[0].id);
-updateProgress();
-
-// ─── PAST QUESTIONS HTML ──────────────────────────────────────────────
-const PQ_HTML = `
-<div class="lesson-header">
-  <div class="lesson-icon" style="background:#f59e0b18;color:#f59e0b">📋</div>
-  <div>
-    <h2>Past Examination Questions</h2>
-    <p>2021/2022 &amp; 2022/2023 — with full step-by-step solutions</p>
-  </div>
-</div>
-
-<!-- ── SESSION LABEL ── -->
-<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1.2rem;font-size:0.78rem;color:#93c5fd;font-weight:700;letter-spacing:0.06em;text-transform:uppercase">
-  📅 2021 / 2022 — First Semester Examination
-</div>
-
-<!-- ════ Q1 ════ -->
-<div class="step revealed open" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q1 · Errors</div>
-    <div class="step-title">What is a programming error? Explain the different types using MATLAB.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">Definition:</strong>
-A programming error is a mistake that occurs during programming as a result of:
-▪ Violation of the rules governing a programming language
+// ════════════════════════════════════════════════
+// PAST QUESTIONS DATA
+// ════════════════════════════════════════════════
+const pastQuestions = [
+  {
+    session:'2021/2022',
+    color:'#3b82f6',
+    questions:[
+      {
+        badge:'Q1 · Errors',
+        title:'What is a programming error? Explain the different types using MATLAB.',
+        body:`<div class="step-text"><strong style="color:#93c5fd">Definition:</strong>
+A programming error is a mistake that occurs as a result of:
+▪ Violation of language rules
 ▪ Use of wrong logic
 ▪ Wrong input supplied to the program</div>
-
-    <div style="margin-top:0.9rem">
-    <table class="info-table">
-      <tr><th>Error Type</th><th>Cause</th><th>MATLAB Example</th></tr>
-      <tr>
-        <td><strong>Syntax / Compilation Error</strong></td>
-        <td>Code violates language rules — wrong spelling, missing keyword</td>
-        <td>Writing <code>fore i = 1:5</code> instead of <code>for i = 1:5</code></td>
-      </tr>
-      <tr>
-        <td><strong>Logical / Semantic Error</strong></td>
-        <td>Program runs but produces the WRONG result due to incorrect logic</td>
-        <td>Writing <code>x + y</code> when you meant <code>x * y</code></td>
-      </tr>
-      <tr>
-        <td><strong>Run-time Error</strong></td>
-        <td>Program encounters an illegal operation during execution</td>
-        <td>Division by zero: <code>x = 5/0</code> or accessing <code>A(10)</code> when A has only 3 elements</td>
-      </tr>
-    </table>
-    </div>
-    <div class="exam">Know all 3 error types with definitions AND examples. This exact question appeared in 2021/2022.</div>
-  </div>
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>Error Type</th><th>Cause</th><th>MATLAB Example</th></tr>
+  <tr><td><strong>Syntax / Compilation</strong></td><td>Code breaks language rules</td><td><code>fore i = 1:5</code> instead of <code>for</code></td></tr>
+  <tr><td><strong>Logical / Semantic</strong></td><td>Wrong output despite running</td><td>Using <code>x + y</code> when you meant <code>x * y</code></td></tr>
+  <tr><td><strong>Run-time</strong></td><td>Illegal operation during execution</td><td><code>x = 5/0</code> or accessing <code>A(10)</code> on a 3-element array</td></tr>
+</table>
+<div class="exam">Know all 3 error types with definitions AND examples. This exact question appeared in 2021/2022.</div>`
+      },
+      {
+        badge:'Q2 · Algorithm',
+        title:'Write an algorithm and flowchart to buy foodstuff at ABC Supermarket.',
+        body:`<div class="step-text"><strong style="color:#93c5fd">Well-Structured Algorithm (with constraint checks):</strong></div>
+<div class="algo-steps">
+  <div class="algo-step" data-n="1"><div class="algo-step-text">START</div></div>
+  <div class="algo-step" data-n="2"><div class="algo-step-text">Enter supermarket and pick up a shopping basket</div></div>
+  <div class="algo-step" data-n="3"><div class="algo-step-text">Retrieve your shopping list</div></div>
+  <div class="algo-step" data-n="4"><div class="algo-step-text">Check: Is the shopping list empty? IF YES → go to Step 8</div></div>
+  <div class="algo-step" data-n="5"><div class="algo-step-text">Locate the first item on the list in the store</div></div>
+  <div class="algo-step" data-n="6"><div class="algo-step-text">Check: Is the item available? IF NO → note it, move to next item, go to Step 4</div></div>
+  <div class="algo-step" data-n="7"><div class="algo-step-text">Place item in basket, cross off list, go to Step 4</div></div>
+  <div class="algo-step" data-n="8"><div class="algo-step-text">Proceed to checkout counter</div></div>
+  <div class="algo-step" data-n="9"><div class="algo-step-text">Cashier scans items and announces total cost</div></div>
+  <div class="algo-step" data-n="10"><div class="algo-step-text">Check: Sufficient funds? IF NO → remove items until affordable</div></div>
+  <div class="algo-step" data-n="11"><div class="algo-step-text">Make payment, collect receipt</div></div>
+  <div class="algo-step" data-n="12"><div class="algo-step-text">STOP</div></div>
 </div>
-
-<!-- ════ Q2 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q2 · Algo</div>
-    <div class="step-title">Write an algorithm and flowchart to buy foodstuff at ABC Supermarket.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">Step 1 — Write the Algorithm (well-structured):</strong>
-
-Always include constraint checks in your algorithm — this earns marks.</div>
-    <div class="algo-steps" style="margin:0.8rem 0">
-      <div class="algo-step" data-n="1"><div class="algo-step-text">START</div></div>
-      <div class="algo-step" data-n="2"><div class="algo-step-text">Enter the supermarket and pick up a shopping basket</div></div>
-      <div class="algo-step" data-n="3"><div class="algo-step-text">Get your shopping list</div></div>
-      <div class="algo-step" data-n="4"><div class="algo-step-text">Check: Is the shopping list empty? IF YES → go to Step 8</div></div>
-      <div class="algo-step" data-n="5"><div class="algo-step-text">Locate the first item on the list in the store</div></div>
-      <div class="algo-step" data-n="6"><div class="algo-step-text">Check: Is the item available? IF NO → note it as unavailable, move to next item</div></div>
-      <div class="algo-step" data-n="7"><div class="algo-step-text">Place the item in the basket. Cross it off the list. Repeat from Step 4 for next item.</div></div>
-      <div class="algo-step" data-n="8"><div class="algo-step-text">Proceed to the checkout counter</div></div>
-      <div class="algo-step" data-n="9"><div class="algo-step-text">Cashier scans items and announces total cost</div></div>
-      <div class="algo-step" data-n="10"><div class="algo-step-text">Check: Do you have sufficient funds? IF NO → remove items until affordable</div></div>
-      <div class="algo-step" data-n="11"><div class="algo-step-text">Make payment and collect receipt</div></div>
-      <div class="algo-step" data-n="12"><div class="algo-step-text">STOP</div></div>
-    </div>
-    <div class="step-text"><strong style="color:#93c5fd">Step 2 — Flowchart symbols to use:</strong></div>
-    <table class="info-table" style="margin-top:0.6rem">
-      <tr><th>Symbol</th><th>Used for (in this flowchart)</th></tr>
-      <tr><td>Oval (Terminal)</td><td>START and STOP</td></tr>
-      <tr><td>Rectangle (Process)</td><td>Pick basket, locate item, place item, proceed to checkout, make payment</td></tr>
-      <tr><td>Parallelogram (I/O)</td><td>Get shopping list, announce total cost, collect receipt</td></tr>
-      <tr><td>Diamond (Decision)</td><td>"Is list empty?", "Is item available?", "Sufficient funds?"</td></tr>
-      <tr><td>Arrows</td><td>Connect every symbol — flow must always be directed</td></tr>
-    </table>
-    <div class="tip">Every decision diamond must have TWO exit arrows labelled YES and NO. This is a common mistake in exam flowcharts.</div>
-  </div>
-</div>
-
-<!-- ════ Q3 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q3 · Math</div>
-    <div class="step-title">Translate the 4 mathematical expressions into MATLAB form.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">Key MATLAB translation rules:</strong>
-▪ Multiplication must be EXPLICIT — write <code>2*w</code> not <code>2w</code>
-▪ Division uses <code>/</code>
-▪ Powers use <code>^</code>
-▪ Square root = <code>sqrt()</code>  |  nth root = <code>x^(1/n)</code>
-▪ tan = <code>tan()</code>  |  pi = <code>pi</code>  |  Subscripts (like P₃) become <code>P3</code></div>
-
-    <table class="info-table" style="margin-top:0.8rem">
-      <tr><th>Part</th><th>Original Expression</th><th>MATLAB Code</th></tr>
-      <tr>
-        <td>(a)</td>
-        <td>-2wT - (W × a/uT) × b</td>
-        <td><code>-2*w*T - (W*(a/(u*T)))*b</code></td>
-      </tr>
-      <tr>
-        <td>(b)</td>
-        <td>9M√a × (3 tan M²)</td>
-        <td><code>9*M*sqrt(a)*(3*tan(M^2))</code></td>
-      </tr>
-      <tr>
-        <td>(c)</td>
-        <td>(p1/v2 × R1) - B</td>
-        <td><code>(p1/v2*R1) - B</code></td>
-      </tr>
-      <tr>
-        <td>(d)</td>
-        <td>⁴√(n/3) + 2P₃ × (π/4)</td>
-        <td><code>(n/3)^(1/4) + 2*P3*(pi/4)</code></td>
-      </tr>
-    </table>
-    <div class="tip">For part (d): the 4th root of x = x^(1/4). The nth root of x is always x^(1/n) in MATLAB.</div>
-  </div>
-</div>
-
-<!-- ════ Q4 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q4 · Loops</div>
-    <div class="step-title">Write programs for: (a) sum of 15 series terms, (b) product of squares of first 30 even numbers.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">Part (a) — Sum of 15 terms: 1/1² + 1/2² + ... + 1/15²</strong>
-
-This is directly from your lecture notes. The pattern is 1/i².</div>
-    <pre>sumSeries = <span class="num">0</span>;              <span class="cm">% initialise accumulator</span>
-<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">15</span>               <span class="cm">% loop from 1 to 15</span>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#93c5fd">Flowchart Symbols to Use:</strong></div>
+<table class="info-table" style="margin-top:.5rem">
+  <tr><th>Action</th><th>Symbol</th></tr>
+  <tr><td>START / STOP</td><td>Oval (Terminal)</td></tr>
+  <tr><td>Pick basket, locate item, place item, pay</td><td>Rectangle (Process)</td></tr>
+  <tr><td>Get shopping list, announce total, collect receipt</td><td>Parallelogram (I/O)</td></tr>
+  <tr><td>"Is list empty?", "Is item available?", "Sufficient funds?"</td><td>Diamond (Decision)</td></tr>
+</table>
+<div class="tip">Every decision diamond needs TWO arrows labelled YES and NO. This is a common exam mistake.</div>`
+      },
+      {
+        badge:'Q3 · Math Translation',
+        title:'Translate the 4 mathematical expressions into valid MATLAB code.',
+        body:`<div class="step-text"><strong style="color:#93c5fd">Key translation rules:</strong>
+▪ Multiplication must be EXPLICIT → write <code>2*w</code> not <code>2w</code>
+▪ Power → use <code>^</code>
+▪ Square root → <code>sqrt()</code>
+▪ nth root → <code>x^(1/n)</code>  e.g. 4th root = <code>x^(1/4)</code>
+▪ tan → <code>tan()</code> | pi → <code>pi</code> | subscripts e.g. P₃ → <code>P3</code></div>
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>Part</th><th>Original</th><th>MATLAB Code</th></tr>
+  <tr><td>(a)</td><td>-2wT - (W × a/uT) × b</td><td><code>-2*w*T - (W*(a/(u*T)))*b</code></td></tr>
+  <tr><td>(b)</td><td>9M√a × (3 tan M²)</td><td><code>9*M*sqrt(a)*(3*tan(M^2))</code></td></tr>
+  <tr><td>(c)</td><td>(p1/v2 × R1) - B</td><td><code>(p1/v2*R1) - B</code></td></tr>
+  <tr><td>(d)</td><td>⁴√(n/3) + 2P₃ × (π/4)</td><td><code>(n/3)^(1/4) + 2*P3*(pi/4)</code></td></tr>
+</table>
+<div class="tip">For part (d): the 4th root of x = x^(1/4). nth root of x = x^(1/n) always.</div>`
+      },
+      {
+        badge:'Q4 · Loops',
+        title:'(a) Sum of 15 series terms. (b) Product of squares of first 30 even numbers.',
+        body:`<div class="step-text"><strong style="color:#93c5fd">Part (a) — Sum of 15 terms: 1/1² + 1/2² + ... + 1/15²</strong></div>
+<pre>sumSeries = <span class="num">0</span>;              <span class="cm">% initialise accumulator at 0</span>
+<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">15</span>
     sumSeries = sumSeries + (<span class="num">1</span> / i^<span class="num">2</span>);
 <span class="kw">end</span>
-<span class="fn">disp</span>(sumSeries)             <span class="cm">% display the result</span></pre>
-
-    <div class="step-text" style="margin-top:1rem"><strong style="color:#93c5fd">Part (b) — Product of squares of first 30 even numbers</strong>
-
-Even numbers: 2, 4, 6, ... 60. Their squares: 4, 16, 36...
-We need the PRODUCT (multiply them all together), not the sum.
-Start product at 1 (not 0 — multiplying by 0 gives 0!).</div>
-    <pre>product = <span class="num">1</span>;               <span class="cm">% initialise as 1 for multiplication</span>
-<span class="kw">for</span> i = <span class="num">2</span>:<span class="num">2</span>:<span class="num">60</span>            <span class="cm">% even numbers: 2,4,6...60 (30 terms)</span>
+<span class="fn">disp</span>(sumSeries)</pre>
+<div class="step-text" style="margin-top:.9rem"><strong style="color:#93c5fd">Part (b) — Product of squares of first 30 even numbers</strong>
+Even numbers: 2, 4, 6, ... 60. We MULTIPLY their squares (not sum).
+Start product at 1 — multiplying by 0 gives 0!</div>
+<pre>product = <span class="num">1</span>;               <span class="cm">% initialise at 1 for multiplication</span>
+<span class="kw">for</span> i = <span class="num">2</span>:<span class="num">2</span>:<span class="num">60</span>            <span class="cm">% 30 even numbers: 2,4,6...60</span>
     product = product * i^<span class="num">2</span>;
 <span class="kw">end</span>
 <span class="fn">disp</span>(product)</pre>
-    <div class="warn">Always initialise a SUM accumulator to 0. Always initialise a PRODUCT accumulator to 1. Getting these swapped is a common error.</div>
-  </div>
-</div>
-
-<!-- ════ Q5 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q5 · If/Else</div>
-    <div class="step-title">Write a grading program and test it with scores 67, 45, and 82.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">Step 1 — Write the program:</strong></div>
-    <pre>score = <span class="num">67</span>;              <span class="cm">% change this to test 45 and 82</span>
+<div class="warn">SUM accumulator starts at 0. PRODUCT accumulator starts at 1. Getting these swapped is a common error.</div>`
+      },
+      {
+        badge:'Q5 · Grading',
+        title:'Write a grading program for ≥80→A, ≥70→B, ≥60→C, ≥50→D. Test with 67, 45, 82.',
+        body:`<pre>score = <span class="num">67</span>;    <span class="cm">% change to test other values</span>
 
 <span class="kw">if</span> score >= <span class="num">80</span>
     <span class="fn">disp</span>(<span class="str">'A'</span>)
@@ -1984,167 +557,117 @@ Start product at 1 (not 0 — multiplying by 0 gives 0!).</div>
 <span class="kw">else</span>
     <span class="fn">disp</span>(<span class="str">'F'</span>)
 <span class="kw">end</span></pre>
-
-    <div class="step-text" style="margin-top:0.8rem"><strong style="color:#93c5fd">Step 2 — Test outputs (this is the answer to include in your exam):</strong></div>
-    <table class="info-table" style="margin-top:0.5rem">
-      <tr><th>Score</th><th>Condition met</th><th>Output</th></tr>
-      <tr><td>67</td><td>67 ≥ 60 → elseif score >= 60</td><td><strong style="color:#86efac">C</strong></td></tr>
-      <tr><td>45</td><td>45 is below all conditions → else</td><td><strong style="color:#fda4af">F</strong></td></tr>
-      <tr><td>82</td><td>82 ≥ 80 → first if</td><td><strong style="color:#86efac">A</strong></td></tr>
-    </table>
-    <div class="exam">Always check conditions from the TOP down — MATLAB stops at the FIRST true condition. If you put >= 50 before >= 80, a score of 82 would get 'D' — wrong!</div>
-  </div>
-</div>
-
-<!-- ════ Q6 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--accent);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q6 · Matrix</div>
-    <div class="step-title">Matrix operations on G, F, H — determinants, transpose, product, inverse.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#93c5fd">First — define the matrices:</strong></div>
-    <pre>G = [<span class="num">6</span>,-<span class="num">4</span>,<span class="num">0</span>; <span class="num">0</span>,<span class="num">2</span>,<span class="num">5</span>; <span class="num">2</span>,-<span class="num">2</span>,<span class="num">9</span>];
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>Score</th><th>Condition Met</th><th>Output</th></tr>
+  <tr><td>67</td><td>67 ≥ 60 → elseif score >= 60</td><td style="color:#86efac"><strong>C</strong></td></tr>
+  <tr><td>45</td><td>Below all conditions → else</td><td style="color:#fda4af"><strong>F</strong></td></tr>
+  <tr><td>82</td><td>82 ≥ 80 → first if</td><td style="color:#86efac"><strong>A</strong></td></tr>
+</table>
+<div class="exam">Always order conditions HIGHEST to LOWEST. If you put >= 50 before >= 80, a score of 82 would get 'D' — wrong!</div>`
+      },
+      {
+        badge:'Q6 · Matrices',
+        title:'Matrix operations on G, F, H — determinants, transpose, product diagonal, inverse.',
+        body:`<div class="step-text"><strong style="color:#93c5fd">First — define the matrices:</strong></div>
+<pre>G = [<span class="num">6</span>,-<span class="num">4</span>,<span class="num">0</span>; <span class="num">0</span>,<span class="num">2</span>,<span class="num">5</span>; <span class="num">2</span>,-<span class="num">2</span>,<span class="num">9</span>];
 F = [<span class="num">3</span>,<span class="num">0</span>,-<span class="num">5</span>; -<span class="num">4</span>,<span class="num">3</span>,-<span class="num">2</span>; <span class="num">2</span>,<span class="num">3</span>,-<span class="num">7</span>];
 H = [<span class="num">1</span>,-<span class="num">2</span>,<span class="num">0</span>; <span class="num">0</span>,<span class="num">2</span>,-<span class="num">1</span>; <span class="num">4</span>,<span class="num">2</span>,<span class="num">4</span>];</pre>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#93c5fd">Part (a) — Determinants of F, G, H as a new matrix J:</strong>
-The determinant of each matrix becomes one element of J. We arrange them as a 1×3 row vector.</div>
-    <pre>J = [<span class="fn">det</span>(F), <span class="fn">det</span>(G), <span class="fn">det</span>(H)];</pre>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#93c5fd">Part (b) — Transpose of 3rd row of F + 3rd column of G → new matrix K:</strong>
-▪ 3rd row of F = F(3,:) → this is a row vector [2, 3, -7]
-▪ Transpose of that = F(3,:)' → becomes a column vector
-▪ 3rd column of G = G(:,3) → already a column vector [0; 5; 9]
-▪ Combine them side by side into matrix K</div>
-    <pre>K = [F(<span class="num">3</span>,:)', G(:,<span class="num">3</span>)];</pre>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#93c5fd">Part (c) — Diagonal of the product of J and K:</strong>
-J is 1×3, K is 3×2, so J*K = 1×2 (not square). diag() works on rectangular matrices too.</div>
-    <pre>result = <span class="fn">diag</span>(J * K);</pre>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#93c5fd">Part (d) — Inverse and determinant of (G .* H):</strong>
-G .* H means element-wise multiplication (NOT full matrix multiplication).</div>
-    <pre>GH = G .* H;             <span class="cm">% element-wise product</span>
-inverseGH = <span class="fn">inv</span>(GH);    <span class="cm">% inverse of the result</span>
-detGH = <span class="fn">det</span>(GH);        <span class="cm">% determinant of the result</span>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#93c5fd">(a) Determinants of F, G, H as new matrix J:</strong></div>
+<pre>J = [<span class="fn">det</span>(F), <span class="fn">det</span>(G), <span class="fn">det</span>(H)];</pre>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#93c5fd">(b) Transpose of 3rd row of F + 3rd column of G → matrix K:</strong>
+▪ 3rd row of F = F(3,:) → transpose = F(3,:)'  (becomes column)
+▪ 3rd column of G = G(:,3) → already a column
+▪ Place side by side as K</div>
+<pre>K = [F(<span class="num">3</span>,:)', G(:,<span class="num">3</span>)];</pre>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#93c5fd">(c) Diagonal of product of J and K:</strong></div>
+<pre>result = <span class="fn">diag</span>(J * K);</pre>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#93c5fd">(d) Inverse and determinant of (G .* H):</strong></div>
+<pre>GH = G .* H;          <span class="cm">% element-wise product</span>
+inverseGH = <span class="fn">inv</span>(GH);
+detGH = <span class="fn">det</span>(GH);
 <span class="fn">disp</span>(inverseGH)
 <span class="fn">disp</span>(detGH)</pre>
-    <div class="tip">Remember: .* is element-wise (each element multiplied by the corresponding element). * is full matrix multiplication. They give VERY different results.</div>
-  </div>
-</div>
-
-<!-- ── SESSION 2 LABEL ── -->
-<div style="background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.25);border-radius:10px;padding:0.7rem 1rem;margin:1.8rem 0 1.2rem;font-size:0.78rem;color:#d8b4fe;font-weight:700;letter-spacing:0.06em;text-transform:uppercase">
-  📅 2022 / 2023 — First Semester Examination (Variation 1)
-</div>
-
-<!-- ════ Q7 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--purple);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q1 · ATM</div>
-    <div class="step-title">Write a pseudocode and flowchart for withdrawing cash at an ATM.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#d8b4fe">Pseudocode (well-structured — with constraint checks):</strong></div>
-    <pre class="pseudo">START
+<div class="tip">.* is element-wise multiplication. * is full matrix multiplication. These give very different results.</div>`
+      },
+    ]
+  },
+  {
+    session:'2022/2023 — Variation 1',
+    color:'#a855f7',
+    questions:[
+      {
+        badge:'Q1 · ATM',
+        title:'Write a pseudocode and flowchart for withdrawing cash at an ATM.',
+        body:`<div class="step-text"><strong style="color:#d8b4fe">Pseudocode (well-structured — with constraint checks):</strong></div>
+<pre class="pseudo">START
   ARRIVE at ATM machine
-  CHECK: Is the ATM operational? IF NO → find another ATM, STOP
-  INSERT your debit card
-  ENTER your PIN
-  CHECK: Is PIN correct? IF NO → re-enter (max 3 attempts), IF exceeded → card retained, STOP
+  CHECK: Is ATM operational? IF NO → find another ATM → STOP
+  INSERT debit card
+  ENTER PIN
+  CHECK: Is PIN correct? IF NO → re-enter (max 3 attempts)
+         IF attempts exceeded → card retained → STOP
   SELECT "Withdraw Cash"
-  ENTER amount to withdraw
-  CHECK: Is amount ≤ account balance? IF NO → PRINT "Insufficient funds", go back
-  CHECK: Is amount ≤ ATM cash available? IF NO → PRINT "ATM limit exceeded", go back
+  ENTER amount
+  CHECK: Is amount ≤ account balance? IF NO → PRINT "Insufficient funds" → go back
+  CHECK: Is amount ≤ ATM cash limit? IF NO → PRINT "ATM limit exceeded" → go back
   ATM DISPENSES cash
   COLLECT cash
   SELECT: Print receipt? IF YES → collect receipt
   REMOVE card
-  STOP</pre>
-
-    <div class="step-text" style="margin-top:0.8rem"><strong style="color:#d8b4fe">Flowchart symbols to use:</strong></div>
-    <table class="info-table" style="margin-top:0.5rem">
-      <tr><th>Action</th><th>Symbol to use</th></tr>
-      <tr><td>START / STOP</td><td>Oval (Terminal)</td></tr>
-      <tr><td>Insert card, enter PIN, enter amount, collect cash</td><td>Parallelogram (Input/Output)</td></tr>
-      <tr><td>Is PIN correct? Is balance sufficient? Is ATM operational?</td><td>Diamond (Decision)</td></tr>
-      <tr><td>Dispense cash, retain card</td><td>Rectangle (Process)</td></tr>
-    </table>
-    <div class="exam">This question tests the same skills as the supermarket question. The key marks come from (1) using the correct symbols, (2) including constraint checks like PIN verification and balance check, and (3) having exactly ONE start point.</div>
-  </div>
-</div>
-
-<!-- ════ Q8 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--purple);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q2b · Names</div>
-    <div class="step-title">Classify each variable name as valid or invalid in MATLAB.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#d8b4fe">Rules to apply:</strong>
-▪ Must START with a letter
-▪ No spaces, no special characters (. is invalid)
-▪ Cannot be a MATLAB reserved keyword
-▪ Case-sensitive — but just being uppercase does NOT make it invalid
-▪ MATLAB built-in function names (like plot, subplot) are technically VALID variable names but are very BAD practice — they override the built-in</div>
-
-    <table class="info-table" style="margin-top:0.8rem">
-      <tr><th>#</th><th>Name</th><th>Valid/Invalid</th><th>Reason</th></tr>
-      <tr><td>1</td><td>San</td><td style="color:#86efac">✅ Valid</td><td>Starts with letter, no special chars, not a keyword</td></tr>
-      <tr><td>2</td><td>2sum</td><td style="color:#fda4af">❌ Invalid</td><td>Starts with a number — not allowed</td></tr>
-      <tr><td>3</td><td>which</td><td style="color:#fda4af">❌ Invalid</td><td>Reserved MATLAB keyword — cannot be used as a variable</td></tr>
-      <tr><td>4</td><td>who</td><td style="color:#fda4af">❌ Invalid</td><td>Reserved MATLAB keyword (lists workspace variables)</td></tr>
-      <tr><td>5</td><td>subplot</td><td style="color:#fcd34d">⚠️ Valid but Risky</td><td>Technically valid but overrides the built-in subplot() function</td></tr>
-      <tr><td>6</td><td>plot</td><td style="color:#fcd34d">⚠️ Valid but Risky</td><td>Technically valid but overrides the built-in plot() function</td></tr>
-      <tr><td>7</td><td>next</td><td style="color:#86efac">✅ Valid</td><td>Starts with letter, no special chars, not a MATLAB keyword</td></tr>
-      <tr><td>8</td><td>AtM2.com</td><td style="color:#fda4af">❌ Invalid</td><td>Contains a special character (.) — not allowed</td></tr>
-    </table>
-    <div class="tip">In your tabulated answer: Column 1 = Classification (Valid/Invalid), Column 2 = MATLAB Response (what MATLAB does), Column 3 = Your Response (your reason).</div>
-  </div>
-</div>
-
-<!-- ════ Q9 ════ -->
-<div class="step revealed" style="margin-bottom:0.75rem">
-  <div class="step-header" onclick="this.parentElement.classList.toggle('open')">
-    <div class="step-num" style="background:var(--purple);color:#fff;min-width:80px;border-radius:8px;font-size:0.7rem">Q3 · Debug</div>
-    <div class="step-title">Find and fix ALL errors in the buggy code — then make it do what it's supposed to do.</div>
-    <div class="step-toggle">▼</div>
-  </div>
-  <div class="step-body">
-    <div class="step-text"><strong style="color:#d8b4fe">The original (buggy) code:</strong></div>
-    <pre style="border-left-color:var(--rose)">sumEven = <span class="num">0</span>;
-<span class="kw">for</span> k = <span class="num">10</span>:<span class="num">7</span>:<span class="num">100</span>
-    <span class="kw">if</span> <span class="fn">mod</span>(k,<span class="num">7</span>) == <span class="num">0</span>
-        m = <span class="num">1</span>/k;
-        sumEven = m;        <span class="cm">% ← BUG HERE</span>
-    <span class="kw">end</span>
-<span class="kw">end</span>
+STOP</pre>
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>Action</th><th>Flowchart Symbol</th></tr>
+  <tr><td>START / STOP</td><td>Oval (Terminal)</td></tr>
+  <tr><td>Insert card, enter amount, collect cash</td><td>Parallelogram (I/O)</td></tr>
+  <tr><td>Is PIN correct? Balance sufficient?</td><td>Diamond (Decision)</td></tr>
+  <tr><td>Dispense cash, retain card</td><td>Rectangle (Process)</td></tr>
+</table>
+<div class="exam">The key marks: (1) correct symbols, (2) constraint checks (PIN, balance, ATM limit), (3) exactly ONE start point.</div>`
+      },
+      {
+        badge:'Q2b · Variable Names',
+        title:'Classify each name as valid or invalid in MATLAB.',
+        body:`<div class="step-text"><strong style="color:#d8b4fe">Rules: must start with a letter, no spaces/special chars, not a keyword, max 31 chars, case-sensitive.</strong></div>
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>#</th><th>Name</th><th>Verdict</th><th>Reason</th></tr>
+  <tr><td>1</td><td>San</td><td style="color:#86efac">✅ Valid</td><td>Starts with letter, no special chars, not a keyword</td></tr>
+  <tr><td>2</td><td>2sum</td><td style="color:#fda4af">❌ Invalid</td><td>Starts with a number — not allowed</td></tr>
+  <tr><td>3</td><td>which</td><td style="color:#fda4af">❌ Invalid</td><td>Reserved MATLAB keyword</td></tr>
+  <tr><td>4</td><td>who</td><td style="color:#fda4af">❌ Invalid</td><td>Reserved MATLAB keyword (lists workspace variables)</td></tr>
+  <tr><td>5</td><td>subplot</td><td style="color:#fcd34d">⚠️ Valid but Risky</td><td>Valid name but overrides built-in subplot() function</td></tr>
+  <tr><td>6</td><td>plot</td><td style="color:#fcd34d">⚠️ Valid but Risky</td><td>Valid name but overrides built-in plot() function</td></tr>
+  <tr><td>7</td><td>next</td><td style="color:#86efac">✅ Valid</td><td>Starts with letter, no special chars, not a keyword</td></tr>
+  <tr><td>8</td><td>AtM2.com</td><td style="color:#fda4af">❌ Invalid</td><td>Contains special character (.) — not allowed</td></tr>
+</table>
+<div class="tip">In your tabulated answer: Column 1 = Classification, Column 2 = MATLAB Response, Column 3 = Your Reason.</div>`
+      },
+      {
+        badge:'Q3 · Debug',
+        title:'Find ALL errors in the buggy code and rewrite it correctly.',
+        body:`<div class="step-text"><strong style="color:#d8b4fe">The original buggy code:</strong></div>
+<pre class="bad">sumEven = 0;
+for k = 10:7:100
+    if mod(k,7) == 0
+        m = 1/k;
+        sumEven = m;    % ← BUG
+    end
+end
 sumEven</pre>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#d8b4fe">Step 1 — Understand what it SHOULD do:</strong>
-The task says: find the inverse of the SUM of all odd numbers that are NOT divisible by 3 BUT ARE divisible by 7, between -100 to 10.
-
-Let's decode that carefully:
-▪ Range: -100 to 10 (not 10 to 100)
-▪ Numbers must be: odd AND divisible by 7 AND NOT divisible by 3
-▪ Find their sum, then take the inverse (1/sum)</div>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#d8b4fe">Step 2 — List ALL the bugs:</strong></div>
-    <table class="info-table" style="margin-top:0.5rem">
-      <tr><th>#</th><th>Bug Found</th><th>Why It's Wrong</th><th>Fix</th></tr>
-      <tr><td>1</td><td><code>for k = 10:7:100</code></td><td>Range is wrong — should be -100 to 10, not 10 to 100. Also step of 7 pre-filters — we should check all numbers.</td><td><code>for k = -100:10</code></td></tr>
-      <tr><td>2</td><td><code>if mod(k,7) == 0</code></td><td>Only checks divisibility by 7. Missing: must also be ODD and NOT divisible by 3</td><td><code>if mod(k,2) ~= 0 && mod(k,7) == 0 && mod(k,3) ~= 0</code></td></tr>
-      <tr><td>3</td><td><code>sumEven = m</code></td><td>This REPLACES sumEven with m each iteration — it never accumulates. Should ADD m to sumEven</td><td><code>sumEven = sumEven + m</code></td></tr>
-      <tr><td>4</td><td>Variable name <code>sumEven</code></td><td>Misleading name — we are summing ODD numbers, not even ones</td><td>Rename to <code>sumOdd</code></td></tr>
-      <tr><td>5</td><td>Final answer</td><td>The task asks for the INVERSE of the sum (1/sum), but code just displays the sum</td><td>Add <code>result = 1/sumOdd; disp(result)</code></td></tr>
-    </table>
-
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#d8b4fe">Step 3 — The fully corrected code:</strong></div>
-    <pre>sumOdd = <span class="num">0</span>;
+<div class="step-text" style="margin-top:.9rem"><strong style="color:#d8b4fe">Task description (what it SHOULD do):</strong>
+Find the inverse of the SUM of all ODD numbers that are:
+▪ NOT divisible by 3
+▪ BUT ARE divisible by 7
+▪ In the range -100 to 10</div>
+<table class="info-table" style="margin-top:.8rem">
+  <tr><th>#</th><th>Bug</th><th>Why Wrong</th><th>Fix</th></tr>
+  <tr><td>1</td><td><code>for k = 10:7:100</code></td><td>Range is wrong (should be -100 to 10). Step of 7 pre-filters incorrectly.</td><td><code>for k = -100:10</code></td></tr>
+  <tr><td>2</td><td><code>if mod(k,7)==0</code></td><td>Only checks div by 7. Missing: must be ODD and NOT div by 3.</td><td><code>if mod(k,2)~=0 && mod(k,7)==0 && mod(k,3)~=0</code></td></tr>
+  <tr><td>3</td><td><code>sumEven = m</code></td><td>REPLACES sumEven each time instead of accumulating.</td><td><code>sumEven = sumEven + m</code></td></tr>
+  <tr><td>4</td><td>Name <code>sumEven</code></td><td>Misleading — we are summing ODD numbers.</td><td>Rename to <code>sumOdd</code></td></tr>
+  <tr><td>5</td><td>Final display</td><td>Task asks for INVERSE of the sum — missing 1/sum step.</td><td>Add <code>result = 1/sumOdd; disp(result)</code></td></tr>
+</table>
+<div class="step-text" style="margin-top:.9rem"><strong style="color:#d8b4fe">Fully corrected code:</strong></div>
+<pre>sumOdd = <span class="num">0</span>;
 <span class="kw">for</span> k = -<span class="num">100</span>:<span class="num">10</span>
     <span class="kw">if</span> <span class="fn">mod</span>(k,<span class="num">2</span>) ~= <span class="num">0</span> && <span class="fn">mod</span>(k,<span class="num">7</span>) == <span class="num">0</span> && <span class="fn">mod</span>(k,<span class="num">3</span>) ~= <span class="num">0</span>
         sumOdd = sumOdd + (<span class="num">1</span>/k);
@@ -2152,32 +675,231 @@ Let's decode that carefully:
 <span class="kw">end</span>
 result = <span class="num">1</span> / sumOdd;
 <span class="fn">disp</span>(result)</pre>
+<div class="step-text" style="margin-top:.8rem"><strong style="color:#d8b4fe">Numbers that qualify (verification):</strong>
+▪ -77: odd ✅ | div by 7 ✅ | NOT div by 3 ✅ → QUALIFIES
+▪ -49: odd ✅ | div by 7 ✅ | NOT div by 3 ✅ → QUALIFIES
+▪ -7:  odd ✅ | div by 7 ✅ | NOT div by 3 ✅ → QUALIFIES
+▪ 7:   odd ✅ | div by 7 ✅ | NOT div by 3 ✅ → QUALIFIES
+▪ -21: div by 7 ✅ BUT also div by 3 ❌ → does NOT qualify</div>
+<div class="exam">Debugging questions: always (1) read what the code SHOULD do, (2) list every bug explicitly, (3) write corrected code, (4) verify with examples.</div>`
+      },
+    ]
+  }
+];
 
-    <div class="step-text" style="margin-top:0.9rem"><strong style="color:#d8b4fe">Step 4 — Trace through to verify (which numbers qualify?):</strong>
-Odd numbers in -100 to 10, divisible by 7, NOT divisible by 3:
-▪ -77: odd ✅ | div by 7 ✅ | div by 3? (-77/3 = -25.67) ✅ not divisible → QUALIFIES
-▪ -49: odd ✅ | div by 7 ✅ | div by 3? no ✅ → QUALIFIES
-▪ -7: odd ✅ | div by 7 ✅ | div by 3? no ✅ → QUALIFIES
-▪ 7: odd ✅ | div by 7 ✅ | div by 3? no ✅ → QUALIFIES
-▪ -21: div by 7 ✅ but also div by 3 ❌ → does NOT qualify
-▪ -63: div by 7 ✅ but also div by 3 ❌ → does NOT qualify</div>
-    <div class="exam">Debugging questions are high-value in this course. Always: (1) read what the code SHOULD do, (2) trace what it ACTUALLY does, (3) list every bug explicitly, (4) write the corrected code.</div>
-  </div>
-</div>
+// ════════════════════════════════════════════════
+// ENGINE
+// ════════════════════════════════════════════════
+const revealedSteps = {};
+lessons.forEach(l => { revealedSteps[l.id] = 0; });
 
-<!-- Bottom tip -->
-<div style="background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(168,85,247,0.06));border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:1.3rem;margin-top:1.5rem">
-  <div style="color:var(--accent);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.7rem">🎯 Exam Pattern Summary</div>
-  <ul class="summary-list">
-    <li>Error types (Q1) appear in almost every session — memorise all 3 with examples</li>
-    <li>Algorithm + flowchart questions (Q2, Q1-2023) always need a real-world scenario</li>
-    <li>Math translation (Q3) requires knowing sqrt(), ^(1/n), tan(), pi, and explicit * for multiplication</li>
-    <li>Loop programs (Q4) always involve an accumulator — remember sum=0, product=1</li>
-    <li>Grading programs (Q5) test if/elseif/else — order your conditions highest first</li>
-    <li>Matrix questions (Q6) combine det(), inv(), transpose, slicing, and .* vs *</li>
-    <li>Variable name classification (Q2b-2023) — know the 5 naming rules cold</li>
-    <li>Debugging (Q3-2023) — read intent → trace bugs → fix → verify with examples</li>
-  </ul>
-</div>
-`;
+function getTotalSteps(){
+  let t=0; lessons.forEach(l => t+=l.steps.length); return t;
+}
+function getCompletedSteps(){
+  let c=0; lessons.forEach(l => c+=revealedSteps[l.id]); return c;
+}
+function updateProgress(){
+  const total=getTotalSteps(), done=getCompletedSteps();
+  document.getElementById('progressFill').style.width=(total?done/total*100:0)+'%';
+  document.getElementById('progressCount').textContent=done+' / '+total+' steps';
+}
 
+function buildStepBodyHTML(s){
+  let h='';
+  if(s.content) h+=`<div class="step-text">${s.content}</div>`;
+  if(s.code){
+    const cls=s.isPseudo?'pseudo':'';
+    h+=`<pre class="${cls}">${s.code}</pre>`;
+  }
+  if(s.html) h+=s.html;
+  if(s.tip) h+=`<div class="tip">${s.tip.replace(/\n/g,'<br>')}</div>`;
+  if(s.note) h+=`<div class="note">${s.note}</div>`;
+  if(s.warn) h+=`<div class="warn">${s.warn}</div>`;
+  if(s.exam) h+=`<div class="exam">${s.exam}</div>`;
+  return h;
+}
+
+function renderTabs(){
+  const el=document.getElementById('navTabs');
+  lessons.forEach(l=>{
+    const b=document.createElement('button');
+    b.className='tab-btn'; b.id='tab-'+l.id;
+    const words=l.title.split(' ');
+    b.textContent=l.icon+' '+words.slice(0,3).join(' ');
+    b.onclick=()=>showLesson(l.id);
+    el.appendChild(b);
+  });
+  // Past questions tab
+  const pq=document.createElement('button');
+  pq.className='tab-btn pq-tab'; pq.id='tab-pastq';
+  pq.textContent='📋 Past Questions';
+  pq.onclick=()=>showPanel('pastq');
+  el.appendChild(pq);
+}
+
+function renderLessons(){
+  const lc=document.getElementById('lessonContainer');
+  lessons.forEach(l=>{
+    const panel=document.createElement('div');
+    panel.className='lesson-panel'; panel.id='panel-'+l.id;
+
+    const stepsHTML=l.steps.map((s,i)=>`
+      <div class="step ${i===0?'revealed open':'locked'}" id="step-${l.id}-${i}">
+        <div class="step-header" onclick="toggleStep('${l.id}',${i})">
+          <div class="step-num">${i+1}</div>
+          <div class="step-title">${s.title}</div>
+          <div class="step-toggle">▼</div>
+        </div>
+        <div class="step-body">${buildStepBodyHTML(s)}</div>
+      </div>`).join('');
+
+    const q=l.quiz;
+    const opts=q.options.map((o,i)=>
+      `<button class="quiz-opt" onclick="checkQuiz('${l.id}',${i})">${o}</button>`).join('');
+
+    panel.innerHTML=`
+      <div class="lesson-header">
+        <div class="lesson-icon" style="background:${l.color}18;color:${l.color}">${l.icon}</div>
+        <div><h2>${l.title}</h2><p>${l.subtitle}</p></div>
+      </div>
+      <div class="steps-container" id="steps-${l.id}">${stepsHTML}</div>
+      <button class="reveal-btn" id="revealBtn-${l.id}" onclick="revealNext('${l.id}')">Unlock Next Step →</button>
+      <div class="quiz-section" id="quiz-${l.id}" style="display:none">
+        <h3>🧠 Quick Check</h3>
+        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-options" id="quizOpts-${l.id}">${opts}</div>
+        <div class="quiz-feedback" id="quizFeedback-${l.id}"></div>
+      </div>
+      <div class="summary-box" id="summary-${l.id}" style="display:none">
+        <h3>✅ Class Summary</h3>
+        <ul class="summary-list">${l.summary.map(s=>`<li>${s}</li>`).join('')}</ul>
+      </div>
+      <button class="next-lesson-btn" id="nextBtn-${l.id}" onclick="goNext('${l.id}')">Next Class →</button>`;
+    lc.appendChild(panel);
+  });
+  lessons.forEach(l=>{ revealedSteps[l.id]=1; updateRevealBtn(l.id); });
+}
+
+function renderPastQuestions(){
+  const lc=document.getElementById('lessonContainer');
+  const panel=document.createElement('div');
+  panel.className='lesson-panel'; panel.id='panel-pastq';
+
+  let html=`<div class="lesson-header">
+    <div class="lesson-icon" style="background:#f59e0b18;color:#f59e0b">📋</div>
+    <div><h2>Past Examination Questions</h2><p>2021/2022 &amp; 2022/2023 — with full step-by-step solutions. Click any question to expand.</p></div>
+  </div>`;
+
+  pastQuestions.forEach(session=>{
+    const isV2=session.session.includes('2022/2023');
+    html+=`<div class="pq-section-label ${isV2?'v2':''}">📅 ${session.session}</div>`;
+    session.questions.forEach((q,i)=>{
+      html+=`
+        <div class="pq-card" id="pqcard-${session.session.replace(/\//g,'')}-${i}">
+          <div class="pq-card-header" onclick="togglePQ(this)">
+            <span class="pq-badge" style="background:${session.color}20;color:${session.color};border:1px solid ${session.color}40">${q.badge}</span>
+            <span class="pq-card-title">${q.title}</span>
+            <span class="pq-toggle">▼</span>
+          </div>
+          <div class="pq-card-body">${q.body}</div>
+        </div>`;
+    });
+  });
+
+  html+=`<div class="exam-pattern">
+    <h3>🎯 Exam Pattern — What Repeats Every Year</h3>
+    <ul class="summary-list">
+      <li>Error types (Q1 2021) — appears in almost every session. Know all 3 with examples.</li>
+      <li>Algorithm + flowchart (Q2 2021, Q1 2022) — always a real-world scenario. Include constraint checks.</li>
+      <li>Math translation (Q3 2021) — know sqrt(), ^(1/n), tan(), pi, and explicit * for multiplication.</li>
+      <li>Loop programs (Q4 2021) — always involves an accumulator. SUM=0, PRODUCT=1.</li>
+      <li>Grading programs (Q5 2021) — order conditions HIGHEST to LOWEST.</li>
+      <li>Matrix operations (Q6 2021) — combines det(), inv(), transpose, slicing, .* vs *.</li>
+      <li>Variable name classification (Q2b 2022) — know the 5 naming rules cold.</li>
+      <li>Debugging (Q3 2022) — read intent → list all bugs → fix → verify with examples.</li>
+    </ul>
+  </div>`;
+
+  panel.innerHTML=html;
+  lc.appendChild(panel);
+}
+
+function togglePQ(header){
+  const card=header.parentElement;
+  card.classList.toggle('open');
+}
+
+function showPanel(id){
+  document.querySelectorAll('.lesson-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function showLesson(id){showPanel(id);}
+
+function toggleStep(lessonId,stepIdx){
+  const step=document.getElementById(`step-${lessonId}-${stepIdx}`);
+  if(!step.classList.contains('revealed')) return;
+  step.classList.toggle('open');
+}
+
+function revealNext(lessonId){
+  const lesson=lessons.find(l=>l.id===lessonId);
+  const next=revealedSteps[lessonId];
+  if(next>=lesson.steps.length) return;
+  const step=document.getElementById(`step-${lessonId}-${next}`);
+  step.classList.remove('locked');
+  step.classList.add('revealed','open');
+  for(let i=0;i<next;i++) document.getElementById(`step-${lessonId}-${i}`)?.classList.remove('open');
+  revealedSteps[lessonId]=next+1;
+  updateRevealBtn(lessonId);
+  updateProgress();
+}
+
+function updateRevealBtn(lessonId){
+  const lesson=lessons.find(l=>l.id===lessonId);
+  const btn=document.getElementById('revealBtn-'+lessonId);
+  const rem=lesson.steps.length-revealedSteps[lessonId];
+  if(rem<=0){
+    btn.style.display='none';
+    document.getElementById('quiz-'+lessonId).style.display='block';
+  } else {
+    btn.textContent=`Unlock Next Step → (${rem} remaining)`;
+  }
+}
+
+function checkQuiz(lessonId,chosen){
+  const lesson=lessons.find(l=>l.id===lessonId);
+  const opts=document.querySelectorAll(`#quizOpts-${lessonId} .quiz-opt`);
+  const fb=document.getElementById('quizFeedback-'+lessonId);
+  opts.forEach(o=>o.disabled=true);
+  if(chosen===lesson.quiz.answer){
+    opts[chosen].classList.add('correct');
+    fb.textContent=lesson.quiz.feedback; fb.style.color='#86efac';
+    document.getElementById('summary-'+lessonId).style.display='block';
+    const idx=lessons.findIndex(l=>l.id===lessonId);
+    if(idx<lessons.length-1) document.getElementById('nextBtn-'+lessonId).style.display='block';
+    document.getElementById('tab-'+lessonId).classList.add('done');
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[lesson.quiz.answer].classList.add('correct');
+    fb.textContent=lesson.quiz.wrongFeedback; fb.style.color='#fda4af';
+  }
+}
+
+function goNext(id){
+  const idx=lessons.findIndex(l=>l.id===id);
+  if(idx<lessons.length-1) showLesson(lessons[idx+1].id);
+}
+
+// Boot
+renderTabs();
+renderLessons();
+renderPastQuestions();
+showLesson(lessons[0].id);
+updateProgress();
+</script>
+</body>
+</html>
