@@ -8,25 +8,26 @@
 <style>
 :root{--bg:#07090f;--surface:#0f1520;--card:#131c2e;--card2:#0e1828;--border:#1a2740;--accent:#3b82f6;--green:#22c55e;--amber:#f59e0b;--rose:#f43f5e;--purple:#a855f7;--cyan:#06b6d4;--text:#e2e8f0;--text2:#94a3b8;--muted:#475569;--code-bg:#060a12;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.5;}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 10%,rgba(59,130,246,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 60% at 85% 85%,rgba(168,85,247,.04) 0%,transparent 60%);pointer-events:none;z-index:0;}
 body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(59,130,246,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-.wrapper{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem;}
+.wrapper{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem;width:100%;}
 header{padding:3.5rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem;text-align:center;}
-.course-tag{display:inline-block;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--accent);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1.4rem;}
+.course-tag{display:inline-block;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--accent);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1.4rem;transition:all .2s ease;}
 header h1{font-family:'DM Serif Display',serif;font-size:clamp(2rem,6vw,3.6rem);font-weight:400;line-height:1.05;margin-bottom:.9rem;color:#f1f5f9;}
 header h1 em{font-style:italic;color:var(--accent);}
 header p{color:var(--text2);font-size:.95rem;font-weight:300;max-width:480px;margin:0 auto;line-height:1.6;}
 .header-meta{display:flex;justify-content:center;gap:1rem;margin-top:1.5rem;flex-wrap:wrap;}
-.meta-pill{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .8rem;font-size:.74rem;color:var(--text2);font-weight:500;}
-.progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem;margin-bottom:1.8rem;display:flex;align-items:center;gap:1rem;}
+.meta-pill{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .8rem;font-size:.74rem;color:var(--text2);font-weight:500;transition:all .2s ease;}
+.progress-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem 1.4rem;margin-bottom:1.8rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;width:100%;}
 .progress-label{font-size:.74rem;color:var(--text2);white-space:nowrap;font-weight:600;}
-.progress-bar-bg{flex:1;height:5px;background:var(--border);border-radius:100px;overflow:hidden;}
+.progress-bar-bg{flex:1;height:5px;background:var(--border);border-radius:100px;overflow:hidden;min-width:80px;}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:100px;transition:width .5s ease;width:0%;}
 .progress-count{font-size:.74rem;color:var(--accent);font-weight:700;white-space:nowrap;}
-.nav-tabs{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:2rem;scrollbar-width:none;}
+.nav-tabs{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:2rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.tab-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;padding:.5rem .9rem;border-radius:8px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.tab-btn{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;padding:.5rem .9rem;border-radius:8px;cursor:pointer;transition:all .18s;white-space:nowrap;min-height:36px;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;}
 .tab-btn:hover{border-color:var(--accent);color:var(--text);}
 .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
 .tab-btn.done{border-color:var(--green);color:var(--green);}
@@ -43,7 +44,7 @@ header p{color:var(--text2);font-size:.95rem;font-weight:300;max-width:480px;mar
 .step{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
 .step.revealed{border-color:rgba(59,130,246,.2);}
 .step.locked{opacity:.35;pointer-events:none;}
-.step-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;}
+.step-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;min-height:44px;-webkit-tap-highlight-color:transparent;}
 .step-num{width:26px;height:26px;border-radius:7px;background:var(--border);color:var(--muted);font-size:.68rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
 .step.revealed .step-num{background:var(--accent);color:#fff;}
 .step-title{font-size:.87rem;font-weight:600;flex:1;line-height:1.3;}
@@ -51,8 +52,8 @@ header p{color:var(--text2);font-size:.95rem;font-weight:300;max-width:480px;mar
 .step.open .step-toggle{transform:rotate(180deg);}
 .step-body{display:none;padding:0 1.1rem 1.1rem;border-top:1px solid var(--border);}
 .step.open .step-body{display:block;}
-.step-text{font-size:.86rem;line-height:1.85;color:#cbd5e1;padding-top:.9rem;white-space:pre-wrap;}
-pre{background:var(--code-bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:1rem 1.1rem;margin:.8rem 0;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:.79rem;line-height:1.75;color:#93c5fd;}
+.step-text{font-size:.86rem;line-height:1.85;color:#cbd5e1;padding-top:.9rem;white-space:pre-wrap;word-break:break-word;}
+pre{background:var(--code-bg);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:1rem 1.1rem;margin:.8rem 0;overflow-x:auto;-webkit-overflow-scrolling:touch;font-family:'JetBrains Mono',monospace;font-size:.79rem;line-height:1.75;color:#93c5fd;}
 pre.pseudo{border-left-color:var(--amber);color:#fde68a;}
 pre.bad{border-left-color:var(--rose);color:#fca5a5;}
 .kw{color:#c084fc;font-weight:700;}.fn{color:#34d399;}.str{color:#fbbf24;}.cm{color:#374151;font-style:italic;}.num{color:#fb923c;}
@@ -63,16 +64,17 @@ pre.bad{border-left-color:var(--rose);color:#fca5a5;}
 .exam{background:rgba(168,85,247,.07);border:1px solid rgba(168,85,247,.2);color:#d8b4fe;}.exam::before{content:'📝 Exam Tip: ';font-weight:700;}
 .info-table{width:100%;border-collapse:collapse;margin-top:.8rem;font-size:.79rem;}
 .info-table th{background:rgba(59,130,246,.1);color:var(--accent);text-align:left;padding:.55rem .75rem;font-weight:700;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--border);}
-.info-table td{padding:.5rem .75rem;border-bottom:1px solid var(--border);color:#cbd5e1;line-height:1.5;vertical-align:top;}
+.info-table td{padding:.5rem .75rem;border-bottom:1px solid var(--border);color:#cbd5e1;line-height:1.5;vertical-align:top;word-break:break-word;}
 .info-table tr:last-child td{border-bottom:none;}
 .info-table tr:hover td{background:rgba(59,130,246,.03);}
-.reveal-btn{display:block;width:100%;margin-top:1.3rem;padding:.8rem;background:linear-gradient(135deg,var(--accent),#1d4ed8);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:.02em;}
+.reveal-btn{display:block;width:100%;margin-top:1.3rem;padding:.8rem;background:linear-gradient(135deg,var(--accent),#1d4ed8);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;transition:all .18s;letter-spacing:.02em;min-height:44px;-webkit-tap-highlight-color:transparent;}
 .reveal-btn:hover{opacity:.88;transform:translateY(-1px);}
+.reveal-btn:active{transform:translateY(0);}
 .quiz-section{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:1.3rem;margin-top:1.8rem;}
 .quiz-section h3{font-size:.8rem;font-weight:700;margin-bottom:1rem;color:var(--amber);letter-spacing:.05em;text-transform:uppercase;}
 .quiz-q{font-size:.87rem;color:var(--text);margin-bottom:.9rem;line-height:1.6;font-weight:500;}
 .quiz-options{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.8rem;}
-.quiz-opt{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;font-size:.82rem;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;color:var(--text);text-align:left;}
+.quiz-opt{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.65rem 1rem;font-size:.82rem;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif;color:var(--text);text-align:left;min-height:40px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;}
 .quiz-opt:hover{border-color:var(--accent);background:rgba(59,130,246,.1);}
 .quiz-opt.correct{border-color:var(--green);background:rgba(34,197,94,.1);color:#86efac;}
 .quiz-opt.wrong{border-color:var(--rose);background:rgba(244,63,94,.1);color:#fda4af;}
@@ -82,17 +84,18 @@ pre.bad{border-left-color:var(--rose);color:#fca5a5;}
 .summary-list{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
 .summary-list li{font-size:.83rem;color:#cbd5e1;padding-left:1.1rem;position:relative;line-height:1.6;}
 .summary-list li::before{content:'▸';position:absolute;left:0;color:var(--accent);}
-.next-lesson-btn{display:none;width:100%;margin-top:.8rem;padding:.9rem;background:linear-gradient(135deg,var(--purple),#7c3aed);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.87rem;font-weight:700;cursor:pointer;transition:all .18s;}
+.next-lesson-btn{display:none;width:100%;margin-top:.8rem;padding:.9rem;background:linear-gradient(135deg,var(--purple),#7c3aed);border:none;border-radius:10px;color:#fff;font-family:'DM Sans',sans-serif;font-size:.87rem;font-weight:700;cursor:pointer;transition:all .18s;min-height:44px;-webkit-tap-highlight-color:transparent;}
 .next-lesson-btn:hover{opacity:.9;transform:translateY(-1px);}
+.next-lesson-btn:active{transform:translateY(0);}
 .algo-steps{display:flex;flex-direction:column;gap:0;margin:.8rem 0;}
 .algo-step{display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0 .7rem 1rem;border-left:2px solid var(--border);position:relative;}
-.algo-step::before{content:attr(data-n);position:absolute;left:-10px;top:.7rem;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:.6rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.algo-step::before{content:attr(data-n);position:absolute;left:-10px;top:.7rem;width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:.6rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .algo-step-text{font-size:.83rem;color:#cbd5e1;line-height:1.6;}
 /* Past questions specific */
 .pq-section-label{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:.65rem 1rem;margin-bottom:1.2rem;font-size:.76rem;color:#fcd34d;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
 .pq-section-label.v2{background:rgba(168,85,247,.08);border-color:rgba(168,85,247,.25);color:#d8b4fe;}
 .pq-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:.75rem;}
-.pq-card-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;}
+.pq-card-header{padding:.9rem 1.1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;user-select:none;min-height:44px;-webkit-tap-highlight-color:transparent;}
 .pq-card-header:hover{background:rgba(59,130,246,.04);}
 .pq-badge{padding:.25rem .7rem;border-radius:6px;font-size:.68rem;font-weight:700;white-space:nowrap;flex-shrink:0;}
 .pq-card-title{font-size:.86rem;font-weight:600;flex:1;line-height:1.3;}
@@ -108,50 +111,113 @@ pre.bad{border-left-color:var(--rose);color:#fca5a5;}
 .col-box ul li::before{content:'▪ ';}
 .exam-pattern{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(168,85,247,.06));border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:1.3rem;margin-top:1.5rem;}
 .exam-pattern h3{color:var(--amber);font-size:.72rem;font-weight:700;margin-bottom:.9rem;letter-spacing:.08em;text-transform:uppercase;}
-@media(max-width:1024px){.wrapper{max-width:100%;padding:0 1.25rem 4rem;}pre{font-size:.75rem;}
-.info-table{font-size:.76rem;}.quiz-section{padding:1rem;}}
-@media(max-width:768px){.wrapper{padding:0 1rem 3.5rem;}header{padding:2rem 0 1.5rem;}header h1{font-size:clamp(1.5rem,5vw,2.5rem);margin-bottom:.6rem;}header p{font-size:.9rem;}
-.header-meta{gap:.5rem;}.meta-pill{font-size:.7rem;padding:.3rem .6rem;}.progress-wrap{padding:.8rem 1rem;flex-direction:column;gap:.8rem;align-items:flex-start;}.progress-label{width:100%;}.progress-bar-bg{height:6px;}
-.nav-tabs{gap:.25rem;margin-bottom:1.5rem;}.tab-btn{font-size:.7rem;padding:.4rem .75rem;}
-.lesson-header{gap:.75rem;margin-bottom:1.4rem;}.lesson-icon{width:40px;height:40px;font-size:1.2rem;}
-.lesson-header h2{font-size:1.3rem;}.lesson-header p{font-size:.78rem;}.steps-container{gap:.6rem;}
-.step-header{padding:.7rem .9rem;}.step-num{width:24px;height:24px;font-size:.65rem;}.step-title{font-size:.82rem;}
-.step-body{padding:0 .9rem .9rem;}.step-text{font-size:.81rem;padding-top:.7rem;}
-pre{padding:.8rem;font-size:.72rem;margin:.6rem 0;}.info-table th{padding:.4rem .6rem;font-size:.65rem;}.info-table td{padding:.4rem .6rem;font-size:.76rem;}
-.quiz-section{padding:1rem;}quiz-o{padding:.55rem .85rem;font-size:.78rem;}.quiz-q{font-size:.82rem;margin-bottom:.7rem;}
-.reveal-btn{padding:.7rem;font-size:.79rem;}.summary-box{padding:1rem;margin-top:1.2rem;}.summary-box h3{font-size:.68rem;margin-bottom:.7rem;}
-.summary-list li{font-size:.79rem;padding-left:1rem;}.algo-steps{margin:.6rem 0;}.algo-step{padding:.6rem 0 .6rem .8rem;}.algo-step-text{font-size:.79rem;}
-.two-col{grid-template-columns:1fr;gap:.6rem;margin-top:.5rem;}.col-box{padding:.6rem;}.col-box-title{font-size:.68rem;margin-bottom:.4rem;}
-.col-box ul li{font-size:.76rem;}.pq-card-header{padding:.75rem 1rem;}.pq-badge{font-size:.65rem;padding:.2rem .6rem;}
-.pq-card-title{font-size:.82rem;}.pq-section-label{padding:.55rem .9rem;font-size:.72rem;margin-bottom:1rem;}.next-lesson-btn{padding:.8rem;font-size:.83rem;}
-.tip,.note,.warn,.exam{padding:.6rem .85rem;font-size:.78rem;margin-top:.6rem;}}
-@media(max-width:600px){.wrapper{padding:0 .9rem 3rem;}header{padding:1.5rem 0 1rem;margin-bottom:1.5rem;}header h1{font-size:clamp(1.3rem,4vw,2rem);margin-bottom:.4rem;}header p{font-size:.85rem;}
-.course-tag{font-size:.65rem;padding:.25rem .75rem;margin-bottom:1rem;}
-.header-meta{flex-direction:column;gap:.4rem;width:100%;}.meta-pill{width:100%;text-align:center;font-size:.68rem;padding:.35rem;}
-.progress-wrap{flex-direction:column;padding:.7rem;margin-bottom:1.2rem;border-radius:10px;}.progress-label{width:100%;font-size:.7rem;white-space:normal;}
-.progress-bar-bg{height:5px;}.progress-count{font-size:.7rem;}
-.nav-tabs{gap:.2rem;margin-bottom:1.2rem;}.tab-btn{flex-shrink:0;font-size:.65rem;padding:.35rem .6rem;border-radius:6px;}
-.lesson-header{gap:.6rem;merge-bottom:1rem;}.lesson-icon{width:36px;height:36px;font-size:1rem;}
-.lesson-header h2{font-size:1.1rem;margin-bottom:.2rem;}.lesson-header p{font-size:.75rem;}
-.steps-container{gap:.5rem;}.step-header{padding:.6rem .8rem;}.step-num{width:22px;height:22px;font-size:.6rem;}
-.step-title{font-size:.78rem;line-height:1.2;}.step-toggle{font-size:.6rem;}.step-body{padding:0 .8rem .8rem;border-top:1px solid var(--border);}
-.step-text{font-size:.76rem;padding-top:.6rem;line-height:1.7;}
-pre{padding:.7rem;font-size:.68rem;margin:.5rem 0;border-radius:6px;overflow-x:auto;}.info-table{font-size:.72rem;margin-top:.6rem;}
-.info-table th{padding:.35rem .5rem;font-size:.6rem;}.info-table td{padding:.35rem .5rem;font-size:.72rem;}
-.quiz-section{padding:.8rem;margin-top:1.4rem;border-radius:10px;}.quiz-q{font-size:.78rem;margin-bottom:.6rem;line-height:1.5;}
-.quiz-opt{padding:.55rem .8rem;font-size:.78rem;border-radius:6px;}.quiz-options{gap:.35rem;}
-.quiz-feedback{font-size:.75rem;}.reveal-btn{padding:.6rem;font-size:.75rem;border-radius:8px;margin-top:1rem;}
-.summary-box{padding:.9rem;margin-top:1rem;border-radius:10px;}.summary-box h3{font-size:.65rem;margin-bottom:.6rem;}
-.summary-list{gap:.35rem;}.summary-list li{font-size:.75rem;padding-left:.8rem;}
-.next-lesson-btn{padding:.75rem;font-size:.79rem;margin-top:.6rem;}
-.algo-step{padding:.5rem 0 .5rem .7rem;}.algo-step::before{width:16px;height:16px;font-size:.55rem;top:.5rem;left:-8px;}
-.algo-step-text{font-size:.75rem;}.two-col{grid-template-columns:1fr;gap:.5rem;margin-top:.4rem;}
-.col-box{padding:.5rem;}.col-box-title{font-size:.65rem;margin-bottom:.3rem;}.col-box ul li{font-size:.72rem;}
-.pq-card{margin-bottom:.6rem;}.pq-card-header{padding:.7rem .9rem;}.pq-badge{font-size:.62rem;padding:.18rem .5rem;}
-.pq-card-title{font-size:.78rem;}.pq-toggle{font-size:.6rem;}.pq-card-body{padding:0 .9rem .9rem;}
-.pq-section-label{padding:.5rem .85rem;font-size:.68rem;margin-bottom:.9rem;border-radius:8px;}
-.exam-pattern{padding:1rem;margin-top:1.2rem;}.exam-pattern h3{font-size:.68rem;margin-bottom:.7rem;}
-.tip,.note,.warn,.exam{padding:.5rem .75rem;font-size:.74rem;margin-top:.5rem;}}
+/* Responsive Design: Mobile First */
+/* Mobile: Extra Small (< 480px) */
+@media(max-width:479px){
+  .wrapper{padding:0 0.75rem 3rem;}
+  header{padding:2rem 0 1.5rem;margin-bottom:1rem;}
+  header h1{font-size:clamp(1.4rem, 5vw, 1.8rem);margin-bottom:.5rem;}
+  .course-tag{font-size:.6rem;padding:.25rem .7rem;margin-bottom:1rem;}
+  header p{font-size:.85rem;padding:0 0.5rem;}
+  .header-meta{gap:.5rem;margin-top:1rem;}
+  .meta-pill{font-size:.65rem;padding:.3rem .6rem;}
+  .progress-wrap{padding:.8rem 1rem;gap:.75rem;margin-bottom:1.5rem;flex-direction:column;}
+  .progress-label{white-space:normal;}
+  .progress-count{font-size:.72rem;}
+  .nav-tabs{gap:.25rem;margin-bottom:1.5rem;padding-bottom:.25rem;}
+  .tab-btn{font-size:.68rem;padding:.4rem .7rem;flex-shrink:0;}
+  .lesson-header{gap:.75rem;margin-bottom:1.5rem;}
+  .lesson-icon{width:40px;height:40px;font-size:1.2rem;}
+  .lesson-header h2{font-size:1.2rem;}
+  .lesson-header p{font-size:.75rem;}
+  .steps-container{gap:.5rem;}
+  .step{border-radius:8px;}
+  .step-header{padding:.75rem .9rem;gap:.6rem;}
+  .step-num{width:22px;height:22px;font-size:.6rem;}
+  .step-title{font-size:.8rem;}
+  .step-toggle{font-size:.6rem;}
+  .step-body{padding:0 .9rem .9rem;}
+  .step-text{font-size:.8rem;padding-top:.7rem;}
+  pre{padding:.75rem.8rem;font-size:.72rem;margin:.6rem 0;border-radius:6px;}
+  .tip,.note,.warn,.exam{padding:.6rem .85rem;font-size:.75rem;margin-top:.6rem;}
+  .info-table{font-size:.72rem;}
+  .info-table th{padding:.4rem .5rem;font-size:.65rem;}
+  .info-table td{padding:.4rem .5rem;}
+  .reveal-btn{font-size:.78rem;padding:.7rem;margin-top:1rem;}
+  .quiz-section{padding:1rem;margin-top:1.5rem;}
+  .quiz-section h3{font-size:.75rem;margin-bottom:.75rem;}
+  .quiz-q{font-size:.8rem;margin-bottom:.75rem;}
+  .quiz-opt{padding:.55rem .85rem;font-size:.75rem;}
+  .quiz-feedback{font-size:.75rem;}
+  .summary-box{padding:1rem;margin-top:1.2rem;}
+  .summary-box h3{font-size:.65rem;margin-bottom:.7rem;}
+  .summary-list li{font-size:.78rem;padding-left:.9rem;}
+  .two-col{grid-template-columns:1fr;gap:.6rem;margin-top:.5rem;}
+  .col-box{padding:.6rem;border-radius:6px;}
+  .col-box-title{font-size:.65rem;margin-bottom:.4rem;}
+  .col-box ul li{font-size:.74rem;}
+  .pq-section-label{padding:.55rem .8rem;font-size:.7rem;margin-bottom:1rem;border-radius:8px;}
+  .pq-card{margin-bottom:.6rem;border-radius:8px;}
+  .pq-card-header{padding:.8rem;}
+  .pq-badge{padding:.2rem .55rem;font-size:.62rem;}
+  .pq-card-title{font-size:.8rem;}
+  .next-lesson-btn{font-size:.8rem;padding:.8rem;}
+  .algo-steps{gap:0;margin:.6rem 0;}
+  .algo-step{padding:.6rem 0 .6rem .8rem;}
+  .algo-step::before{width:16px;height:16px;font-size:.55rem;left:-8px;}
+  .algo-step-text{font-size:.78rem;}
+}
+
+/* Tablet: Small (480px - 768px) */
+@media(min-width:480px) and (max-width:768px){
+  .wrapper{padding:0 1rem 4rem;max-width:100%;}
+  header{padding:2.5rem 0 2rem;}
+  header h1{font-size:clamp(1.8rem, 5.5vw, 2.4rem);}
+  .course-tag{font-size:.65rem;padding:.3rem .8rem;}
+  header p{font-size:.9rem;}
+  .header-meta{gap:.75rem;margin-top:1.2rem;}
+  .meta-pill{font-size:.7rem}
+  .progress-wrap{padding:.9rem 1.2rem;margin-bottom:1.6rem;}
+  .progress-label{font-size:.76rem;}
+  .progress-count{font-size:.78rem;}
+  .nav-tabs{gap:.3rem;margin-bottom:1.8rem;}
+  .tab-btn{font-size:.72rem;padding:.45rem .85rem;}
+  .lesson-header{margin-bottom:1.6rem;}
+  .lesson-icon{width:45px;height:45px;font-size:1.3rem;}
+  .lesson-header h2{font-size:1.35rem;}
+  .lesson-header p{font-size:.8rem;}
+  .steps-container{gap:.65rem;}
+  .step-header{padding:.85rem .95rem;}
+  .step-num{width:24px;height:24px;font-size:.65rem;}
+  .step-title{font-size:.84rem;}
+  .step-body{padding:0 .95rem 1rem;}
+  .step-text{font-size:.84rem;}
+  pre{font-size:.76rem;padding:.9rem 1rem;margin:.7rem 0;}
+  .tip,.note,.warn,.exam{padding:.7rem .95rem;font-size:.8rem;margin-top:.7rem;}
+  .info-table{font-size:.78rem;}
+  .quiz-section{padding:1.15rem;}
+  .quiz-q{font-size:.85rem;}
+  .quiz-opt{padding:.6rem .95rem;font-size:.8rem;}
+  .summary-box{padding:1.2rem;}
+  .two-col{grid-template-columns:1fr;gap:.7rem;}
+  .col-box{border-radius:8px;}
+  .pq-card-title{font-size:.84rem;}
+  .next-lesson-btn{font-size:.84rem;}
+}
+
+/* Desktop: Medium (769px - 1024px) */
+@media(min-width:769px) and (max-width:1024px){
+  .wrapper{max-width:900px;}
+  header h1{font-size:clamp(2.2rem, 6vw, 3rem);}
+  .tab-btn{font-size:.76rem;}
+  .lesson-header h2{font-size:1.4rem;}
+  pre{font-size:.82rem;}
+}
+
+/* Desktop: Large (1025px+) */
+@media(min-width:1025px){
+  .wrapper{max-width:960px;}
+}
 </style>
 </head>
 <body>
@@ -894,10 +960,628 @@ function goNext(id){
   if(idx<lessons.length-1) showLesson(lessons[idx+1].id);
 }
 
+// ════════════════════════════════════════════════
+// EXERCISES DATA
+// ════════════════════════════════════════════════
+const modules = [
+{
+  id:'mod1', icon:'🧩', color:'#22c55e',
+  title:'Module 1 — Algorithms & Flowcharts',
+  exercises:[
+    {
+      num:'1.1',
+      title:'Course Result Sheet',
+      difficulty:'Beginner',
+      what:'Write a MATLAB script that inputs 4 courses, asks for the grade and unit for each, calculates the Grade Point (GP), and displays the results.',
+      steps:[
+        {h:'Understand what GP means', b:'Grade Point (GP) = Grade × Unit\nFor example: if a course has grade 4 and unit 3, GP = 4 × 3 = 12\nWe need to do this for 4 courses, then add them all up.'},
+        {h:'Plan the algorithm', b:'1. Create a list of 4 course names\n2. For each course: ask for the grade and unit\n3. Calculate GP = grade × unit\n4. Store the results\n5. Display everything in a table'},
+        {h:'Write the code', code:`<span class="cm">% Course Result Sheet</span>
+courses = {<span class="str">'MTH 201'</span>, <span class="str">'COS 211'</span>, <span class="str">'PHY 201'</span>, <span class="str">'CHM 201'</span>};
+totalGP = <span class="num">0</span>;
+totalUnits = <span class="num">0</span>;
+
+<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">4</span>
+    <span class="fn">fprintf</span>(<span class="str">'Course: %s\n'</span>, courses{i});
+    grade = input(<span class="str">'Enter grade point (0-5): '</span>);
+    unit  = input(<span class="str">'Enter credit unit: '</span>);
+    GP = grade * unit;
+    totalGP = totalGP + GP;
+    totalUnits = totalUnits + unit;
+    <span class="fn">fprintf</span>(<span class="str">'GP for %s = %.1f\n\n'</span>, courses{i}, GP);
+<span class="kw">end</span>
+
+GPA = totalGP / totalUnits;
+<span class="fn">fprintf</span>(<span class="str">'Total GP: %.1f\n'</span>, totalGP);
+<span class="fn">fprintf</span>(<span class="str">'GPA: %.2f\n'</span>, GPA);`},
+        {h:'What each line does', b:'▪ courses = {...} stores the 4 course names in a cell array (uses { } for text)\n▪ input() pauses and waits for the user to type something\n▪ fprintf() prints formatted text — %s = text, %.1f = number with 1 decimal\n▪ totalGP keeps a running total — it adds each course GP one at a time\n▪ GPA = totalGP / totalUnits gives the overall average', isNote:true},
+      ]
+    },
+    {
+      num:'1.2',
+      title:'Basic Login System',
+      difficulty:'Beginner',
+      what:'Store a registration number and name as credentials. Prompt for input, grant or deny access, and lock the account after 2 failed attempts.',
+      steps:[
+        {h:'Understand the logic', b:'Think of it like a phone PIN:\n▪ You have a saved username and password\n▪ User types their guess\n▪ If it matches → "Access Granted"\n▪ If it does not → "Access Denied" (count the failure)\n▪ After 2 failures → "Account Locked"'},
+        {h:'Plan with pseudocode', b:`SET correctReg = "your reg number"
+SET correctName = "your first name"
+SET attempts = 0
+
+WHILE attempts < 2
+    READ inputReg, inputName
+    IF inputReg == correctReg AND inputName == correctName THEN
+        PRINT "Access Granted"
+        STOP
+    ELSE
+        attempts = attempts + 1
+        PRINT "Access Denied"
+    END IF
+END WHILE
+PRINT "Account Locked"`, isPseudo:true},
+        {h:'Write the code', code:`<span class="cm">% Login System</span>
+correctReg  = <span class="str">'U/22/COS/001'</span>;  <span class="cm">% change to your reg number</span>
+correctName = <span class="str">'Ada'</span>;            <span class="cm">% change to your first name</span>
+attempts = <span class="num">0</span>;
+maxAttempts = <span class="num">2</span>;
+accessGranted = <span class="kw">false</span>;
+
+<span class="kw">while</span> attempts < maxAttempts
+    inputReg  = input(<span class="str">'Enter Reg Number: '</span>, <span class="str">'s'</span>);
+    inputName = input(<span class="str">'Enter First Name: '</span>, <span class="str">'s'</span>);
+
+    <span class="kw">if</span> strcmp(inputReg, correctReg) && strcmp(inputName, correctName)
+        <span class="fn">disp</span>(<span class="str">'✅ Access Granted. Welcome!'</span>)
+        accessGranted = <span class="kw">true</span>;
+        <span class="kw">break</span>
+    <span class="kw">else</span>
+        attempts = attempts + <span class="num">1</span>;
+        remaining = maxAttempts - attempts;
+        <span class="fn">fprintf</span>(<span class="str">'❌ Access Denied. %d attempt(s) left.\n'</span>, remaining)
+    <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="kw">if</span> ~accessGranted
+    <span class="fn">disp</span>(<span class="str">'🔒 Account Locked. Contact admin.'</span>)
+<span class="kw">end</span>`},
+        {h:'Key new concepts', b:"▪ input('prompt', 's') reads text input — the 's' means treat input as a string\n▪ strcmp(a, b) compares two strings — returns true if they match (can't use == for text)\n▪ && means AND — both conditions must be true\n▪ break exits the while loop immediately\n▪ ~accessGranted means 'if accessGranted is NOT true'", isNote:true},
+      ]
+    },
+    {
+      num:'1.3 & 1.4',
+      title:'Simple Calculator (Flowchart + Code)',
+      difficulty:'Beginner',
+      what:'Calculator that takes two numbers and an operation (+, -, *, /), handles division by zero, and shows the result.',
+      steps:[
+        {h:'Flowchart plan', b:`Flowchart symbols to draw:
+
+[START] → (Input A, B, operation) → ◇ operation = '+'?
+  YES → [result = A + B] → (Print result) → [STOP]
+  NO  → ◇ operation = '-'?
+    YES → [result = A - B] → (Print result) → [STOP]
+    NO  → ◇ operation = '*'?
+      YES → [result = A * B] → (Print result) → [STOP]
+      NO  → ◇ operation = '/'?
+        YES → ◇ B == 0?
+          YES → (Print "Cannot divide by zero") → [STOP]
+          NO  → [result = A / B] → (Print result) → [STOP]
+        NO → (Print "Invalid operation") → [STOP]`, isPseudo:true},
+        {h:'Write the MATLAB code', code:`<span class="cm">% Simple Calculator</span>
+A = input(<span class="str">'Enter first number: '</span>);
+B = input(<span class="str">'Enter second number: '</span>);
+op = input(<span class="str">'Enter operation (+, -, *, /): '</span>, <span class="str">'s'</span>);
+
+<span class="kw">if</span> strcmp(op, <span class="str">'+'</span>)
+    result = A + B;
+    <span class="fn">fprintf</span>(<span class="str">'Result: %.2f\n'</span>, result)
+<span class="kw">elseif</span> strcmp(op, <span class="str">'-'</span>)
+    result = A - B;
+    <span class="fn">fprintf</span>(<span class="str">'Result: %.2f\n'</span>, result)
+<span class="kw">elseif</span> strcmp(op, <span class="str">'*'</span>)
+    result = A * B;
+    <span class="fn">fprintf</span>(<span class="str">'Result: %.2f\n'</span>, result)
+<span class="kw">elseif</span> strcmp(op, <span class="str">'/'</span>)
+    <span class="kw">if</span> B == <span class="num">0</span>
+        <span class="fn">disp</span>(<span class="str">'❌ Error: Cannot divide by zero!'</span>)
+    <span class="kw">else</span>
+        result = A / B;
+        <span class="fn">fprintf</span>(<span class="str">'Result: %.2f\n'</span>, result)
+    <span class="kw">end</span>
+<span class="kw">else</span>
+    <span class="fn">disp</span>(<span class="str">'❌ Invalid operation entered.'</span>)
+<span class="kw">end</span>`},
+        {h:'Why we check division by zero', b:'Dividing by zero is a run-time error in mathematics — it is undefined.\nIn MATLAB, 5/0 actually returns Inf (infinity) without crashing, but it is logically wrong.\nGood programs always check for this before dividing.', isWarn:true},
+      ]
+    },
+    {
+      num:'1.5',
+      title:'Compute Student Average Score',
+      difficulty:'Beginner',
+      what:'Create a variable for your name, store 3 test scores, calculate and display the average.',
+      steps:[
+        {h:'Plan it', b:'We need:\n▪ A name variable (text)\n▪ An array of 3 scores\n▪ Average = (score1 + score2 + score3) / 3\n▪ Display everything nicely'},
+        {h:'Write the code', code:`<span class="cm">% Student Average Score</span>
+studentName = <span class="str">'Ada Okonkwo'</span>;   <span class="cm">% change to your name</span>
+scores = [<span class="num">72</span>, <span class="num">85</span>, <span class="num">68</span>];          <span class="cm">% your 3 test scores</span>
+
+average = <span class="fn">mean</span>(scores);          <span class="cm">% MATLAB's built-in average function</span>
+
+<span class="fn">fprintf</span>(<span class="str">'Student: %s\n'</span>, studentName)
+<span class="fn">fprintf</span>(<span class="str">'Scores: %d, %d, %d\n'</span>, scores(<span class="num">1</span>), scores(<span class="num">2</span>), scores(<span class="num">3</span>))
+<span class="fn">fprintf</span>(<span class="str">'Average: %.2f\n'</span>, average)`},
+        {h:'Tip', b:'mean(scores) is a built-in function that calculates the average of all elements in an array automatically. You could also write (scores(1)+scores(2)+scores(3))/3 but mean() is cleaner and works for any size.', isNote:true},
+      ]
+    },
+    {
+      num:'1.6',
+      title:'Solving a Quadratic Equation',
+      difficulty:'Intermediate',
+      what:'Input coefficients a, b, c and solve ax² + bx + c = 0 using the quadratic formula.',
+      steps:[
+        {h:'Remember the formula', b:'Quadratic formula:\nx = (-b ± √(b² - 4ac)) / 2a\n\nThe part under the square root is called the DISCRIMINANT: D = b² - 4ac\n▪ If D > 0 → two real roots\n▪ If D = 0 → one real root (both roots are the same)\n▪ If D < 0 → no real roots (complex numbers)'},
+        {h:'Plan with pseudocode', b:`READ a, b, c
+D = b^2 - 4*a*c
+IF D > 0 THEN
+    x1 = (-b + sqrt(D)) / (2*a)
+    x2 = (-b - sqrt(D)) / (2*a)
+    PRINT x1, x2
+ELSE IF D == 0 THEN
+    x = -b / (2*a)
+    PRINT x
+ELSE
+    PRINT "No real roots"
+END IF`, isPseudo:true},
+        {h:'Write the code', code:`<span class="cm">% Quadratic Equation Solver</span>
+a = input(<span class="str">'Enter a: '</span>);
+b = input(<span class="str">'Enter b: '</span>);
+c = input(<span class="str">'Enter c: '</span>);
+
+D = b^<span class="num">2</span> - <span class="num">4</span>*a*c;    <span class="cm">% discriminant</span>
+
+<span class="kw">if</span> D > <span class="num">0</span>
+    x1 = (-b + <span class="fn">sqrt</span>(D)) / (<span class="num">2</span>*a);
+    x2 = (-b - <span class="fn">sqrt</span>(D)) / (<span class="num">2</span>*a);
+    <span class="fn">fprintf</span>(<span class="str">'Two roots: x1 = %.4f, x2 = %.4f\n'</span>, x1, x2)
+<span class="kw">elseif</span> D == <span class="num">0</span>
+    x = -b / (<span class="num">2</span>*a);
+    <span class="fn">fprintf</span>(<span class="str">'One root: x = %.4f\n'</span>, x)
+<span class="kw">else</span>
+    <span class="fn">disp</span>(<span class="str">'No real roots (discriminant is negative)'</span>)
+<span class="kw">end</span>`},
+        {h:'Test it yourself', b:'Try these values to verify your code:\n▪ a=1, b=-5, c=6 → roots: x1=3, x2=2\n▪ a=1, b=-2, c=1 → one root: x=1\n▪ a=1, b=0,  c=1 → no real roots', isNote:true},
+      ]
+    },
+    {
+      num:'1.8',
+      title:'Traffic Light Simulation',
+      difficulty:'Beginner',
+      what:'Simulate a traffic light (Red, Yellow, Green) with wait times, repeating 3 times.',
+      steps:[
+        {h:'Plan the logic', b:'A traffic light cycle:\n1. RED → wait 5 seconds → "Stop!"\n2. YELLOW → wait 2 seconds → "Get Ready"\n3. GREEN → wait 4 seconds → "Go!"\nRepeat this full cycle 3 times.'},
+        {h:'Write the code', code:`<span class="cm">% Traffic Light Simulation</span>
+<span class="kw">for</span> cycle = <span class="num">1</span>:<span class="num">3</span>
+    <span class="fn">fprintf</span>(<span class="str">'--- Cycle %d ---\n'</span>, cycle)
+
+    <span class="fn">disp</span>(<span class="str">'🔴 RED — Stop!'</span>)
+    <span class="fn">pause</span>(<span class="num">5</span>)              <span class="cm">% wait 5 seconds</span>
+
+    <span class="fn">disp</span>(<span class="str">'🟡 YELLOW — Get Ready'</span>)
+    <span class="fn">pause</span>(<span class="num">2</span>)              <span class="cm">% wait 2 seconds</span>
+
+    <span class="fn">disp</span>(<span class="str">'🟢 GREEN — Go!'</span>)
+    <span class="fn">pause</span>(<span class="num">4</span>)              <span class="cm">% wait 4 seconds</span>
+<span class="kw">end</span>
+<span class="fn">disp</span>(<span class="str">'Simulation complete.'</span>)`},
+        {h:'New concept: pause()', b:'pause(n) makes MATLAB wait n seconds before continuing.\nThis simulates real time passing — like the light actually being on for that duration.', isNote:true},
+      ]
+    },
+    {
+      num:'1.9',
+      title:'Simple Voting System',
+      difficulty:'Intermediate',
+      what:'Define 3 political parties, ask for total voters, generate random votes for each party, display tallies.',
+      steps:[
+        {h:'Understand rand()', b:'rand() generates a random decimal number between 0 and 1.\nTo get a random whole number between 1 and totalVoters:\nround(rand() * totalVoters)\n\nBut the votes for all 3 parties must ADD UP to the total voters — so we assign the last party the remaining votes.'},
+        {h:'Write the code', code:`<span class="cm">% Voting System</span>
+parties = {<span class="str">'APC'</span>, <span class="str">'PDP'</span>, <span class="str">'LP'</span>};
+totalVoters = input(<span class="str">'Enter total number of voters: '</span>);
+
+<span class="cm">% Generate random votes (must sum to totalVoters)</span>
+v1 = <span class="fn">round</span>(<span class="fn">rand</span>() * totalVoters * <span class="num">0.45</span>);   <span class="cm">% up to 45%</span>
+v2 = <span class="fn">round</span>(<span class="fn">rand</span>() * (totalVoters - v1) * <span class="num">0.6</span>);
+v3 = totalVoters - v1 - v2;               <span class="cm">% remaining votes</span>
+votes = [v1, v2, v3];
+
+<span class="fn">disp</span>(<span class="str">'===== ELECTION RESULTS ====='</span>)
+<span class="kw">for</span> i = <span class="num">1</span>:<span class="num">3</span>
+    <span class="fn">fprintf</span>(<span class="str">'%s: %d votes (%.1f%%)\n'</span>, parties{i}, votes(i), votes(i)/totalVoters*<span class="num">100</span>)
+<span class="kw">end</span>
+
+[~, winner] = <span class="fn">max</span>(votes);
+<span class="fn">fprintf</span>(<span class="str">'\n🏆 Winner: %s\n'</span>, parties{winner})`},
+        {h:'What is [~, winner] = max(votes)?', b:"max(votes) returns TWO things: the maximum value AND its position.\nWe don't need the value — just the position (which party won).\nThe ~ (tilde) means 'ignore this output'. winner gets the position (1, 2, or 3).", isNote:true},
+      ]
+    },
+  ]
+},
+{
+  id:'mod2', icon:'🏷️', color:'#3b82f6',
+  title:'Module 2 — Variables & Data Types',
+  exercises:[
+    {
+      num:'2.1',
+      title:'Variable Naming — Valid vs Invalid',
+      difficulty:'Beginner',
+      what:'Identify which variable names are valid or invalid in MATLAB and explain why.',
+      steps:[
+        {h:'The 5 naming rules (memorise these)', b:'1. Must START with a letter\n2. Can only contain letters, numbers, and underscores ( _ )\n3. NO spaces\n4. NO special characters (@, $, ., !, #, etc.)\n5. Cannot be a MATLAB reserved keyword (for, while, if, end, etc.)'},
+        {h:'Common examples from your manual', code:`<span class="cm">% VALID names</span>
+Matlab       <span class="cm">% ✅ starts with letter</span>
+Copy         <span class="cm">% ✅ starts with letter</span>
+myScore_2    <span class="cm">% ✅ letter, underscores, numbers OK</span>
+
+<span class="cm">% INVALID names</span>
+<span class="cm">% 1stScore  ← starts with number ❌</span>
+<span class="cm">% @value    ← special character @ ❌</span>
+<span class="cm">% 2ndPlace  ← starts with number ❌</span>
+<span class="cm">% price$    ← special character $ ❌</span>`},
+        {h:'How to rename invalid ones', b:'Rule: remove the invalid part or move numbers to the end.\n\n▪ 1stScore   → firstScore or score1\n▪ 2nd Place  → secondPlace (remove space, move number)\n▪ price$     → priceValue or totalPrice\n▪ @value     → inputValue', isNote:true},
+      ]
+    },
+    {
+      num:'2.2',
+      title:'Extracting Values Above Average (Debug Exercise)',
+      difficulty:'Intermediate',
+      what:'A broken script is given. Find the error, correct it, and display values above the average.',
+      steps:[
+        {h:'Understand the task', b:'Given an array of numbers, find the average, then display only the values that are ABOVE that average.\n\nExample: [55, 72, 40, 88, 63] → average = 63.6 → above average: 72, 88'},
+        {h:'Typical broken code (identify the bug)', code:`<span class="cm">% Broken version — find the errors!</span>
+scores = [<span class="num">55</span>, <span class="num">72</span>, <span class="num">40</span>, <span class="num">88</span>, <span class="num">63</span>];
+avg = <span class="fn">mean</span>(scores)
+<span class="kw">for</span> i = <span class="num">1</span>:length(score)      <span class="cm">% ← BUG 1: 'score' should be 'scores'</span>
+    <span class="kw">if</span> scores(i) = avg         <span class="cm">% ← BUG 2: should be > not =</span>
+        <span class="fn">disp</span>(scores(i))
+    end                        <span class="cm">% ← BUG 3: missing end for if</span>
+end`},
+        {h:'Corrected code', code:`<span class="cm">% Corrected version</span>
+scores = [<span class="num">55</span>, <span class="num">72</span>, <span class="num">40</span>, <span class="num">88</span>, <span class="num">63</span>];
+avg = <span class="fn">mean</span>(scores);           <span class="cm">% add ; to suppress output</span>
+
+<span class="fn">fprintf</span>(<span class="str">'Average: %.2f\n'</span>, avg)
+<span class="fn">disp</span>(<span class="str">'Values above average:'</span>)
+
+<span class="kw">for</span> i = <span class="num">1</span>:<span class="fn">length</span>(scores)    <span class="cm">% FIX 1: scores (not score)</span>
+    <span class="kw">if</span> scores(i) > avg        <span class="cm">% FIX 2: > (not =)</span>
+        <span class="fn">disp</span>(scores(i))
+    <span class="kw">end</span>                       <span class="cm">% FIX 3: end for the if</span>
+<span class="kw">end</span>`},
+        {h:'3 bugs explained', b:'BUG 1: Typo — variable was named scores but accessed as score. MATLAB sees them as different variables.\nBUG 2: Single = is assignment (store a value). You need == for comparison OR > for "greater than".\nBUG 3: Every if must have its own end. Missing end causes a syntax error.', isWarn:true},
+      ]
+    },
+    {
+      num:'2.3',
+      title:'Square of Even Numbers (Debug Exercise)',
+      difficulty:'Intermediate',
+      what:'Fix errors in code that should store the square of even numbers from a range.',
+      steps:[
+        {h:'What the code should do', b:'Loop through numbers 1 to 20.\nFor each EVEN number: calculate its square.\nStore all squares in an array.\nDisplay the array at the end.'},
+        {h:'Write the correct version', code:`<span class="cm">% Square of even numbers (1 to 20)</span>
+squares = [];               <span class="cm">% start with empty array</span>
+
+<span class="kw">for</span> n = <span class="num">1</span>:<span class="num">20</span>
+    <span class="kw">if</span> <span class="fn">mod</span>(n, <span class="num">2</span>) == <span class="num">0</span>      <span class="cm">% check if n is even</span>
+        squares(end+<span class="num">1</span>) = n^<span class="num">2</span>; <span class="cm">% append n² to the array</span>
+    <span class="kw">end</span>
+<span class="kw">end</span>
+
+<span class="fn">disp</span>(<span class="str">'Squares of even numbers (1–20):'</span>)
+<span class="fn">disp</span>(squares)`},
+        {h:'Key concept: growing an array', b:'squares(end+1) = value means "add this value to the END of the array".\nend inside indexing means "the last position". end+1 = next new position.\nThis is how you build an array one item at a time inside a loop.', isNote:true},
+      ]
+    },
+  ]
+},
+{
+  id:'mod3', icon:'⚙️', color:'#f59e0b',
+  title:'Module 3 — Logic & Relational Operators',
+  exercises:[
+    {
+      num:'3.1',
+      title:'Expression Translation — Math to MATLAB',
+      difficulty:'Beginner',
+      what:'Translate 6 mathematical expressions into valid MATLAB syntax.',
+      steps:[
+        {h:'Translation rules (cheat sheet)', code:`<span class="cm">% Rule 1: Multiplication must be explicit</span>
+<span class="cm">% Math: 2x   →  MATLAB: 2*x</span>
+
+<span class="cm">% Rule 2: Powers use ^</span>
+<span class="cm">% Math: x²   →  MATLAB: x^2</span>
+
+<span class="cm">% Rule 3: Square root</span>
+<span class="cm">% Math: √x   →  MATLAB: sqrt(x)</span>
+
+<span class="cm">% Rule 4: nth root</span>
+<span class="cm">% Math: ⁴√x  →  MATLAB: x^(1/4)</span>
+
+<span class="cm">% Rule 5: Fractions need brackets</span>
+<span class="cm">% Math: a+b/c+d  →  MATLAB: (a+b)/(c+d)</span>
+
+<span class="cm">% Rule 6: Pi</span>
+<span class="cm">% Math: π   →  MATLAB: pi</span>
+
+<span class="cm">% Rule 7: Absolute value</span>
+<span class="cm">% Math: |x|  →  MATLAB: abs(x)</span>`},
+        {h:'Practice examples', code:`<span class="cm">% 1. (a+b)/(c-d)</span>
+result1 = (a+b)/(c-d);
+
+<span class="cm">% 2. √(x² + y²)</span>
+result2 = <span class="fn">sqrt</span>(x^<span class="num">2</span> + y^<span class="num">2</span>);
+
+<span class="cm">% 3. 2πr²</span>
+result3 = <span class="num">2</span>*pi*r^<span class="num">2</span>;
+
+<span class="cm">% 4. |a - b| / √2</span>
+result4 = <span class="fn">abs</span>(a - b) / <span class="fn">sqrt</span>(<span class="num">2</span>);
+
+<span class="cm">% 5. ⁴√(n/3) + 2*P3*(π/4)  [from past exam!]</span>
+result5 = (n/<span class="num">3</span>)^(<span class="num">1</span>/<span class="num">4</span>) + <span class="num">2</span>*P3*(pi/<span class="num">4</span>);
+
+<span class="cm">% 6. e^x  (e to the power x)</span>
+result6 = exp(x);`},
+        {h:'Validity check — Accepted vs Not Accepted', b:'Expressions that are NOT accepted in MATLAB:\n▪ 2x → missing * (must be 2*x)\n▪ x² → cannot use superscript (must be x^2)\n▪ √x → cannot use symbol (must be sqrt(x))\n▪ a/b+c without brackets → ambiguous (MATLAB reads it as (a/b)+c)\n\nAlways add brackets around numerators and denominators.', isWarn:true},
+      ]
+    },
+  ]
+},
+{
+  id:'mod4', icon:'🔀', color:'#a855f7',
+  title:'Module 4 — Flow Control',
+  exercises:[
+    {
+      num:'4.1',
+      title:'Piecewise Function',
+      difficulty:'Intermediate',
+      what:'Evaluate: y = x³ for x > 0, y = x² + 1 for x < 0, y = x⁰ for x = 0.',
+      steps:[
+        {h:'Understand piecewise functions', b:'A piecewise function gives DIFFERENT formulas depending on the value of x.\nYou pick which formula to use based on a condition.\n\n▪ If x is positive → use x³\n▪ If x is negative → use x² + 1\n▪ If x is exactly 0 → use x⁰ = 1 (any number to the power 0 = 1)'},
+        {h:'Write the code', code:`<span class="cm">% Piecewise Function</span>
+x = input(<span class="str">'Enter value of x: '</span>);
+
+<span class="kw">if</span> x > <span class="num">0</span>
+    y = x^<span class="num">3</span>;
+    <span class="fn">fprintf</span>(<span class="str">'x = %.2f → y = x³ = %.4f\n'</span>, x, y)
+<span class="kw">elseif</span> x < <span class="num">0</span>
+    y = x^<span class="num">2</span> + <span class="num">1</span>;
+    <span class="fn">fprintf</span>(<span class="str">'x = %.2f → y = x²+1 = %.4f\n'</span>, x, y)
+<span class="kw">else</span>
+    y = x^<span class="num">0</span>;           <span class="cm">% x^0 = 1 for any x</span>
+    <span class="fn">fprintf</span>(<span class="str">'x = 0 → y = x⁰ = %.4f\n'</span>, y)
+<span class="kw">end</span>`},
+        {h:'Test values to verify', b:'▪ x = 3   → y = 3³ = 27\n▪ x = -2  → y = (-2)² + 1 = 5\n▪ x = 0   → y = 0⁰ = 1', isNote:true},
+      ]
+    },
+    {
+      num:'4.2',
+      title:'Disease Outbreak Categorisation',
+      difficulty:'Intermediate',
+      what:'Accept a death rate R and classify the outbreak as Endemic, Pandemic, or Epidemic.',
+      steps:[
+        {h:'Understand the categories', b:'Based on death rate R (number of deaths per 100,000 people):\n▪ R < 1    → Endemic  (disease exists but is low and controlled)\n▪ 1 ≤ R ≤ 10 → Epidemic (disease is spreading in a region)\n▪ R > 10   → Pandemic (disease is spreading worldwide/severely)'},
+        {h:'Write the code', code:`<span class="cm">% Disease Outbreak Categorisation</span>
+R = input(<span class="str">'Enter death rate R: '</span>);
+
+<span class="kw">if</span> R < <span class="num">1</span>
+    <span class="fn">disp</span>(<span class="str">'Classification: ENDEMIC'</span>)
+    <span class="fn">disp</span>(<span class="str">'The disease is present but controlled.'</span>)
+<span class="kw">elseif</span> R >= <span class="num">1</span> && R <= <span class="num">10</span>
+    <span class="fn">disp</span>(<span class="str">'Classification: EPIDEMIC'</span>)
+    <span class="fn">disp</span>(<span class="str">'The disease is spreading in a region.'</span>)
+<span class="kw">else</span>
+    <span class="fn">disp</span>(<span class="str">'Classification: PANDEMIC'</span>)
+    <span class="fn">disp</span>(<span class="str">'The disease is spreading severely or globally.'</span>)
+<span class="kw">end</span>`},
+        {h:'Test values', b:'▪ R = 0.5  → Endemic\n▪ R = 5    → Epidemic\n▪ R = 15   → Pandemic', isNote:true},
+      ]
+    },
+    {
+      num:'4.3',
+      title:'Blood Sugar Test Classification',
+      difficulty:'Beginner',
+      what:'Classify Fasting Blood Sugar (FBS) results into Low-Sugar, Normal, or High-Sugar.',
+      steps:[
+        {h:'Medical context', b:'Fasting Blood Sugar (FBS) is measured in mg/dL after not eating for 8 hours:\n▪ Below 70 mg/dL  → Low-Sugar (Hypoglycaemia)\n▪ 70–99 mg/dL     → Normal\n▪ 100+ mg/dL      → High-Sugar (Hyperglycaemia / Diabetes risk)'},
+        {h:'Write the code', code:`<span class="cm">% Blood Sugar Classification</span>
+fbs = input(<span class="str">'Enter Fasting Blood Sugar level (mg/dL): '</span>);
+
+<span class="kw">if</span> fbs < <span class="num">70</span>
+    <span class="fn">disp</span>(<span class="str">'Result: LOW-SUGAR (Hypoglycaemia)'</span>)
+    <span class="fn">disp</span>(<span class="str">'Advice: Eat something immediately.'</span>)
+<span class="kw">elseif</span> fbs >= <span class="num">70</span> && fbs <= <span class="num">99</span>
+    <span class="fn">disp</span>(<span class="str">'Result: NORMAL'</span>)
+    <span class="fn">disp</span>(<span class="str">'Advice: Blood sugar is healthy.'</span>)
+<span class="kw">else</span>
+    <span class="fn">disp</span>(<span class="str">'Result: HIGH-SUGAR (Hyperglycaemia)'</span>)
+    <span class="fn">disp</span>(<span class="str">'Advice: See a doctor.'</span>)
+<span class="kw">end</span>`},
+      ]
+    },
+    {
+      num:'4.4',
+      title:'Menu-Driven Hotel Booking (switch...case)',
+      difficulty:'Intermediate',
+      what:'Let a user choose between 4 types of hotel rooms using a menu and switch...case.',
+      steps:[
+        {h:'What is switch...case?', b:'switch...case is an alternative to long if/elseif chains.\nIt is cleaner when you have many fixed options (like a menu).\n\nSyntax:\nswitch variable\n  case value1 → do this\n  case value2 → do this\n  otherwise  → default action\nend'},
+        {h:'Write the code', code:`<span class="cm">% Hotel Booking System</span>
+<span class="fn">disp</span>(<span class="str">'===== HOTEL BOOKING ====='</span>)
+<span class="fn">disp</span>(<span class="str">'1 - Standard Room    (₦15,000/night)'</span>)
+<span class="fn">disp</span>(<span class="str">'2 - Deluxe Room      (₦25,000/night)'</span>)
+<span class="fn">disp</span>(<span class="str">'3 - Suite            (₦50,000/night)'</span>)
+<span class="fn">disp</span>(<span class="str">'4 - Presidential     (₦120,000/night)'</span>)
+
+choice = input(<span class="str">'Enter room number (1-4): '</span>);
+
+<span class="kw">switch</span> choice
+    <span class="kw">case</span> <span class="num">1</span>
+        <span class="fn">disp</span>(<span class="str">'✅ Booked: Standard Room — ₦15,000/night'</span>)
+    <span class="kw">case</span> <span class="num">2</span>
+        <span class="fn">disp</span>(<span class="str">'✅ Booked: Deluxe Room — ₦25,000/night'</span>)
+    <span class="kw">case</span> <span class="num">3</span>
+        <span class="fn">disp</span>(<span class="str">'✅ Booked: Suite — ₦50,000/night'</span>)
+    <span class="kw">case</span> <span class="num">4</span>
+        <span class="fn">disp</span>(<span class="str">'✅ Booked: Presidential Suite — ₦120,000/night'</span>)
+    <span class="kw">otherwise</span>
+        <span class="fn">disp</span>(<span class="str">'❌ Invalid choice. Please enter 1 to 4.'</span>)
+<span class="kw">end</span>`},
+        {h:'switch vs if — when to use which', b:'Use switch when: you are comparing ONE variable against FIXED values (like a menu)\nUse if when: you have complex conditions involving ranges (like >= 70 or x > 0 && x < 10)\n\nBoth work — switch is just cleaner for menus.', isNote:true},
+      ]
+    },
+  ]
+},
+{
+  id:'mod5', icon:'🔢', color:'#f97316',
+  title:'Module 5 — Matrices',
+  exercises:[
+    {
+      num:'5.1',
+      title:'Matrix Operations — Sum, Row Mean, Slicing',
+      difficulty:'Intermediate',
+      what:'Given a 3×3 matrix A, calculate sum of all elements, mean of each row, and select the second row.',
+      steps:[
+        {h:'Set up the matrix', code:`<span class="cm">% Define a 3x3 matrix</span>
+A = [<span class="num">4</span>, <span class="num">7</span>, <span class="num">2</span>;
+     <span class="num">1</span>, <span class="num">9</span>, <span class="num">5</span>;
+     <span class="num">8</span>, <span class="num">3</span>, <span class="num">6</span>];`},
+        {h:'Calculate sum of ALL elements', code:`<span class="cm">% Sum of all elements</span>
+totalSum = <span class="fn">sum</span>(<span class="fn">sum</span>(A));     <span class="cm">% sum() once = sum of each column</span>
+                              <span class="cm">% sum(sum()) = sum of everything</span>
+<span class="fn">fprintf</span>(<span class="str">'Sum of all elements: %d\n'</span>, totalSum)`},
+        {h:'Mean of each row', code:`<span class="cm">% Mean of each row (dimension 2 = across columns)</span>
+rowMeans = <span class="fn">mean</span>(A, <span class="num">2</span>);
+<span class="fn">disp</span>(<span class="str">'Mean of each row:'</span>)
+<span class="fn">disp</span>(rowMeans)`},
+        {h:'Select second row', code:`<span class="cm">% Second row — A(row, all columns)</span>
+secondRow = A(<span class="num">2</span>, :);
+<span class="fn">disp</span>(<span class="str">'Second row:'</span>)
+<span class="fn">disp</span>(secondRow)`},
+        {h:'Understand mean(A, 2)', b:'mean(A) alone gives the mean of EACH COLUMN (default is down each column).\nmean(A, 2) gives the mean across EACH ROW (dimension 2 means "across columns").\n\nThink of dimension 1 as vertical (down columns) and dimension 2 as horizontal (across rows).', isNote:true},
+      ]
+    },
+    {
+      num:'5.2',
+      title:'Matrix Manipulation — det, transpose, size, diagonal, inverse',
+      difficulty:'Advanced',
+      what:'Given 3×3 matrices A, B, C: calculate determinants into matrix D, create matrix E from A and transposed 3rd row of B, then find size, diagonal, and inverse of E.',
+      steps:[
+        {h:'Define the matrices', code:`A = [<span class="num">2</span>,<span class="num">4</span>,<span class="num">1</span>; -<span class="num">3</span>,<span class="num">3</span>,<span class="num">2</span>; <span class="num">2</span>,<span class="num">8</span>,<span class="num">1</span>];
+B = [<span class="num">1</span>,<span class="num">5</span>,<span class="num">3</span>; <span class="num">2</span>,<span class="num">7</span>,<span class="num">4</span>; <span class="num">6</span>,<span class="num">8</span>,<span class="num">9</span>];
+C = [<span class="num">3</span>,<span class="num">1</span>,<span class="num">4</span>; <span class="num">1</span>,<span class="num">5</span>,<span class="num">9</span>; <span class="num">2</span>,<span class="num">6</span>,<span class="num">5</span>];`},
+        {h:'Step 1 — Determinants into matrix D', code:`<span class="cm">% Each determinant becomes one element of D</span>
+D = [<span class="fn">det</span>(A), <span class="fn">det</span>(B), <span class="fn">det</span>(C)];
+<span class="fn">disp</span>(<span class="str">'Matrix D (determinants):'</span>)
+<span class="fn">disp</span>(D)`},
+        {h:'Step 2 — Create matrix E', code:`<span class="cm">% E = A combined with transposed 3rd row of B</span>
+<span class="cm">% 3rd row of B = B(3,:) = [6, 8, 9]</span>
+<span class="cm">% Transposed = column vector [6; 8; 9]</span>
+<span class="cm">% Place it as a 4th COLUMN of A</span>
+
+thirdRowB = B(<span class="num">3</span>, :)';     <span class="cm">% transpose row into column</span>
+E = [A, thirdRowB];         <span class="cm">% join A (3x3) and column (3x1) → E is 3x4</span>
+<span class="fn">disp</span>(<span class="str">'Matrix E:'</span>)
+<span class="fn">disp</span>(E)`},
+        {h:'Step 3 — Size, diagonal, inverse of E', code:`<span class="cm">% Size of E</span>
+<span class="fn">disp</span>(<span class="str">'Size of E:'</span>)
+<span class="fn">disp</span>(<span class="fn">size</span>(E))
+
+<span class="cm">% Diagonal of E (only works on square — use square part)</span>
+<span class="fn">disp</span>(<span class="str">'Diagonal of E (square part):'</span>)
+<span class="fn">disp</span>(<span class="fn">diag</span>(E))
+
+<span class="cm">% Inverse — only possible for square matrices</span>
+<span class="cm">% E is 3x4 so use only the first 3 columns</span>
+Esq = E(:, <span class="num">1</span>:<span class="num">3</span>);            <span class="cm">% take 3x3 portion</span>
+<span class="fn">fprintf</span>(<span class="str">'det(Esq) = %.4f\n'</span>, <span class="fn">det</span>(Esq))
+<span class="kw">if</span> <span class="fn">det</span>(Esq) ~= <span class="num">0</span>
+    <span class="fn">disp</span>(<span class="str">'Inverse of E (square part):'</span>)
+    <span class="fn">disp</span>(<span class="fn">inv</span>(Esq))
+<span class="kw">else</span>
+    <span class="fn">disp</span>(<span class="str">'Matrix is singular — inverse does not exist'</span>)
+<span class="kw">end</span>`},
+        {h:'Important: inverse only works on square matrices', b:'A matrix must be SQUARE (same number of rows and columns) to have an inverse.\nIf the determinant = 0, the matrix is "singular" and has NO inverse.\nAlways check det(A) ≠ 0 before calling inv(A).', isWarn:true},
+      ]
+    },
+  ]
+},
+];
+
+function renderExercises(){
+  const lc=document.getElementById('lessonContainer');
+
+  // Add tab button
+  const tabsEl=document.getElementById('navTabs');
+  const exBtn=document.createElement('button');
+  exBtn.className='tab-btn'; exBtn.id='tab-exercises';
+  exBtn.style.cssText='background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:#22c55e;';
+  exBtn.textContent='🧩 Exercises';
+  exBtn.onclick=()=>showPanel('exercises');
+  tabsEl.appendChild(exBtn);
+
+  const panel=document.createElement('div');
+  panel.className='lesson-panel'; panel.id='panel-exercises';
+
+  let html=`<div class="lesson-header">
+    <div class="lesson-icon" style="background:#22c55e18;color:#22c55e">🧩</div>
+    <div>
+      <h2>Practice Exercises</h2>
+      <p>All 6 modules — beginner-friendly step-by-step solutions. Click any exercise to expand.</p>
+    </div>
+  </div>
+  <div class="note" style="margin-bottom:1.2rem">How to use: Read the task → try it yourself first → then expand to see the step-by-step solution. Each step builds on the last.</div>`;
+
+  modules.forEach(mod=>{
+    html+=`<div class="pq-section-label" style="background:${mod.color}12;border-color:${mod.color}35;color:${mod.color}">
+      ${mod.icon} ${mod.title}
+    </div>`;
+
+    mod.exercises.forEach((ex,ei)=>{
+      const diffColor = ex.difficulty==='Beginner'?'#22c55e':ex.difficulty==='Intermediate'?'#f59e0b':'#f43f5e';
+      html+=`<div class="pq-card" id="excard-${mod.id}-${ei}">
+        <div class="pq-card-header" onclick="togglePQ(this)">
+          <span class="pq-badge" style="background:${mod.color}18;color:${mod.color};border:1px solid ${mod.color}35">${ex.num}</span>
+          <span class="pq-card-title">${ex.title}
+            <span style="margin-left:.5rem;font-size:.68rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;background:${diffColor}18;color:${diffColor}">${ex.difficulty}</span>
+          </span>
+          <span class="pq-toggle">▼</span>
+        </div>
+        <div class="pq-card-body">
+          <div class="step-text" style="color:var(--text2);font-size:.82rem;padding:.8rem 0 .4rem"><strong style="color:var(--text)">📋 Task: </strong>${ex.what}</div>
+          ${ex.steps.map((s,si)=>`
+          <div style="margin-top:.9rem;background:var(--card2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+            <div style="padding:.65rem 1rem;background:rgba(59,130,246,.06);border-bottom:1px solid var(--border);font-size:.78rem;font-weight:700;color:var(--accent)">
+              Step ${si+1}: ${s.h}
+            </div>
+            <div style="padding:.9rem 1rem">
+              ${s.b?`<div class="step-text">${s.b}</div>`:''}
+              ${s.code?`<pre>${s.code}</pre>`:''}
+              ${s.isPseudo?`<pre class="pseudo">${s.b}</pre>`:''}
+              ${s.isNote?`<div class="note">${s.b}</div>`:''}
+              ${s.isWarn?`<div class="warn">${s.b}</div>`:''}
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    });
+  });
+
+  panel.innerHTML=html;
+  lc.appendChild(panel);
+}
+
 // Boot
 renderTabs();
 renderLessons();
 renderPastQuestions();
+renderExercises();
 showLesson(lessons[0].id);
 updateProgress();
 </script>
